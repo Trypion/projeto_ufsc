@@ -8,20 +8,20 @@ class University(Timestamp):
         self.__id = id
         self.__name = name
         self.__uf = uf
-        self.created_at = datetime.now()
+        self.created_at = str(datetime.now())
         self.created_by = user
 
-    def __dict__(self):
+    def as_dict(self):
         return {
             'id': self.__id,
             'name': self.__name,
             'uf': self.__uf,
             'created_by': self.created_by,
-            'created_at': str(self.created_at),
+            'created_at': self.created_at,
             'updated_by': self.updated_by,
-            'updated_at': str(self.updated_at),
+            'updated_at': self.updated_at,
             'deleted_by': self.deleted_by,
-            'deleted_at': str(self.deleted_at)
+            'deleted_at': self.deleted_at
         }
 
     @property

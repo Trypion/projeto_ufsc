@@ -15,11 +15,11 @@ class UniversityController():
     def find(self, id: str) -> University:
         for university in self.__universities:
             if university.id == id:
-                return university.__dict__()
+                return university.as_dict()
         return None
 
     def find_all(self) -> list:
-        return [university.__dict__() for university in self.__universities]
+        return [university.as_dict() for university in self.__universities]
 
     def __check_duplicates(self, list: list, id: str):
         ...
