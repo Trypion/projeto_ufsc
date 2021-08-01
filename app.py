@@ -1,5 +1,5 @@
 from flask import Flask
-from routes.university import UniversityRoutes
+from src.routes.university import UniversityRoutes
 
 app = Flask(__name__)
 app.config.from_object('config')

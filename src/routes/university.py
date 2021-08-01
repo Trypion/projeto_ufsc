@@ -3,7 +3,7 @@ from flask import Blueprint
 from flask.helpers import make_response
 from flask import request
 
-from controllers.university import UniversityController
+from src.controllers.university import UniversityController
 
 # ============================================================================
 '''Alternativa a uma classe de rotas'''

@@ -1,4 +1,4 @@
-from models.university import University
+from src.models.university import University
 from uuid import uuid4
 
 

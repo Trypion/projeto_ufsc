@@ -1,4 +1,4 @@
-from models.timestamp import Timestamp
+from src.models.timestamp import Timestamp
 from datetime import datetime
 
 
