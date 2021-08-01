@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from datetime import date as Date
+from datetime import date as str
 
 
 class Timestamp(ABC):
@@ -13,11 +13,11 @@ class Timestamp(ABC):
         self.__deleted_by = None
 
     @property
-    def created_at(self) -> Date:
+    def created_at(self) -> str:
         return self.__created_at
 
     @created_at.setter
-    def created_at(self, created_at: Date):
+    def created_at(self, created_at: str):
         self.__created_at = created_at
 
     @property
@@ -29,11 +29,11 @@ class Timestamp(ABC):
         self.__created_by = created_by
 
     @property
-    def updated_at(self) -> Date:
+    def updated_at(self) -> str:
         return self.__updated_at
 
     @updated_at.setter
-    def updated_at(self, updated_at: Date) -> None:
+    def updated_at(self, updated_at: str) -> None:
         self.__updated_at = updated_at
 
     @property
@@ -45,11 +45,11 @@ class Timestamp(ABC):
         self.__updated_by = updated_by
 
     @property
-    def deleted_at(self) -> Date:
+    def deleted_at(self) -> str:
         return self.__deleted_at
 
     @deleted_at.setter
-    def deleted_at(self, deleted_at: Date) -> None:
+    def deleted_at(self, deleted_at: str) -> None:
         self.__deleted_at = deleted_at
 
     @property
