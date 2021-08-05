@@ -36,13 +36,13 @@ class User(Timestamp):
 
     @property
     def login(self) -> str:
-        return self.login
+        return self.__login
 
     @property
     def password(self) -> str:
-        return self.password
+        return self.__password
 
     @password.setter
-    def password(self, password: str) -> None:
+    def password(self, password):
         self.__password = password
     
