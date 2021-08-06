@@ -15,37 +15,27 @@ class UserRoutes(Blueprint):
             'type': 'object',
             'properties': {
                 'login': {'type': 'string'},
-                'password': {'type': 'string'},
+                'password': {'type': 'string'}     
             },
             'required': ['login', 'password']
         }
 
         schema_update = {
             'type': 'object',
-            'properties': {
-                'login': {'type': 'string'},
+            'properties': { 
                 'password': {'type': 'string'},
                 'new_password': {'type': 'string'},
+                'user': {'type': 'string'}
             },
-            'required': ['login', 'password', 'new_password']
-        }
-
-        schema_delete = {
-            'type': 'object',
-            'properties': {
-                'id': {'type': 'string'},
-            },
-            'required': ['id']
+            'required': ['password', 'new_password', 'user']
         }
 
         # Retornando todos os usuarios
-
         @self.route('/', methods=['GET'])
         def index():
             return json.dumps(self.__controller.find_all())
 
         # Criando Usuario
-
         @self.route('/', methods=['POST'])
         @expects_json(schema)
         def create():
@@ -54,27 +44,24 @@ class UserRoutes(Blueprint):
             return json.dumps(self.__controller.create(login, password))
 
         # Procurando Usuario pela ID
-
         @self.route('/<id>', methods=['GET'])
         def find(id):
             return json.dumps(self.__controller.find(id))
 
-        @self.route('/update', methods=['POST'])
+        @self.route('/<login>', methods=['PUT'])
         @expects_json(schema_update)
-        def update():
-            login = request.json['login']
+        def update(login):
             password = request.json['password']
             new_password = request.json['new_password']
-            return json.dumps(self.__controller.update(login, password, new_password))
+            user = request.json['user']
+            return json.dumps(self.__controller.update(login, password, new_password, user))
 
-        @self.route('/update', methods=['DELETE'])
-        @expects_json(schema_delete)
-        def delete():
-            id = request.json['id']
-            return json.dumps(self.__controller.delete(id))
+        @self.route('/<id>', methods=['DELETE'])        
+        def delete(id):
+            user = request.json['user']    
+            return json.dumps(self.__controller.delete(id, user))
 
-        # Mensagens de Erro
-
+        # Mensagens de Erro    
         @self.errorhandler(Exception)
         def handle_exception(error):
             return make_response({"error": str(error)}, 500)

@@ -1,9 +1,8 @@
 from abc import ABC, abstractmethod
-from datetime import date as str
 
 
 class Timestamp(ABC):
-    @abstractmethod
+    @abstractmethod 
     def __init__(self) -> None:
         self.__created_at = None
         self.__created_by = None
