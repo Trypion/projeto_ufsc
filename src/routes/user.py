@@ -1,4 +1,5 @@
 from flask import Blueprint, json, make_response, request
+from flask.templating import render_template
 from flask_expects_json import expects_json
 from jsonschema import ValidationError
 
@@ -30,9 +31,13 @@ class UserRoutes(Blueprint):
             'required': ['password', 'new_password', 'user']
         }
 
-        # Retornando todos os usuarios
-        @self.route('/', methods=['GET'])
+        @self.route('/')
         def index():
+            return render_template("user/index.html", users=self.__controller.find_all())
+
+        # Retornando todos os usuarios
+        @self.route('/findAll', methods=['GET'])
+        def find_all():
             return json.dumps(self.__controller.find_all())
 
         # Criando Usuario
