@@ -8,8 +8,9 @@ class UserController():
         self.__users = []
 
     def create(self, login: str, password: str) -> str:
+        #Verificando se o login ja e utilizado
         for user in self.__users:
-            if(user.login == login and user.deleted_at != None):
+            if(user.login == login and user.deleted_at == None):
                 return str("Este login ja esta em uso")
 
         id = str(uuid4())
