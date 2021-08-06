@@ -1,15 +1,17 @@
-from src.models.user import User
 from uuid import uuid4
 from datetime import datetime
 
+from src.controllers.controller import Controller
 
-class UserController():
+from src.models.user import User
+
+class UserController(Controller):
     def __init__(self) -> None:
         self.__users = []
 
     def create(self, login: str, password: str) -> str:
         for user in self.__users:
-            if(user.login == login and user.deleted_at != None):
+            if(user.login == login and user.deleted_at == None):
                 return str("Este login ja esta em uso")
 
         id = str(uuid4())

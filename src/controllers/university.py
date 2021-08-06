@@ -1,8 +1,12 @@
-from src.models.university import University
 from uuid import uuid4
+from datetime import datetime
+
+from src.models.university import University
+
+from src.controllers.controller import Controller
 
 
-class UniversityController():
+class UniversityController(Controller):
     def __init__(self) -> None:
         self.__universities = []
 
@@ -12,14 +16,33 @@ class UniversityController():
         self.__universities.append(university)
         return id
 
-    def find(self, id: str) -> University:
-        for university in self.__universities:
-            if university.id == id:
-                return university.as_dict()
-        return None
+    def find(self, id: str) -> dict:
+        university = self.find_one(id)
+        if (university):
+            return university.as_dict
 
     def find_all(self) -> list:
         return [university.as_dict() for university in self.__universities]
 
-    def __check_duplicates(self, list: list, id: str):
-        ...
+    def update(self, id, name: str, uf: str, user: str) -> dict:
+        university = self.find_one(id)
+        if not university:
+            return
+        university.name = name
+        university.uf = uf
+        university.updated_by = user
+        university.updated_at = str(datetime.now())
+        return university.as_dict()
+
+    def delete(self, id, user) -> str:
+        university = self.find_one(id)
+        if not university:
+            return
+        university.deleted_by = user
+        university.deleted_at = str(datetime.now())
+        return university.id
+
+    def find_by_id(self, id) -> University:
+        for university in self.__universities:
+            if university.id == id and university.deleted_at == None:
+                return university

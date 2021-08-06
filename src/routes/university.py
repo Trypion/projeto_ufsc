@@ -1,21 +1,9 @@
 from flask import Blueprint, json, make_response, request
+from flask.templating import render_template
 from flask_expects_json import expects_json
 from jsonschema import ValidationError
 
 from src.controllers.university import UniversityController
-
-# ============================================================================
-'''Alternativa a uma classe de rotas'''
-
-# controller = UniversityController()
-
-# university_bp = Blueprint('university_bp', __name__)
-# university_bp.route('/', methods=['GET'])(controller.find_all)
-# university_bp.route('/create', methods=['POST'])(controller.create)
-# university_bp.route('/<id>', methods=['GET'])(controller.find)
-
-# ============================================================================
-
 
 class UniversityRoutes(Blueprint):
     def __init__(self):
@@ -32,8 +20,12 @@ class UniversityRoutes(Blueprint):
             'required': ['name', 'uf', 'user']
         }
 
-        @self.route('/', methods=['GET'])
+        @self.route('/')
         def index():
+            return render_template("university/index.html", universities=self.__controller.find_all())
+
+        @self.route('/findAll', methods=['GET'])
+        def find_all():
             return json.dumps(self.__controller.find_all())
 
         @self.route('/', methods=['POST'])
