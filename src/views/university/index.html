@@ -1,0 +1,15 @@
+{% extends 'index.html' %}
+
+{% block header %}
+  <h1>{% block title %}Lista de universidades{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+
+  <ul id="universities">
+  {% for item in universities %}
+      <li>nome: {{ item.name }}, uf: {{ item.uf }}, criador por: {{ item.created_by }}, criado em: {{ item.created_at }} </li>
+  {% endfor %}
+  </ul>
+
+{% endblock %}

@@ -1,9 +1,11 @@
-from src.models.user import User
 from uuid import uuid4
 from datetime import datetime
 
+from src.controllers.controller import Controller
 
-class UserController():
+from src.models.user import User
+
+class UserController(Controller):
     def __init__(self) -> None:
         self.__users = []
 
