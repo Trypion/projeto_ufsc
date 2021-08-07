@@ -1,15 +1,89 @@
-{% extends 'index.html' %}
+{% extends 'index.html' %} {% block header %}
+<h1>{% block title %}Gerenciador universidades{% endblock %}</h1>
+{% endblock %} {% block content %}
+<br />
 
-{% block header %}
-  <h1>{% block title %}Lista de universidades{% endblock %}</h1>
-{% endblock %}
+<h1>Criar universidade</h1>
+<form class="create-form">
+  <div class="input-group mb-3">
+    <span class="input-group-text">Nome</span>
+    <input
+      name="name"
+      type="text"
+      class="form-control"
+      placeholder="nome"
+      aria-label="nome"
+    />
+    <span class="input-group-text">UF</span>
+    <input
+      name="uf"
+      type="text"
+      class="form-control"
+      placeholder="uf"
+      aria-label="uf"
+    />
+    <button type="button" class="me-2 btn btn-primary" onclick="create()">
+      criar
+    </button>
+  </div>
+</form>
 
-{% block content %}
+<h1>Lista de universidade</h1>
 
-  <ul id="universities">
+<ul class="list-group" id="universities">
   {% for item in universities %}
-      <li>nome: {{ item.name }}, uf: {{ item.uf }}, criador por: {{ item.created_by }}, criado em: {{ item.created_at }} </li>
+  <li class="list-group-item">
+    <form class="form{{item.id}}">
+      <div class="input-group mb-3">
+        <input name="id" value="{{ item.id }}" hidden />
+        <span class="input-group-text">Nome</span>
+        <input
+          name="name"
+          value="{{ item.name }}"
+          id="nome{{ item.id }}"
+          disabled
+          type="text"
+          class="form-control {{ item.id }}"
+          placeholder="nome"
+          aria-label="nome"
+        />
+        <span class="input-group-text">UF</span>
+        <input
+          name="uf"
+          value="{{ item.uf }}"
+          id="uf{{ item.id }}"
+          disabled
+          type="text"
+          class="form-control {{ item.id }}"
+          placeholder="uf"
+          aria-label="uf"
+        />
+        <button
+          type="button"
+          class="me-2 btn btn-primary"
+          onclick="enableEditing('nome{{item.id}}','uf{{item.id}}')"
+        >
+          editar
+        </button>
+        <button
+          type="button"
+          class="me-2 btn btn-success"
+          onclick="save('{{item.id}}')"
+        >
+          salvar
+        </button>
+        <button
+          type="button"
+          class="btn btn-danger"
+          onclick="destroy('{{item.id}}')"
+        >
+          deletar
+        </button>
+      </div>
+    </form>
+  </li>
   {% endfor %}
-  </ul>
+</ul>
 
+<script src="{{ url_for('static', filename='scripts/university.js') }}"></script>
 {% endblock %}
