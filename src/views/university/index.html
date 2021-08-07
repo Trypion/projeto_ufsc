@@ -3,7 +3,7 @@
 {% endblock %} {% block content %}
 <br />
 
-<h1>Criar universidade</h1>
+<h3>Criar universidade</h3>
 <form class="create-form">
   <div class="input-group mb-3">
     <span class="input-group-text">Nome</span>
@@ -28,62 +28,123 @@
   </div>
 </form>
 
-<h1>Lista de universidade</h1>
-
-<ul class="list-group" id="universities">
-  {% for item in universities %}
-  <li class="list-group-item">
-    <form class="form{{item.id}}">
-      <div class="input-group mb-3">
-        <input name="id" value="{{ item.id }}" hidden />
-        <span class="input-group-text">Nome</span>
-        <input
-          name="name"
-          value="{{ item.name }}"
-          id="nome{{ item.id }}"
-          disabled
-          type="text"
-          class="form-control {{ item.id }}"
-          placeholder="nome"
-          aria-label="nome"
-        />
-        <span class="input-group-text">UF</span>
-        <input
-          name="uf"
-          value="{{ item.uf }}"
-          id="uf{{ item.id }}"
-          disabled
-          type="text"
-          class="form-control {{ item.id }}"
-          placeholder="uf"
-          aria-label="uf"
-        />
-        <button
-          type="button"
-          class="me-2 btn btn-primary"
-          onclick="enableEditing('nome{{item.id}}','uf{{item.id}}')"
-        >
-          editar
-        </button>
-        <button
-          type="button"
-          class="me-2 btn btn-success"
-          onclick="save('{{item.id}}')"
-        >
-          salvar
-        </button>
-        <button
-          type="button"
-          class="btn btn-danger"
-          onclick="destroy('{{item.id}}')"
-        >
-          deletar
-        </button>
-      </div>
-    </form>
-  </li>
-  {% endfor %}
-</ul>
+<table class="table" id="universities">
+  <thead>
+    <tr>
+      <th scope="col">Nome</th>
+      <th scope="col">UF</th>
+      <th scope="col">Criado por</th>
+      <th scope="col">Criado em</th>
+      <th scope="col">Atualizado por</th>
+      <th scope="col">Atualizado em</th>
+      <th scope="col"></th>
+      <th scope="col"></th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for item in universities %}
+    <tr>
+      <form class="form{{item.id}}">
+        <div class="input-group mb-3">
+          <th scope="row">
+            <input name="id" value="{{ item.id }}" hidden />
+            <input
+              name="name"
+              value="{{ item.name }}"
+              id="nome{{ item.id }}"
+              disabled
+              type="text"
+              class="form-control {{ item.id }}"
+              placeholder="nome"
+              aria-label="nome"
+            />
+          </th>
+          <th>
+            <input
+              name="uf"
+              value="{{ item.uf }}"
+              id="uf{{ item.id }}"
+              disabled
+              type="text"
+              class="form-control {{ item.id }}"
+              placeholder="uf"
+              aria-label="uf"
+            />
+          </th>
+          <th>
+            <input
+              name="criado por"
+              value="{{ item.created_by }}"
+              disabled
+              type="text"
+              class="form-control"
+              placeholder="criado por"
+            />
+          </th>
+          <th>
+            <input
+              name="criado em"
+              value="{{ item.created_at }}"
+              disabled
+              type="text"
+              class="form-control"
+              placeholder="criado em"
+            />
+          </th>
+          <th>
+            <input
+              name="atualizado por"
+              value="{{ item.updated_by }}"
+              disabled
+              type="text"
+              class="form-control"
+              placeholder="atualizado por"
+            />
+          </th>
+          <th>
+            <input
+              name="atualizado em"
+              value="{{ item.updated_at }}"
+              disabled
+              type="text"
+              class="form-control"
+              placeholder="atualizado em"
+            />
+          </th>
+          <th>
+            <button
+              type="button"
+              class="btn btn-primary"
+              onclick="enableEditing('nome{{item.id}}','uf{{item.id}}')"
+            >
+              editar
+            </button>
+          </th>
+          <th>
+            <button
+              type="button"
+              class="btn btn-success"
+              onclick="save('{{item.id}}')"
+            >
+              salvar
+            </button>
+          </th>
+          <th>
+            <button
+              type="button"
+              class="btn btn-danger"
+              onclick="destroy('{{item.id}}')"
+            >
+              deletar
+            </button>
+          </th>
+        </div>
+      </form>
+      {% endfor %}
+    </tr>
+  </tbody>
+</table>
 
 <script src="{{ url_for('static', filename='scripts/university.js') }}"></script>
 {% endblock %}
