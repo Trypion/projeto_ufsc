@@ -6,7 +6,7 @@ class Controller(ABC):
         ...
 
     @abstractclassmethod
-    def find(self):
+    def find(self, id, ):
         ...
 
     @abstractclassmethod
