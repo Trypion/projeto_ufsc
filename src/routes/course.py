@@ -18,7 +18,7 @@ class CourseRoutes(Blueprint):
             'properties': {
                 'name': {'type': 'string'},
                 'university_id': {'type': 'string'},
-                'ranking': {'type': 'int'}
+                'ranking': {'type': 'number'}
             },
             'required': ['name', 'university_id', 'ranking']
         }

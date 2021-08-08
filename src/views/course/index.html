@@ -4,6 +4,7 @@
 <br />
 
 <h3>Criar curso</h3>
+
 <form class="create-form">
   <div class="input-group mb-3">
     <span class="input-group-text">Nome</span>
@@ -14,9 +15,9 @@
       placeholder="nome"
       aria-label="nome"
     />
-    <select class="form-select">
+    <select name="university" class="form-select">
       {% for item in universities %}
-      <option>item.name</option>
+      <option>{{ item.name }}</option>
       {% endfor %}
     </select>
     <span class="input-group-text">Ranking</span>
@@ -67,15 +68,29 @@
             />
           </th>
           <th>
-            <input
-              name="universidade"
-              value="{{ item.universidade }}"
-              id="uf{{ item.id }}"
+            <select
               disabled
-              type="text"
+              class="form-select {{ item.id }}"
+              id="university{{ item.id }}"
+            >
+              {% for university in universities %} {% if university.id ==
+              item.university_id %}
+              <option selected>university.name</option>
+              {% else %}
+              <option>university.name</option>
+              {% endif %} {% endfor %}
+            </select>
+          </th>
+          <th>
+            <input
+              name="ranking"
+              value="{{ item.ranking }}"
+              id="ranking{{ item.id }}"
+              disabled
+              type="number"
               class="form-control {{ item.id }}"
-              placeholder="uf"
-              aria-label="uf"
+              placeholder="ranking"
+              aria-label="ranking"
             />
           </th>
           <th>
@@ -122,7 +137,7 @@
             <button
               type="button"
               class="btn btn-primary"
-              onclick="enableEditing('nome{{item.id}}','uf{{item.id}}')"
+              onclick="enableEditing('nome{{item.id}}','university{{item.id}}', 'ranking{{item.id}}')"
             >
               editar
             </button>
