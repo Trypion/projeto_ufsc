@@ -5,6 +5,7 @@ from src.models.university import University
 
 from src.controllers.controller import Controller
 
+from src.controllers.errors.university_not_found import UniversityNotFound
 
 class UniversityController(Controller):
     def __init__(self) -> None:
@@ -46,3 +47,4 @@ class UniversityController(Controller):
         for university in self.__universities:
             if university.id == id and university.deleted_at == None:
                 return university
+        raise UniversityNotFound(f"university {id} not found")

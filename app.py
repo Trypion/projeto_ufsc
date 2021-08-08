@@ -2,6 +2,7 @@ from flask import Flask, render_template
 from flask_cors import CORS
 
 from src.routes.university import UniversityRoutes
+from src.routes.course import CourseRoutes
 from src.routes.user import UserRoutes
 from src.routes.auth import AuthRoutes
 
@@ -13,10 +14,12 @@ cors = CORS(app, expose_headers=[
             "Content-Disposition", "Access-Control-Allow-Origin"])
 
 university_routes = UniversityRoutes()
+course_routes = CourseRoutes()
 user_routes = UserRoutes()
 auth_routes = AuthRoutes()
 
 app.register_blueprint(university_routes, url_prefix='/university')
+app.register_blueprint(course_routes, url_prefix='/course')
 app.register_blueprint(user_routes, url_prefix='/user')
 app.register_blueprint(auth_routes, url_prefix='/auth')
 
