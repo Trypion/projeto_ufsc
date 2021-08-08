@@ -1,0 +1,2 @@
+class ControllerNotFound(BaseException):
+  pass

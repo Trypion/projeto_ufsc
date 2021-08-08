@@ -1,3 +1,6 @@
+from src.controllers.user import UserController
+from src.controllers.university import UniversityController
+from src.controllers.errors.course_not_found import CourseNotFound
 from uuid import uuid4
 from datetime import datetime
 from src.controllers.controller import Controller
@@ -6,11 +9,8 @@ from src.controllers.controller import Controller
 from src.models.course import Course
 
 '''erros'''
-from src.controllers.errors.course_not_found import CourseNotFound
 
 '''controladores'''
-from src.controllers.university import UniversityController
-from src.controllers.user import UserController
 
 
 class CourseController(Controller):
@@ -29,7 +29,7 @@ class CourseController(Controller):
         return id
 
     def find(self, id: str) -> dict:
-        course = self.find_by_id(id)        
+        course = self.find_by_id(id)
         return course.as_dict
 
     def find_all(self) -> list:
@@ -38,7 +38,7 @@ class CourseController(Controller):
     def update(self, id, name: str, university_id: str, user: str, ranking: int) -> dict:
         self.__user_controller.find(user)
         self.__university_controller.find(university_id)
-        course = self.find_by_id(id)        
+        course = self.find_by_id(id)
         course.name = name
         course.university_id = university_id
         course.ranking = ranking
@@ -47,7 +47,7 @@ class CourseController(Controller):
         return course.as_dict()
 
     def delete(self, id, user) -> str:
-        self.__user_controller.find(user)        
+        self.__user_controller.find(user)
         course = self.find_by_id(id)
         course.deleted_by = user
         course.deleted_at = str(datetime.now())
@@ -56,5 +56,5 @@ class CourseController(Controller):
     def find_by_id(self, id) -> Course:
         for course in self.__courses:
             if course.id == id and course.deleted_at == None:
-                return course        
+                return course
         raise CourseNotFound(f"course {id} not found")
