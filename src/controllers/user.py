@@ -5,6 +5,8 @@ from src.controllers.controller import Controller
 
 from src.models.user import User
 
+from src.controllers.errors.user_not_found import UserNotFound
+
 class UserController(Controller):
     def __init__(self) -> None:
         self.__users = []
@@ -25,7 +27,7 @@ class UserController(Controller):
             if (user.id == id and user.deleted_at == None):
                 return user.as_dict()
 
-        return None
+        raise UserNotFound(f"user {id} not found")
 
     def find_all(self) -> list:
         ''' itera em toda a lista de users. 

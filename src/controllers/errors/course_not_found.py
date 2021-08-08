@@ -1,0 +1,2 @@
+class CourseNotFound(BaseException):
+  pass

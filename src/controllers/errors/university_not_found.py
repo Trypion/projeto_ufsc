@@ -1,0 +1,2 @@
+class UniversityNotFound(BaseException):
+  pass
