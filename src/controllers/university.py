@@ -7,10 +7,10 @@ from src.controllers.controller import Controller
 
 from src.controllers.errors.university_not_found import UniversityNotFound
 
+
 class UniversityController(Controller):
-    __universities = []
     def __init__(self) -> None:
-        ...
+        self.__universities = []
 
     def create(self, name: str, uf: str, user: str):
         id = str(uuid4())

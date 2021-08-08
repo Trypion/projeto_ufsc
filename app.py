@@ -1,6 +1,13 @@
 from flask import Flask, render_template
 from flask_cors import CORS
 
+'''controladores'''
+from src.controllers.course import CourseController
+from src.controllers.university import UniversityController
+from src.controllers.user import UserController
+
+
+'''rotas'''
 from src.routes.university import UniversityRoutes
 from src.routes.course import CourseRoutes
 from src.routes.user import UserRoutes
@@ -13,8 +20,14 @@ app.config.from_object('config')
 cors = CORS(app, expose_headers=[
             "Content-Disposition", "Access-Control-Allow-Origin"])
 
+'''controladores'''
+university_controlller = UniversityController()
+user_controlller = UserController()
+course_controlller = CourseController(university_controlller, user_controlller)
+
+'''rotas'''
 university_routes = UniversityRoutes()
-course_routes = CourseRoutes()
+course_routes = CourseRoutes(course_controlller, university_controlller)
 user_routes = UserRoutes()
 auth_routes = AuthRoutes()
 

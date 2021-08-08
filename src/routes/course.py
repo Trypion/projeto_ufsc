@@ -8,9 +8,9 @@ from src.controllers.university import UniversityController
 
 
 class CourseRoutes(Blueprint):
-    def __init__(self):
-        self.__controller = CourseController()
-        self.__university_controller = UniversityController()
+    def __init__(self, controller: CourseController, university_controller: UniversityController):
+        self.__controller = controller
+        self.__university_controller = university_controller
         super().__init__('course_bp', __name__)
 
         schema = {
