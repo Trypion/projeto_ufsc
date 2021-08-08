@@ -5,6 +5,7 @@ from jsonschema import ValidationError
 
 from src.controllers.university import UniversityController
 
+
 class UniversityRoutes(Blueprint):
     def __init__(self):
         self.__controller = UniversityController()
@@ -40,8 +41,22 @@ class UniversityRoutes(Blueprint):
         def find(id):
             return json.dumps(self.__controller.find(id))
 
+        @self.route("/<id>", methods=['PUT'])
+        @expects_json(schema)
+        def update(id):
+            name = request.json['name']
+            uf = request.json['uf']
+            user = request.json['user']
+            return json.dumps(self.__controller.update(id, name, uf, user))
+
+        @self.route("/<id>", methods=['DELETE'])
+        def delete(id):
+            user = request.json['user']
+            return json.dumps(self.__controller.delete(id, user))
+
         @self.errorhandler(Exception)
         def handle_exception(error):
+            print(str(error))
             return make_response({"error": str(error)}, 500)
 
         @self.errorhandler(400)
