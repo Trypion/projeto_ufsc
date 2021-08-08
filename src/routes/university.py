@@ -15,10 +15,9 @@ class UniversityRoutes(Blueprint):
             'type': 'object',
             'properties': {
                 'name': {'type': 'string'},
-                'uf': {'type': 'string'},
-                'user': {'type': 'string'}
+                'uf': {'type': 'string'}      
             },
-            'required': ['name', 'uf', 'user']
+            'required': ['name', 'uf']
         }
 
         @self.route('/')
@@ -34,7 +33,7 @@ class UniversityRoutes(Blueprint):
         def create():
             name = request.json['name']
             uf = request.json['uf']
-            user = request.json['user']
+            user = request.headers.get('X-On-Behalf-Of')
             return json.dumps(self.__controller.create(name, uf, user))
 
         @self.route('/<id>', methods=['GET'])
@@ -46,12 +45,12 @@ class UniversityRoutes(Blueprint):
         def update(id):
             name = request.json['name']
             uf = request.json['uf']
-            user = request.json['user']
+            user = request.headers.get('X-On-Behalf-Of')
             return json.dumps(self.__controller.update(id, name, uf, user))
 
         @self.route("/<id>", methods=['DELETE'])
         def delete(id):
-            user = request.json['user']
+            user = request.headers.get('X-On-Behalf-Of')
             return json.dumps(self.__controller.delete(id, user))
 
         @self.errorhandler(Exception)

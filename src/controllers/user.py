@@ -8,8 +8,9 @@ from src.models.user import User
 from src.controllers.errors.user_not_found import UserNotFound
 
 class UserController(Controller):
+    __users = []
     def __init__(self) -> None:
-        self.__users = []
+        ...
 
     def create(self, login: str, password: str) -> str:
         #Verificando se o login ja e utilizado

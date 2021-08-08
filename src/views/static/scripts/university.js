@@ -5,9 +5,9 @@ function enableEditing(nome, uf) {
 }
 
 async function create(){
-  user = "Israel";
+  const user = "Israel";
 
-  form = document.querySelector(".create-form");
+  const form = document.querySelector(".create-form");
 
   const name = form.elements.name.value;
   const uf = form.elements.uf.value;
@@ -16,12 +16,13 @@ async function create(){
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      "X-On-Behalf-Of": user
     },
-    body: JSON.stringify({ name, uf, user }),
+    body: JSON.stringify({ name, uf }),
   });
 
   if (response.status != 200) {
-    alert("Algo deu errado");
+    alert(`Algo deu errado - ${response.body}`);
   }
 
   location.reload();
@@ -29,24 +30,24 @@ async function create(){
 }
 
 async function save(id) {
-  // user = localStorage.getItem("user")
-  form = document.querySelector(".form" + id);
+  const form = document.querySelector(".form" + id);
 
   const name = form.elements.name.value;
   const uf = form.elements.uf.value;
 
-  user = "Israel";
+  const user = "Israel";
 
   const response = await fetch(`http://localhost:5000/university/${id}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
+      "X-On-Behalf-Of": user
     },
-    body: JSON.stringify({ name, uf, user }),
+    body: JSON.stringify({ name, uf }),
   });
 
   if (response.status != 200) {    
-    alert("Algo deu errado");
+    alert(`Algo deu errado - ${response.body}`);
   }
 
   location.reload();
@@ -58,8 +59,8 @@ async function destroy(id) {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ user }),
+      "X-On-Behalf-Of": user
+    }
   });
 
   location.reload();
