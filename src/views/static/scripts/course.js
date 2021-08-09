@@ -8,13 +8,13 @@ function enableEditing(nome, university, ranking) {
 }
 
 async function create() {
-  const user = "Israel";
+  const user = "05f92ee5-7bd5-449f-b07d-15705064e08f";
 
-  form = document.querySelector(".create-form");
+  form = document.querySelector(".create-form");  
 
   const name = form.elements.name.value;
-  const university = form.elements.university.value;
-  const ranking = form.elements.ranking.value;
+  const university_id = form.elements.university.value;
+  const ranking = parseInt(form.elements.ranking.value);
 
   const response = await fetch(`http://localhost:5000/course/`, {
     method: "POST",
@@ -22,14 +22,13 @@ async function create() {
       "Content-Type": "application/json",
       "X-On-Behalf-Of": user,
     },
-    body: JSON.stringify({ name, university, ranking }),
+    body: JSON.stringify({ name, university_id, ranking }),
   });
-
-
   
   if (response.status != 200) {
+    body = await response.json()
     alert(
-      `Algo deu errado - status: ${response.status}, msg: ${await response.json()}`
+      `Algo deu errado - status: ${response.status}, msg: ${body.error}`
     );
   }
 
@@ -37,34 +36,42 @@ async function create() {
 }
 
 async function save(id) {
-  // user = localStorage.getItem("user")
-  form = document.querySelector(".form" + id);
+  const form = document.querySelector(".form" + id);
+
+  console.log(form)
 
   const name = form.elements.name.value;
-  const university = form.elements.university.value;
-  const ranking = form.elements.ranking.value;
+  const university_id = form.elements.university.value;
+  const ranking = parseInt(form.elements.ranking.value);
 
-  const user = "Israel";
+  console.log(name)
+  console.log(university_id)
+  console.log(ranking)
 
-  const response = await fetch(`http://localhost:5000/university/${id}`, {
+  const user = "05f92ee5-7bd5-449f-b07d-15705064e08f";
+
+  const response = await fetch(`http://localhost:5000/course/${id}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
       "X-On-Behalf-Of": user,
     },
-    body: JSON.stringify({ name, university, ranking }),
+    body: JSON.stringify({ name, university_id, ranking }),
   });
 
   if (response.status != 200) {
-    alert(`Algo deu errado - ${response.body}`);
+    body = await response.json()
+    alert(
+      `Algo deu errado - status: ${response.status}, msg: ${body.error}`
+    );
   }
 
   location.reload();
 }
 
 async function destroy(id) {
-  const user = "Israel";
-  await fetch(`http://localhost:5000/university/${id}`, {
+  const user = "05f92ee5-7bd5-449f-b07d-15705064e08f";
+  await fetch(`http://localhost:5000/course/${id}`, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",

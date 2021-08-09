@@ -17,7 +17,7 @@
     />
     <select name="university" class="form-select">
       {% for item in universities %}
-      <option>{{ item.name }}</option>
+      <option value="{{ item.id }}">{{ item.name }}</option>
       {% endfor %}
     </select>
     <span class="input-group-text">Ranking</span>
@@ -69,15 +69,16 @@
           </th>
           <th>
             <select
+              name="university"
               disabled
               class="form-select {{ item.id }}"
               id="university{{ item.id }}"
             >
-              {% for university in universities %} {% if university.id ==
-              item.university_id %}
-              <option selected>university.name</option>
+              {% for university in universities %} 
+              {% if university.id == item.university_id %}
+              <option value="{{ university.id }}" selected>{{ university.name }}</option>
               {% else %}
-              <option>university.name</option>
+              <option value="{{ university.id }}">{{ university.name }}</option>
               {% endif %} {% endfor %}
             </select>
           </th>
@@ -94,14 +95,17 @@
             />
           </th>
           <th>
+            {% for user in users %} 
+            {% if item.created_by == user.id %}
             <input
               name="criado por"
-              value="{{ item.created_by }}"
+              value="{{ user.login }}"
               disabled
               type="text"
               class="form-control"
               placeholder="criado por"
             />
+            {% endif %} {% endfor %}
           </th>
           <th>
             <input
@@ -114,14 +118,18 @@
             />
           </th>
           <th>
+            {% for user in users %} 
+            {% if item.created_by == user.id %}
             <input
               name="atualizado por"
-              value="{{ item.updated_by }}"
+              value="{{ user.login }}"
               disabled
               type="text"
               class="form-control"
               placeholder="atualizado por"
             />
+            
+            {% endif %} {% endfor %}
           </th>
           <th>
             <input

@@ -1,2 +1,2 @@
-class CourseNotFound(BaseException):
+class CourseNotFound(Exception):
   pass

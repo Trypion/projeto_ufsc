@@ -14,10 +14,10 @@ from src.models.course import Course
 
 
 class CourseController(Controller):
-    __courses = []
-    def __init__(self) -> None:
-        self.__university_controller = UniversityController()
-        self.__user_controller = UserController()
+    def __init__(self, university_controller: UniversityController, user_controller: UserController) -> None:
+        self.__courses = []
+        self.__university_controller = university_controller
+        self.__user_controller = user_controller
 
     def create(self, name: str, university_id: str, user: str, ranking: int = 0):
         self.__user_controller.find(user)

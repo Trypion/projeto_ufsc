@@ -1,6 +1,14 @@
+from re import S
 from flask import Flask, render_template
 from flask_cors import CORS
 
+'''controladores'''
+from src.controllers.course import CourseController
+from src.controllers.university import UniversityController
+from src.controllers.user import UserController
+
+
+'''rotas'''
 from src.routes.university import UniversityRoutes
 from src.routes.course import CourseRoutes
 from src.routes.user import UserRoutes
@@ -13,9 +21,15 @@ app.config.from_object('config')
 cors = CORS(app, expose_headers=[
             "Content-Disposition", "Access-Control-Allow-Origin"])
 
-university_routes = UniversityRoutes()
-course_routes = CourseRoutes()
-user_routes = UserRoutes()
+'''controladores'''
+user_controlller = UserController()
+university_controlller = UniversityController(user_controlller)
+course_controlller = CourseController(university_controlller, user_controlller)
+
+'''rotas'''
+course_routes = CourseRoutes(course_controlller, university_controlller, user_controlller)
+university_routes = UniversityRoutes(university_controlller, user_controlller)
+user_routes = UserRoutes(user_controlller)
 auth_routes = AuthRoutes()
 
 app.register_blueprint(university_routes, url_prefix='/university')
@@ -69,7 +83,6 @@ def seed():
     for user in user_seed:
         user_routes._UserRoutes__controller._UserController__users.append(User(
             user['id'], user['login'], user['password']))
-
 
 if __name__ == '__main__':
     app.debug = True
