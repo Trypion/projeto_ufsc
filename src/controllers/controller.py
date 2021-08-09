@@ -3,6 +3,7 @@ from src.controllers.errors.controller_not_found import ControllerNotFound
 from abc import ABC, abstractclassmethod
 
 
+
 class Controller(ABC):
     @abstractclassmethod
     def create(self):
