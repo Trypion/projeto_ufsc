@@ -3,14 +3,16 @@ from flask.templating import render_template
 from flask_expects_json import expects_json
 from jsonschema import ValidationError
 
+from src.controllers.user import UserController
 from src.controllers.course import CourseController
 from src.controllers.university import UniversityController
 
 
 class CourseRoutes(Blueprint):
-    def __init__(self, controller: CourseController, university_controller: UniversityController):
+    def __init__(self, controller: CourseController, university_controller: UniversityController, user_controller: UserController):
         self.__controller = controller
         self.__university_controller = university_controller
+        self.__user_controller = user_controller
         super().__init__('course_bp', __name__)
 
         schema = {
@@ -25,7 +27,7 @@ class CourseRoutes(Blueprint):
 
         @self.route('/')
         def index():
-            return render_template("course/index.html", courses=self.__controller.find_all(), universities=self.__university_controller.find_all())
+            return render_template("course/index.html", courses=self.__controller.find_all(), universities=self.__university_controller.find_all(), users=self.__user_controller.find_all())
 
         @self.route('/findAll', methods=['GET'])
         def find_all():

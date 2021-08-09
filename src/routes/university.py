@@ -8,22 +8,23 @@ from src.controllers.user import UserController
 
 
 class UniversityRoutes(Blueprint):
-    def __init__(self, controller: UniversityController):
-        self.__controller = controller        
+    def __init__(self, controller: UniversityController, user_controller: UserController):
+        self.__controller = controller
+        self.__user_controller = user_controller
         super().__init__('university_bp', __name__)
 
         schema = {
             'type': 'object',
             'properties': {
                 'name': {'type': 'string'},
-                'uf': {'type': 'string'}      
+                'uf': {'type': 'string'}
             },
             'required': ['name', 'uf']
         }
 
         @self.route('/')
         def index():
-            return render_template("university/index.html", universities=self.__controller.find_all())
+            return render_template("university/index.html", universities=self.__controller.find_all(), users=self.__user_controller.find_all())
 
         @self.route('/findAll', methods=['GET'])
         def find_all():

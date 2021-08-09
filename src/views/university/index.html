@@ -3,6 +3,10 @@
 {% endblock %} {% block content %}
 <br />
 
+<!-- {% for user in users %}
+<span>{{user.login}}</span>
+{% endfor %} -->
+
 <h3>Criar universidade</h3>
 <form class="create-form">
   <div class="input-group mb-3">
@@ -73,14 +77,17 @@
             />
           </th>
           <th>
+            {% for user in users %} 
+            {% if item.created_by == user.id %}
             <input
               name="criado por"
-              value="{{ item.created_by }}"
+              value="{{ user.login }}"
               disabled
               type="text"
               class="form-control"
               placeholder="criado por"
             />
+            {% endif %} {% endfor %}
           </th>
           <th>
             <input
@@ -93,14 +100,17 @@
             />
           </th>
           <th>
+            {% for user in users %} 
+            {% if item.created_by == user.id %}
             <input
               name="atualizado por"
-              value="{{ item.updated_by }}"
+              value="{{ user.login }}"
               disabled
               type="text"
               class="form-control"
               placeholder="atualizado por"
             />
+            {% endif %} {% endfor %}
           </th>
           <th>
             <input

@@ -27,8 +27,8 @@ university_controlller = UniversityController(user_controlller)
 course_controlller = CourseController(university_controlller, user_controlller)
 
 '''rotas'''
-university_routes = UniversityRoutes(university_controlller)
-course_routes = CourseRoutes(course_controlller, university_controlller)
+course_routes = CourseRoutes(course_controlller, university_controlller, user_controlller)
+university_routes = UniversityRoutes(university_controlller, user_controlller)
 user_routes = UserRoutes(user_controlller)
 auth_routes = AuthRoutes()
 
@@ -84,7 +84,6 @@ def seed():
         user_routes._UserRoutes__controller._UserController__users.append(User(
             user['id'], user['login'], user['password']))
 
-seed()
 if __name__ == '__main__':
     app.debug = True
     seed()
