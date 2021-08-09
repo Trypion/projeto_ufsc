@@ -7,8 +7,8 @@ from src.controllers.user import UserController
 
 
 class UserRoutes(Blueprint):
-    def __init__(self):
-        self.__controller = UserController()
+    def __init__(self, controller: UserController):
+        self.__controller = controller
         super().__init__('user_bp', __name__)
 
         # validar JSON

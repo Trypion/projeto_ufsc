@@ -4,11 +4,12 @@ from flask_expects_json import expects_json
 from jsonschema import ValidationError
 
 from src.controllers.university import UniversityController
+from src.controllers.user import UserController
 
 
 class UniversityRoutes(Blueprint):
-    def __init__(self):
-        self.__controller = UniversityController()
+    def __init__(self, controller: UniversityController):
+        self.__controller = controller        
         super().__init__('university_bp', __name__)
 
         schema = {

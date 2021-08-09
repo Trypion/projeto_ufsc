@@ -43,6 +43,10 @@ class Course(Timestamp):
     def university_id(self) -> str:
         return self.__university_id
 
+    @university_id.setter
+    def university_id(self, university_id: str):
+        self.__university_id = university_id
+
     @property
     def ranking(self) -> int:
         return self.__ranking

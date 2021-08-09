@@ -3,16 +3,19 @@ from datetime import datetime
 
 from src.models.university import University
 
+from src.controllers.user import UserController
 from src.controllers.controller import Controller
 
 from src.controllers.errors.university_not_found import UniversityNotFound
 
 
 class UniversityController(Controller):
-    def __init__(self) -> None:
+    def __init__(self, user_controller: UserController) -> None:
+        self.__user_controller = user_controller
         self.__universities = []
 
     def create(self, name: str, uf: str, user: str):
+        self.__user_controller.find(user)
         id = str(uuid4())
         university = University(id, name, uf, user)
         self.__universities.append(university)
@@ -27,6 +30,7 @@ class UniversityController(Controller):
         return [university.as_dict() for university in self.__universities if university.deleted_at == None]
 
     def update(self, id, name: str, uf: str, user: str) -> dict:
+        self.__user_controller.find(user)
         university = self.find_by_id(id)
         if not university:
             return

@@ -69,15 +69,16 @@
           </th>
           <th>
             <select
+              name="university"
               disabled
               class="form-select {{ item.id }}"
               id="university{{ item.id }}"
             >
-              {% for university in universities %} {% if university.id ==
-              item.university_id %}
-              <option selected>university.name</option>
+              {% for university in universities %} 
+              {% if university.id == item.university_id %}
+              <option value="{{ university.id }}" selected>{{ university.name }}</option>
               {% else %}
-              <option>university.name</option>
+              <option value="{{ university.id }}">{{ university.name }}</option>
               {% endif %} {% endfor %}
             </select>
           </th>
