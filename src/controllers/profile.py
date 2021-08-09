@@ -5,6 +5,7 @@ from src.models.profile import Profile
 from src.controllers.errors.user_not_found import UserNotFound
 from src.controllers.user import UserController
 from src.controllers.university import UniversityController
+from src.controllers.course import Course
 
 
 class ProfileController(Controller):
@@ -13,7 +14,7 @@ class ProfileController(Controller):
         self.__profiles = []
         self.__university_controller = UniversityController()
         self.__user_controller = UserController()
-        
+        self.__user_courses = Course()
 
     def create(self, name: str, email: str, sex: str, age: int, university_id: str, profile_picture: str, university_register: str, course_id: str, ranking: int, user: str):
 
