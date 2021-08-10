@@ -1,11 +1,14 @@
 from re import S
 from flask import Flask, render_template
 from flask_cors import CORS
+from src.controllers import profile
+from src.controllers import user
 
 '''controladores'''
 from src.controllers.course import CourseController
 from src.controllers.university import UniversityController
 from src.controllers.user import UserController
+from src.controllers.profile import ProfileController
 
 
 '''rotas'''
@@ -25,6 +28,7 @@ cors = CORS(app, expose_headers=[
 user_controlller = UserController()
 university_controlller = UniversityController(user_controlller)
 course_controlller = CourseController(university_controlller, user_controlller)
+profile_controller = ProfileController(user_controlller, university_controlller, course_controlller)
 
 '''rotas'''
 course_routes = CourseRoutes(course_controlller, university_controlller, user_controlller)
