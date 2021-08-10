@@ -1,11 +1,10 @@
-from uuid import uuid4
 from datetime import datetime
+from uuid import uuid4
 
 from src.controllers.controller import Controller
-
-from src.models.user import User
-
+from src.controllers.errors.login_failure import LoginFailure
 from src.controllers.errors.user_not_found import UserNotFound
+from src.models.user import User
 
 
 class UserController(Controller):
@@ -16,7 +15,7 @@ class UserController(Controller):
         # Verificando se o login ja e utilizado
         for user in self.__users:
             if(user.login == login and user.deleted_at == None):
-                return str("Este login ja esta em uso")
+                raise LoginFailure("Este login ja esta em uso")
 
         id = str(uuid4())
         user = User(id, login, password)
@@ -26,7 +25,7 @@ class UserController(Controller):
     def find(self, id) -> User:
         for user in self.__users:
             if (user.id == id and user.deleted_at == None):
-                return user.as_dict()
+                return user
 
         raise UserNotFound(f"user {id} not found")
 
@@ -55,3 +54,15 @@ class UserController(Controller):
                 return str("usuario deletado")
 
         return str("usuario nao encontrado")
+
+    def login(self, login: str, password: str):
+        for user in self.__users:
+            if user.login == login and user.password == password and user.deleted_at == None:
+                return user.id
+        raise LoginFailure(f"failed to login {login}")
+
+    def find_by_id(self, id: str) -> User:
+        for user in self.__users:
+            if user.id == id and user.deleted_at == None:
+                return user
+        raise UserNotFound(f"user {id} not found")

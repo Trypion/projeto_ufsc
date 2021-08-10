@@ -3,7 +3,6 @@ from src.controllers.errors.controller_not_found import ControllerNotFound
 from abc import ABC, abstractclassmethod
 
 
-
 class Controller(ABC):
     @abstractclassmethod
     def create(self):
@@ -23,7 +22,6 @@ class Controller(ABC):
 
     @abstractclassmethod
     def delete(self):
-
         ...
 
     def find_by_id(self, id, list_object) -> object:

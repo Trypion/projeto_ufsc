@@ -77,7 +77,15 @@
             />
           </th>
           <th>
-            {% for user in users %} 
+            <input
+              name="criado por"
+              value="{{ item.created_by }}"
+              disabled
+              type="text"
+              class="form-control"
+              placeholder="criado por"
+            />
+            <!-- {% for user in users %} 
             {% if item.created_by == user.id %}
             <input
               name="criado por"
@@ -87,7 +95,7 @@
               class="form-control"
               placeholder="criado por"
             />
-            {% endif %} {% endfor %}
+            {% endif %} {% endfor %} -->
           </th>
           <th>
             <input

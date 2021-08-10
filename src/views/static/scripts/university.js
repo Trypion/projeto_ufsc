@@ -5,7 +5,7 @@ function enableEditing(nome, uf) {
 }
 
 async function create(){
-  const user = "05f92ee5-7bd5-449f-b07d-15705064e08f";
+  const user = localStorage.getItem("user_id")
 
   const form = document.querySelector(".create-form");
 
@@ -22,7 +22,10 @@ async function create(){
   }).catch(err => console.log(err));
 
   if (response.status != 200) {
-    alert(`Algo deu errado - ${response.body}`);
+    body = await response.json()
+    alert(
+      `Algo deu errado - status: ${response.status}, msg: ${body.error}`
+    );
   }
 
   location.reload();
@@ -30,7 +33,7 @@ async function create(){
 }
 
 async function save(id) {
-  const user = "05f92ee5-7bd5-449f-b07d-15705064e08f";
+  const user = localStorage.getItem("user_id")
   const form = document.querySelector(".form" + id);
 
   const name = form.elements.name.value;
@@ -47,14 +50,17 @@ async function save(id) {
   }).catch(err => console.log(err));
 
   if (response.status != 200) {    
-    alert(`Algo deu errado - ${response.body}`);
+    body = await response.json()
+    alert(
+      `Algo deu errado - status: ${response.status}, msg: ${body.error}`
+    );
   }
 
   location.reload();
 }
 
 async function destroy(id) {
-  const user = "05f92ee5-7bd5-449f-b07d-15705064e08f";
+  const user = localStorage.getItem("user_id")
   await fetch(`http://localhost:5000/university/${id}`, {
     method: "DELETE",
     headers: {

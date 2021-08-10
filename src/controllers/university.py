@@ -1,21 +1,17 @@
-from uuid import uuid4
 from datetime import datetime
+from uuid import uuid4
 
-from src.models.university import University
-
-from src.controllers.user import UserController
 from src.controllers.controller import Controller
-
 from src.controllers.errors.university_not_found import UniversityNotFound
+from src.models.university import University
+from src.models.user import User
 
 
 class UniversityController(Controller):
-    def __init__(self, user_controller: UserController) -> None:
-        self.__user_controller = user_controller
+    def __init__(self) -> None:        
         self.__universities = []
 
-    def create(self, name: str, uf: str, user: str):
-        self.__user_controller.find(user)
+    def create(self, name: str, uf: str, user: User):        
         id = str(uuid4())
         university = University(id, name, uf, user)
         self.__universities.append(university)
@@ -24,12 +20,12 @@ class UniversityController(Controller):
     def find(self, id: str) -> dict:
         university = self.find_by_id(id, self.__universities)
         if (university):
-            return university.as_dict
+            return university.as_dict()
 
     def find_all(self) -> list:
         return [university.as_dict() for university in self.__universities if university.deleted_at == None]
 
-    def update(self, id, name: str, uf: str, user: str) -> dict:
+    def update(self, id: str, name: str, uf: str, user: str) -> dict:
         university = self.find_by_id(id, self.__universities)
         if not university:
             return
@@ -39,10 +35,16 @@ class UniversityController(Controller):
         university.updated_at = str(datetime.now())
         return university.as_dict()
 
-    def delete(self, id, user) -> str:
+    def delete(self, id: str, user: User) -> str:
         university = self.find_by_id(id, self.__universities)
         if not university:
             return
         university.deleted_by = user
         university.deleted_at = str(datetime.now())
         return university.id
+
+    def find_by_id(self, id: str) -> University:
+        for university in self.__universities:
+            if university.id == id and university.deleted_at == None:
+                return university
+        raise UniversityNotFound(f"university {id} not found")

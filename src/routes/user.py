@@ -1,7 +1,6 @@
-from flask import Blueprint, json, make_response, request
+from flask import Blueprint, json, request
 from flask.templating import render_template
 from flask_expects_json import expects_json
-from jsonschema import ValidationError
 
 from src.controllers.user import UserController
 
@@ -66,15 +65,9 @@ class UserRoutes(Blueprint):
             user = request.json['user']    
             return json.dumps(self.__controller.delete(id, user))
 
-        # Mensagens de Erro    
-        @self.errorhandler(Exception)
-        def handle_exception(error):
-            return make_response({"error": str(error)}, 500)
-
-        @self.errorhandler(400)
-        def bad_request(error):
-            if isinstance(error.description, ValidationError):
-                original_error = error.description
-                return make_response({'error': original_error.message}, 400)
-            # handle other "Bad Request"-errors
-            return error
+        @self.route('/login', methods=['POST'])
+        def login():
+            login = request.json['login']
+            password = request.json['password']
+            self.__controller.login(login, password)
+        

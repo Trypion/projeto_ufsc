@@ -4,13 +4,26 @@ async function handleSubmit(event) {
   const login = data.get("login");
   const password = data.get("password");
   
-  await fetch("http://localhost:5000/user/", {
+  const response = await fetch("http://localhost:5000/user/", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ login, password }),
   });
+
+  if (response.status == 200){
+    const user_id = await response.json()
+    localStorage.setItem("user_id", user_id) 
+    document.location.href = '/'   
+  }
+  else {
+    body = await response.json()
+    alert(
+      `Algo deu errado - status: ${response.status}, msg: ${body.error}`
+    );
+  }
+
 }
 
 const form = document.querySelector("form");

@@ -1,9 +1,11 @@
 from src.models.timestamp import Timestamp
+from src.models.user import User
+
 from datetime import datetime
 
 
 class University(Timestamp):
-    def __init__(self, id: str, name: str, uf: str, user: str) -> None:
+    def __init__(self, id: str, name: str, uf: str, user: User) -> None:
         super().__init__()
         self.__id = id
         self.__name = name
@@ -16,7 +18,7 @@ class University(Timestamp):
             'id': self.__id,
             'name': self.__name,
             'uf': self.__uf,
-            'created_by': self.created_by,
+            'created_by': self.created_by.login,
             'created_at': self.created_at,
             'updated_by': self.updated_by,
             'updated_at': self.updated_at,
