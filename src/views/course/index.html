@@ -15,6 +15,7 @@
       placeholder="nome"
       aria-label="nome"
     />
+    <span class="input-group-text">Universidade</span>
     <select name="university" class="form-select">
       {% for item in universities %}
       <option value="{{ item.id }}">{{ item.name }}</option>
@@ -67,7 +68,7 @@
               aria-label="nome"
             />
           </th>
-          <th>
+          <th>            
             <select
               name="university"
               disabled
@@ -75,7 +76,7 @@
               id="university{{ item.id }}"
             >
               {% for university in universities %} 
-              {% if university.id == item.university_id %}
+              {% if university.id == item.university.id %}
               <option value="{{ university.id }}" selected>{{ university.name }}</option>
               {% else %}
               <option value="{{ university.id }}">{{ university.name }}</option>
@@ -94,18 +95,15 @@
               aria-label="ranking"
             />
           </th>
-          <th>
-            {% for user in users %} 
-            {% if item.created_by == user.id %}
+          <th>            
             <input
               name="criado por"
-              value="{{ user.login }}"
+              value="{{ item.created_by.login }}"
               disabled
               type="text"
               class="form-control"
               placeholder="criado por"
-            />
-            {% endif %} {% endfor %}
+            />        
           </th>
           <th>
             <input
@@ -117,19 +115,15 @@
               placeholder="criado em"
             />
           </th>
-          <th>
-            {% for user in users %} 
-            {% if item.created_by == user.id %}
+          <th>            
             <input
               name="atualizado por"
-              value="{{ user.login }}"
+              value="{{ item.updated_by.login }}"
               disabled
               type="text"
               class="form-control"
               placeholder="atualizado por"
             />
-            
-            {% endif %} {% endfor %}
           </th>
           <th>
             <input

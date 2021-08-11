@@ -18,7 +18,7 @@ class UniversityController(Controller):
         return id
 
     def find(self, id: str) -> dict:
-        university = self.find_by_id(id, self.__universities)
+        university = self.find_by_id(id)
         if (university):
             return university.as_dict()
 
@@ -26,21 +26,21 @@ class UniversityController(Controller):
         return [university.as_dict() for university in self.__universities if university.deleted_at == None]
 
     def update(self, id: str, name: str, uf: str, user: str) -> dict:
-        university = self.find_by_id(id, self.__universities)
+        university = self.find_by_id(id)
         if not university:
             return
         university.name = name
         university.uf = uf
         university.updated_by = user
-        university.updated_at = str(datetime.now())
+        university.updated_at = datetime.now()
         return university.as_dict()
 
     def delete(self, id: str, user: User) -> str:
-        university = self.find_by_id(id, self.__universities)
+        university = self.find_by_id(id)
         if not university:
             return
         university.deleted_by = user
-        university.deleted_at = str(datetime.now())
+        university.deleted_at = datetime.now()
         return university.id
 
     def find_by_id(self, id: str) -> University:

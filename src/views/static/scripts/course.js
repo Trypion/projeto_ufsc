@@ -8,9 +8,9 @@ function enableEditing(nome, university, ranking) {
 }
 
 async function create() {
-  const user = "05f92ee5-7bd5-449f-b07d-15705064e08f";
+  const user = localStorage.getItem("user_id")
 
-  form = document.querySelector(".create-form");  
+  const form = document.querySelector(".create-form");  
 
   const name = form.elements.name.value;
   const university_id = form.elements.university.value;
@@ -36,19 +36,13 @@ async function create() {
 }
 
 async function save(id) {
-  const form = document.querySelector(".form" + id);
+  const user = localStorage.getItem("user_id")
 
-  console.log(form)
+  const form = document.querySelector(".form" + id);
 
   const name = form.elements.name.value;
   const university_id = form.elements.university.value;
-  const ranking = parseInt(form.elements.ranking.value);
-
-  console.log(name)
-  console.log(university_id)
-  console.log(ranking)
-
-  const user = "05f92ee5-7bd5-449f-b07d-15705064e08f";
+  const ranking = parseInt(form.elements.ranking.value);  
 
   const response = await fetch(`http://localhost:5000/course/${id}`, {
     method: "PUT",
@@ -70,7 +64,7 @@ async function save(id) {
 }
 
 async function destroy(id) {
-  const user = "05f92ee5-7bd5-449f-b07d-15705064e08f";
+  const user = localStorage.getItem("user_id")
   await fetch(`http://localhost:5000/course/${id}`, {
     method: "DELETE",
     headers: {

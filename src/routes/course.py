@@ -26,7 +26,7 @@ class CourseRoutes(Blueprint):
 
         @self.route('/')
         def index():
-            return render_template("course/index.html", courses=self.__controller.find_all(), universities=self.__university_controller.find_all(), users=self.__user_controller.find_all())
+            return render_template("course/index.html", courses=self.__controller.find_all(), universities=self.__university_controller.find_all())
 
         @self.route('/findAll', methods=['GET'])
         def find_all():
@@ -40,7 +40,8 @@ class CourseRoutes(Blueprint):
             ranking = request.json['ranking']
             user_id = request.headers.get('X-On-Behalf-Of')
             user = self.__user_controller.find_by_id(user_id)
-            return json.dumps(self.__controller.create(name, university_id, user, ranking))
+            university = self.__university_controller.find_by_id(university_id)
+            return json.dumps(self.__controller.create(name, university, user, ranking))
 
         @self.route('/<id>', methods=['GET'])
         def find(id):
@@ -54,7 +55,8 @@ class CourseRoutes(Blueprint):
             ranking = request.json['ranking']
             user_id = request.headers.get('X-On-Behalf-Of')
             user = self.__user_controller.find_by_id(user_id)
-            return json.dumps(self.__controller.update(id, name, university_id, user, ranking))
+            university = self.__university_controller.find_by_id(university_id)
+            return json.dumps(self.__controller.update(id, name, university, user, ranking))
 
         @self.route("/<id>", methods=['DELETE'])
         def delete(id):

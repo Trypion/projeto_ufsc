@@ -23,7 +23,7 @@ class UniversityRoutes(Blueprint):
 
         @self.route('/')
         def index():
-            return render_template("university/index.html", universities=self.__controller.find_all(), users=self.__user_controller.find_all())
+            return render_template("university/index.html", universities=self.__controller.find_all())
 
         @self.route('/findAll', methods=['GET'])
         def find_all():

@@ -25,7 +25,7 @@ cors = CORS(app, expose_headers=[
 '''controladores'''
 user_controlller = UserController()
 university_controlller = UniversityController()
-course_controlller = CourseController(university_controlller)
+course_controlller = CourseController()
 
 '''rotas'''
 course_routes = CourseRoutes(course_controlller, university_controlller, user_controlller)

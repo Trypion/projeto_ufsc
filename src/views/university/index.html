@@ -79,23 +79,12 @@
           <th>
             <input
               name="criado por"
-              value="{{ item.created_by }}"
+              value="{{ item.created_by.login }}"
               disabled
               type="text"
               class="form-control"
               placeholder="criado por"
-            />
-            <!-- {% for user in users %} 
-            {% if item.created_by == user.id %}
-            <input
-              name="criado por"
-              value="{{ user.login }}"
-              disabled
-              type="text"
-              class="form-control"
-              placeholder="criado por"
-            />
-            {% endif %} {% endfor %} -->
+            />           
           </th>
           <th>
             <input
@@ -107,18 +96,15 @@
               placeholder="criado em"
             />
           </th>
-          <th>
-            {% for user in users %} 
-            {% if item.created_by == user.id %}
+          <th>            
             <input
               name="atualizado por"
-              value="{{ user.login }}"
+              value="{{ item.updated_by.login }}"
               disabled
               type="text"
               class="form-control"
               placeholder="atualizado por"
-            />
-            {% endif %} {% endfor %}
+            />          
           </th>
           <th>
             <input

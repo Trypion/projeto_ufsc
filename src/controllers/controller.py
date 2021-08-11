@@ -23,10 +23,3 @@ class Controller(ABC):
     @abstractclassmethod
     def delete(self):
         ...
-
-    def find_by_id(self, id, list_object) -> object:
-        for find in list_object:
-            if find.id == id and find.deleted_at == None:
-                return find
-
-        raise ControllerNotFound(f"Object {id} not found")
