@@ -40,7 +40,7 @@ class UserController(Controller):
         for item in self.__users:
             if (item.login == login and item.password == password):
                 item.password = new_password
-                item.updated_at = str(datetime.now())
+                item.updated_at = datetime.now()
                 item.updated_by = user
                 return str('Password alterado com sucesso')
 
@@ -49,7 +49,7 @@ class UserController(Controller):
     def delete(self, id: str, user: str) -> str:
         for item in self.__users:
             if (item.id == id and item.deleted_at == None):
-                item.deleted_at = str(datetime.now())
+                item.deleted_at = datetime.now()
                 item.deleted_by = user
                 return str("usuario deletado")
 

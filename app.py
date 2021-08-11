@@ -1,5 +1,6 @@
 from flask import Flask, make_response, render_template
 from flask_cors import CORS
+<<<<<<< HEAD
 from jsonschema import ValidationError
 
 '''rotas'''
@@ -7,13 +8,27 @@ from src.routes.auth import AuthRoutes
 from src.routes.course import CourseRoutes
 from src.routes.university import UniversityRoutes
 from src.routes.user import UserRoutes
+=======
+from src.controllers import profile
+from src.controllers import user
+>>>>>>> 42a314a90c448913783b3741cc9f01f5cbd49d58
 
 '''controladores'''
 from src.controllers.course import CourseController
 from src.controllers.university import UniversityController
 from src.controllers.user import UserController
+from src.controllers.profile import ProfileController
 
 
+<<<<<<< HEAD
+=======
+'''rotas'''
+from src.routes.university import UniversityRoutes
+from src.routes.course import CourseRoutes
+from src.routes.user import UserRoutes
+from src.routes.auth import AuthRoutes
+from src.routes.profile import ProfileController, ProfileRoutes
+>>>>>>> 42a314a90c448913783b3741cc9f01f5cbd49d58
 
 app = Flask(__name__, template_folder="src/views",
             static_folder="src/views/static")
@@ -24,19 +39,27 @@ cors = CORS(app, expose_headers=[
 
 '''controladores'''
 user_controlller = UserController()
+<<<<<<< HEAD
 university_controlller = UniversityController()
 course_controlller = CourseController()
+=======
+university_controlller = UniversityController(user_controlller)
+course_controlller = CourseController(university_controlller, user_controlller)
+profile_controller = ProfileController(user_controlller, university_controlller, course_controlller)
+>>>>>>> 42a314a90c448913783b3741cc9f01f5cbd49d58
 
 '''rotas'''
 course_routes = CourseRoutes(course_controlller, university_controlller, user_controlller)
 university_routes = UniversityRoutes(university_controlller, user_controlller)
 user_routes = UserRoutes(user_controlller)
+profile_routes = ProfileRoutes(profile_controller)
 auth_routes = AuthRoutes()
 
 app.register_blueprint(university_routes, url_prefix='/university')
 app.register_blueprint(course_routes, url_prefix='/course')
 app.register_blueprint(user_routes, url_prefix='/user')
 app.register_blueprint(auth_routes, url_prefix='/auth')
+app.register_blueprint(profile_routes, url_prefix='/profile')
 
 
 @app.errorhandler(Exception)
