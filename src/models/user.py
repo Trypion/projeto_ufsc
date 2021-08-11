@@ -9,7 +9,7 @@ class User(Timestamp):
         self.__login = login
         self.__password = password
         self.__profile_id = None
-        self.created_at = str(datetime.now())
+        self.created_at = datetime.now()
 
     def as_dict(self):
         return {

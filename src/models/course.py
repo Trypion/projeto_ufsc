@@ -10,7 +10,7 @@ class Course(Timestamp):
         self.__name = name
         self.__university_id = university_id
         self.__ranking = ranking
-        self.created_at = str(datetime.now())
+        self.created_at = datetime.now()
         self.created_by = user
 
     def as_dict(self):

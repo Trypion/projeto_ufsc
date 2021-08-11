@@ -8,7 +8,7 @@ class University(Timestamp):
         self.__id = id
         self.__name = name
         self.__uf = uf
-        self.created_at = str(datetime.now())
+        self.created_at = datetime.now()
         self.created_by = user
 
     def as_dict(self):

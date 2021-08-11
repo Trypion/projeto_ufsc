@@ -43,14 +43,14 @@ class CourseController(Controller):
         course.university_id = university_id
         course.ranking = ranking
         course.updated_by = user
-        course.updated_at = str(datetime.now())
+        course.updated_at = datetime.now()
         return course.as_dict()
 
     def delete(self, id, user) -> str:
         self.__user_controller.find(user)
         course = self.find_by_id(id)
         course.deleted_by = user
-        course.deleted_at = str(datetime.now())
+        course.deleted_at = datetime.now()
         return course.id
 
     def find_by_id(self, id) -> Course:

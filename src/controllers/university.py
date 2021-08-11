@@ -36,7 +36,7 @@ class UniversityController(Controller):
         university.name = name
         university.uf = uf
         university.updated_by = user
-        university.updated_at = str(datetime.now())
+        university.updated_at = datetime.now()
         return university.as_dict()
 
     def delete(self, id, user) -> str:
@@ -44,5 +44,5 @@ class UniversityController(Controller):
         if not university:
             return
         university.deleted_by = user
-        university.deleted_at = str(datetime.now())
+        university.deleted_at = datetime.now()
         return university.id

@@ -36,7 +36,9 @@ class ProfileController(Controller):
 
         raise UserNotFound(f"profiles {id} not found")
 
-    def update(self, name: str, email: str, sex: str, university_id: str, profile_picture: str, university_register: str, course_id: str, ranking: int, user: str):
+    def update(self, id : str, name: str, email: str, sex: str, university_id: str, profile_picture: str, university_register: str, course_id: str, ranking: int, user: str):
+        self.__user_controller.find(user)
+        self.__university_controller.find(university_id)
         profile = self.find_by_id(id, self.__profiles)
         if not profile:
             return
@@ -49,7 +51,7 @@ class ProfileController(Controller):
         profile.course_id = course_id
         profile.ranking = ranking
         user = user
-        profile.updated_at = str(datetime.now())
+        profile.updated_at = datetime.now()
         return profile.as_dict()
 
     def delete(self, id, user) -> str:
@@ -57,7 +59,7 @@ class ProfileController(Controller):
         if not profile:
             return
         profile.deleted_by = user
-        profile.deleted_at = str(datetime.now())
+        profile.deleted_at = datetime.now()
         return profile.id
     
     def find_all(self):

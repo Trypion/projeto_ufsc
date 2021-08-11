@@ -70,13 +70,22 @@ class ProfileRoutes(Blueprint):
         def find(id):
             return json.dumps(self.__controller.find(id))
 
-        @self.route('/<login>', methods=['PUT'])
+        @self.route('/', methods=['PUT'])
         @expects_json(schema_update)
-        def update(login):
-            password = request.json['password']
-            new_password = request.json['new_password']
+        def update():
+           
+            id = request.json['id']
+            name = request.json['name']
+            email = request.json['email']
+            sex = request.json['sex']
+            university_id = request.json['university_id']
+            profile_picture = request.json['profile_picture']
+            university_register = request.json['university_register']
+            course_id = request.json['course_id']
+            ranking = request.json['ranking']
             user = request.json['user']
-            return json.dumps(self.__controller.update(login, password, new_password, user))
+            
+            return json.dumps(self.__controller.update(id, name, email, sex,university_id,profile_picture,university_register, course_id, ranking, user))
 
 
         @self.route('/<id>', methods=['DELETE'])        
