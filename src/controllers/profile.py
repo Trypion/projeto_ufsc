@@ -5,7 +5,7 @@ from src.models.profile import Profile
 from src.controllers.errors.user_not_found import UserNotFound
 from src.controllers.user import UserController
 from src.controllers.university import UniversityController
-from src.controllers.course import Course, CourseController
+from src.controllers.course import CourseController
 
 
 class ProfileController(Controller):

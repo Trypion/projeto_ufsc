@@ -3,22 +3,30 @@ from flask.templating import render_template
 from flask_expects_json import expects_json
 from jsonschema import ValidationError
 
-from src.controllers.user import UserController
+from src.controllers.profile import ProfileController
 
-
-class UserRoutes(Blueprint):
-    def __init__(self, controller: UserController):
+class ProfileRoutes(Blueprint):
+    def __init__(self, controller: ProfileController):
         self.__controller = controller
-        super().__init__('user_bp', __name__)
+        super().__init__('profile_bp', __name__)
 
         # validar JSON
         schema = {
             'type': 'object',
             'properties': {
-                'login': {'type': 'string'},
-                'password': {'type': 'string'}                     
+                'name': {'type': 'string'},
+                'email': {'type': 'string'},
+                'sex': {'type': 'string'},
+                'age': {'type': 'number'},
+                'university_id': {'type': 'string'},
+                'profile_picture': {'type': 'string'},
+                'university_register': {'type': 'string'},
+                'course_id': {'type': 'string'},
+                'ranking': {'type': 'number'},
+                'user': {'type': 'string'}
+                               
             },
-            'required': ['login', 'password']
+            'required': ['name', 'email', 'sex', 'age', 'university_id', 'profile_picture', 'university_register', 'course_id', 'ranking', 'user']
         }
 
         schema_update = {
@@ -33,7 +41,7 @@ class UserRoutes(Blueprint):
 
         @self.route('/')
         def index():
-            return render_template("user/index.html", users=self.__controller.find_all())
+            return render_template("profile/index.html", users=self.__controller.find_all())
 
         # Retornando todos os usuarios
         @self.route('/findAll', methods=['GET'])
@@ -44,9 +52,18 @@ class UserRoutes(Blueprint):
         @self.route('/', methods=['POST'])
         @expects_json(schema)
         def create():
-            login = request.json['login']
-            password = request.json['password']
-            return json.dumps(self.__controller.create(login, password))
+            name = request.json['name']
+            email = request.json['email']
+            sex = request.json['sex']
+            age = request.json['age']
+            university_id = request.json['university_id']
+            profile_picture = request.json['profile_picture']
+            university_register = request.json['university_register']
+            course_id = request.json['course_id']
+            ranking = request.json['ranking']
+            user = request.json['user']
+            
+            return json.dumps(self.__controller.create(name, email, sex, age, university_id, profile_picture, university_register, course_id, ranking, user))
 
         # Procurando Usuario pela ID
         @self.route('/<id>', methods=['GET'])
@@ -60,6 +77,7 @@ class UserRoutes(Blueprint):
             new_password = request.json['new_password']
             user = request.json['user']
             return json.dumps(self.__controller.update(login, password, new_password, user))
+
 
         @self.route('/<id>', methods=['DELETE'])        
         def delete(id):

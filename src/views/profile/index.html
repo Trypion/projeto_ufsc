@@ -1,0 +1,15 @@
+{% extends 'index.html' %}
+
+{% block header %}
+  <h1>{% block title %}Profiles{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+
+  <ul id="Profiles">
+  {% for item in users %}
+      <li>login: {{ item.login }} / password: {{ item.password }} </li>
+  {% endfor %}
+  </ul>
+
+{% endblock %}
