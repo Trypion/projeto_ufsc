@@ -16,11 +16,11 @@ class User(Timestamp):
             'id': self.__id,
             'login': self.__login,
             'password': self.__password,
-            'created_at': self.created_at,
-            'updated_by': self.updated_by,
-            'updated_at': self.updated_at,
-            'deleted_by': self.deleted_by,
-            'deleted_at': self.deleted_at
+            'created_at': datetime.strftime(self.created_at, "%d/%m/%Y"),
+            'updated_by': self.updated_by.as_dict() if self.updated_by else None,
+            'updated_at': datetime.strftime(self.updated_at, "%d/%m/%Y") if self.updated_at else None,
+            'deleted_by': self.deleted_by.as_dict() if self.deleted_by else None,
+            'deleted_at': datetime.strftime(self.deleted_at, "%d/%m/%Y") if self.deleted_at else None,
         }
     @property
     def profile_id(self):

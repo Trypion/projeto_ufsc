@@ -1,2 +1,2 @@
-class UserNotFound(BaseException):
+class ProfileNotFound(BaseException):
   pass

@@ -20,6 +20,9 @@ class Profile(Timestamp):
         self.__course = course
         self.__ranking = ranking
         self.__user = user
+        self.created_by = user
+        self.created_at = datetime.now()
+
 
     def as_dict(self):
         return {
@@ -33,6 +36,7 @@ class Profile(Timestamp):
             'university_register': self.__university_register,
             'course': self.__course.as_dict(),
             'ranking': self.__ranking,
+            'user': self.__user.as_dict(),
             'created_by': self.created_by.as_dict(),
             'created_at': datetime.strftime(self.created_at, "%d/%m/%Y"),
             'updated_by': self.updated_by.as_dict() if self.updated_by else None,
@@ -78,12 +82,12 @@ class Profile(Timestamp):
         self.__age = age
 
     @property
-    def university_id(self):
-        return self.__university_id
+    def university(self):
+        return self.__university
 
-    @university_id.setter
-    def university_id(self, university_id):
-        self.__university_id = university_id
+    @university.setter
+    def university(self, university):
+        self.__university = university
 
     @property
     def profile_picture(self):
@@ -102,12 +106,12 @@ class Profile(Timestamp):
         self.__university_register = university_register
 
     @property
-    def course_id(self):
-        return self.__course_id
+    def course(self):
+        return self.__course
 
-    @course_id.setter
-    def course_id(self, course_id):
-        self.__course_id = course_id
+    @course.setter
+    def course(self, course):
+        self.__course = course
 
     @property
     def ranking(self):

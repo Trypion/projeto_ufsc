@@ -33,25 +33,16 @@ class ProfileRoutes(Blueprint):
             'required': ['name', 'email', 'sex', 'age', 'university_id', 'profile_picture', 'university_register', 'course_id', 'ranking']
         }
 
-        schema_update = {
-            'type': 'object',
-            'properties': { 
-                'password': {'type': 'string'},
-                'new_password': {'type': 'string'},
-            },
-            'required': ['password', 'new_password', 'user']
-        }
-
         @self.route('/')
         def index():
             return render_template("profile/index.html", users=self.__controller.find_all())
 
-        # Retornando todos os usuarios
+        
         @self.route('/findAll', methods=['GET'])
         def find_all():
             return json.dumps(self.__controller.find_all())
 
-        # Criando Usuario
+        # Criando Profile
         @self.route('/', methods=['POST'])
         @expects_json(schema)
         def create():
@@ -78,11 +69,9 @@ class ProfileRoutes(Blueprint):
         def find(id):
             return json.dumps(self.__controller.find(id))
 
-        @self.route('/', methods=['PUT'])
-        @expects_json(schema_update)
-        def update():
-           
-            id = request.json['id']
+        @self.route('/<id>', methods=['PUT'])
+        @expects_json(schema)
+        def update(id):
             name = request.json['name']
             email = request.json['email']
             sex = request.json['sex']
@@ -91,12 +80,16 @@ class ProfileRoutes(Blueprint):
             university_register = request.json['university_register']
             course_id = request.json['course_id']
             ranking = request.json['ranking']
-            user = request.json['user']
-            
-            return json.dumps(self.__controller.update(id, name, email, sex,university_id,profile_picture,university_register, course_id, ranking, user))
+            user_id = request.headers.get('X-On-Behalf-Of')
+            user = self.__user_controller.find_by_id(user_id)
+            university = self.__university_controller.find_by_id(university_id)            
+            course = self.__course_controller.find_by_id(course_id)
+
+            return json.dumps(self.__controller.update(id, name, email, sex,university,profile_picture,university_register, course, ranking, user))
 
 
         @self.route('/<id>', methods=['DELETE'])        
         def delete(id):
-            user = request.json['user']    
+            user_id = request.headers.get('X-On-Behalf-Of')
+            user = self.__user_controller.find_by_id(user_id)   
             return json.dumps(self.__controller.delete(id, user))
