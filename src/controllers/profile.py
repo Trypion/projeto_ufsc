@@ -1,33 +1,30 @@
-from uuid import uuid4
 from datetime import datetime
+from src.models.user import User
+from src.models.course import Course
+from src.models.university import University
+from uuid import uuid4
+
 from src.controllers.controller import Controller
-from src.models.profile import Profile
-from src.controllers.errors.user_not_found import UserNotFound
-from src.controllers.user import UserController
-from src.controllers.university import UniversityController
 from src.controllers.course import CourseController
+from src.controllers.errors.user_not_found import UserNotFound
+from src.controllers.university import UniversityController
+from src.controllers.user import UserController
+from src.models.profile import Profile
 
 
 class ProfileController(Controller):
-    def __init__(self, user_controller : UserController, university_controller : UniversityController, course_controller : CourseController) -> None:
+    def __init__(self, user_controller : UserController, university_controller : UniversityController) -> None:
         self.__profiles = []
         self.__user_controller = user_controller
-        self.__university_controller = university_controller
-        self.__course_controller = course_controller
+        self.__university_controller = university_controller   
 
-    def create(self, name: str, email: str, sex: str, age: int, university_id: str, profile_picture: str, university_register: str, course_id: str, ranking: int, user : str):
-        self.__user_controller.find(user)
-        self.__university_controller.find(university_id)
-        self.__course_controller.find(course_id)
+    def create(self, name: str, email: str, sex: str, age: int, university: University, profile_picture: str, university_register: str, course: Course, ranking: int, user: User):  
         
         id = str(uuid4())
-        profile = Profile(id, name, email, sex, age, university_id,
-                          profile_picture, university_register, course_id, ranking, user)
+        profile = Profile(id, name, email, sex, age, university,
+                          profile_picture, university_register, course, ranking, user)
         self.__profiles.append(profile)
         return id
-
-
-
 
     def find(self, id) -> Profile:
         for user in self.__profiles:

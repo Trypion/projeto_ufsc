@@ -1,13 +1,19 @@
-from flask import Blueprint, json, make_response, request
+from src.controllers.user import UserController
+from src.controllers.course import CourseController
+from src.controllers.university import UniversityController
+from flask import Blueprint, json, request
 from flask.templating import render_template
 from flask_expects_json import expects_json
-from jsonschema import ValidationError
 
 from src.controllers.profile import ProfileController
 
 class ProfileRoutes(Blueprint):
-    def __init__(self, controller: ProfileController):
+    def __init__(self, controller: ProfileController, university_controller: UniversityController, course_controller: CourseController, user_controller: UserController):
         self.__controller = controller
+        self.__university_controller = university_controller
+        self.__course_controller = course_controller
+        self.__user_controller = user_controller
+        
         super().__init__('profile_bp', __name__)
 
         # validar JSON
@@ -22,11 +28,9 @@ class ProfileRoutes(Blueprint):
                 'profile_picture': {'type': 'string'},
                 'university_register': {'type': 'string'},
                 'course_id': {'type': 'string'},
-                'ranking': {'type': 'number'},
-                'user': {'type': 'string'}
-                               
+                'ranking': {'type': 'number'}                               
             },
-            'required': ['name', 'email', 'sex', 'age', 'university_id', 'profile_picture', 'university_register', 'course_id', 'ranking', 'user']
+            'required': ['name', 'email', 'sex', 'age', 'university_id', 'profile_picture', 'university_register', 'course_id', 'ranking']
         }
 
         schema_update = {
@@ -34,7 +38,6 @@ class ProfileRoutes(Blueprint):
             'properties': { 
                 'password': {'type': 'string'},
                 'new_password': {'type': 'string'},
-                'user': {'type': 'string'}
             },
             'required': ['password', 'new_password', 'user']
         }
@@ -61,9 +64,14 @@ class ProfileRoutes(Blueprint):
             university_register = request.json['university_register']
             course_id = request.json['course_id']
             ranking = request.json['ranking']
-            user = request.json['user']
+
+            user_id = request.headers.get('X-On-Behalf-Of')
+
+            user = self.__user_controller.find_by_id(user_id)
+            university = self.__university_controller.find_by_id(university_id)            
+            course = self.__course_controller.find_by_id(course_id)
             
-            return json.dumps(self.__controller.create(name, email, sex, age, university_id, profile_picture, university_register, course_id, ranking, user))
+            return json.dumps(self.__controller.create(name, email, sex, age, university, profile_picture, university_register, course, ranking, user))
 
         # Procurando Usuario pela ID
         @self.route('/<id>', methods=['GET'])
@@ -92,16 +100,3 @@ class ProfileRoutes(Blueprint):
         def delete(id):
             user = request.json['user']    
             return json.dumps(self.__controller.delete(id, user))
-
-        # Mensagens de Erro    
-        @self.errorhandler(Exception)
-        def handle_exception(error):
-            return make_response({"error": str(error)}, 500)
-
-        @self.errorhandler(400)
-        def bad_request(error):
-            if isinstance(error.description, ValidationError):
-                original_error = error.description
-                return make_response({'error': original_error.message}, 400)
-            # handle other "Bad Request"-errors
-            return error

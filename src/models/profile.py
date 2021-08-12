@@ -1,19 +1,23 @@
-from src.models.timestamp import Timestamp
 from datetime import datetime
+
+from src.models.course import Course
+from src.models.timestamp import Timestamp
+from src.models.university import University
+from src.models.user import User
 
 
 class Profile(Timestamp):
-    def __init__(self, id: str, name: str, email: str, sex: str, age: int, university_id: str, profile_picture: str, university_register: str, course_id: str, ranking: int, user: str) -> None:
+    def __init__(self, id: str, name: str, email: str, sex: str, age: int, university: University, profile_picture: str, university_register: str, course: Course, ranking: int, user: User) -> None:
         super().__init__()
         self.__id = id
         self.__name = name
         self.__email = email
         self.__sex = sex
         self.__age = age
-        self.__university_id = university_id
+        self.__university = university
         self.__profile_picture = profile_picture
         self.__university_register = university_register
-        self.__course_id = course_id
+        self.__course = course
         self.__ranking = ranking
         self.__user = user
 
@@ -24,17 +28,17 @@ class Profile(Timestamp):
             'email': self.__email,
             'sex': self.__sex,
             'age': self.__age,
-            'university_id': self.__university_id,
+            'university': self.__university.as_dict(),
             'profile_picture': self.__profile_picture,
             'university_register': self.__university_register,
-            'course_id': self.__course_id,
+            'course': self.__course.as_dict(),
             'ranking': self.__ranking,
-            'user': self.__user,
-            'created_at': self.created_at,
-            'updated_by': self.updated_by,
-            'updated_at': self.updated_at,
-            'deleted_by': self.deleted_by,
-            'deleted_at': self.deleted_at
+            'created_by': self.created_by.as_dict(),
+            'created_at': datetime.strftime(self.created_at, "%d/%m/%Y"),
+            'updated_by': self.updated_by.as_dict() if self.updated_by else None,
+            'updated_at': datetime.strftime(self.updated_at, "%d/%m/%Y") if self.updated_at else None,
+            'deleted_by': self.deleted_by.as_dict() if self.deleted_by else None,
+            'deleted_at': datetime.strftime(self.deleted_at, "%d/%m/%Y") if self.deleted_at else None,
         }
 
     @property

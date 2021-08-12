@@ -1,5 +1,3 @@
-from src.controllers.errors.controller_not_found import ControllerNotFound
-
 from abc import ABC, abstractclassmethod
 
 
