@@ -17,7 +17,7 @@
     />
     <span class="input-group-text">Universidade</span>
     <select name="university" class="form-select">
-      {% for item in universities %}
+      {% for item in universities %} <!-- Utilizando Jinja Python-->
       <option value="{{ item.id }}">{{ item.name }}</option>
       {% endfor %}
     </select>

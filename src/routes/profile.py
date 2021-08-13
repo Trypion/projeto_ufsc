@@ -35,7 +35,7 @@ class ProfileRoutes(Blueprint):
 
         @self.route('/')
         def index():
-            return render_template("profile/index.html", users=self.__controller.find_all())
+            return render_template("profile/index.html", profiles=self.__controller.find_all(),courses=self.__course_controller.find_all(),universities=self.__university_controller.find_all())
 
         
         @self.route('/findAll', methods=['GET'])
