@@ -1,3 +1,4 @@
+import logging
 from datetime import datetime
 from uuid import uuid4
 
@@ -10,6 +11,7 @@ from src.models.user import User
 class UserController(Controller):
     def __init__(self) -> None:
         self.__users = []
+        logging.basicConfig(filename='app.log', filemode='w', format='%(name)s - %(levelname)s - %(message)s')
 
     def create(self, login: str, password: str) -> str:
         # Verificando se o login ja e utilizado
@@ -20,6 +22,7 @@ class UserController(Controller):
         id = str(uuid4())
         user = User(id, login, password)
         self.__users.append(user)
+        logging.warning('This will get logged to a file')
         return id
 
     def find(self, id) -> User:
