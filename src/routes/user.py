@@ -57,12 +57,14 @@ class UserRoutes(Blueprint):
         def update(login):
             password = request.json['password']
             new_password = request.json['new_password']
-            user = request.json['user']
+            user_id = request.headers.get('X-On-Behalf-Of')
+            user = self.__user_controller.find_by_id(user_id)
             return json.dumps(self.__controller.update(login, password, new_password, user))
 
         @self.route('/<id>', methods=['DELETE'])        
         def delete(id):
-            user = request.json['user']    
+            user_id = request.headers.get('X-On-Behalf-Of')
+            user = self.__user_controller.find_by_id(user_id)
             return json.dumps(self.__controller.delete(id, user))
 
         @self.route('/login', methods=['POST'])
