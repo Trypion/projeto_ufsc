@@ -1,3 +1,4 @@
+from datetime import datetime
 from src.controllers.user import UserController
 from src.controllers.event import EventController
 from src.controllers.university import UniversityController
@@ -20,20 +21,18 @@ class EventRoutes(Blueprint):
             'properties': {
                 'name': {'type': 'string'},
                 'start_at': {'type': 'string'},
-                'end_at': {'type': 'number'},
+                'end_at': {'type': 'string'},
                 'description': {'type': 'string'},
                 'event_picture': {'type': 'string'},
                 'location': {'type': 'string'},
-                'is_valid': {'type': 'string'},
                 'reward': {'type': 'number'}                               
             },
-            'required': ['name', 'start_at', 'end_at', 'description', 'event_picture', 'location', 'is_valid', 'reward']
-            
+            'required': ['name', 'start_at', 'end_at', 'description', 'event_picture', 'location', 'reward']   
         }
 
         @self.route('/')
         def index():
-            return render_template("event/index.html", events=self.__controller.find_all(),users=self.__user_controller.find_all())
+            return render_template("event/index.html", events=self.__controller.find_all())
 
         
         @self.route('/findAll', methods=['GET'])
@@ -45,19 +44,18 @@ class EventRoutes(Blueprint):
         @expects_json(schema)
         def create():
             name = request.json['name']
-            start_at = request.json['start_at']
-            end_at = request.json['end_at']
+            start_at = datetime.strptime(request.json['start_at'], "%Y-%m-%d")
+            end_at = datetime.strptime(request.json['end_at'], "%Y-%m-%d")
             description = request.json['description']
             event_picture = request.json['event_picture']
             location = request.json['location']
-            is_valid = request.json['is_valid']
             reward = request.json['reward']
 
             user_id = request.headers.get('X-On-Behalf-Of')
 
             user = self.__user_controller.find_by_id(user_id)
             
-            return json.dumps(self.__controller.create(name, start_at, end_at, description, event_picture, location, is_valid, reward, user))
+            return json.dumps(self.__controller.create(name, start_at, end_at, description, event_picture, location, reward, user))
 
         # Procurando Usuario pela ID
         @self.route('/<id>', methods=['GET'])
@@ -68,18 +66,17 @@ class EventRoutes(Blueprint):
         @expects_json(schema)
         def update(id):
             name = request.json['name']
-            start_at = request.json['start_at']
-            end_at = request.json['end_at']
+            start_at = datetime.strptime(request.json['start_at'], "%d/%m/%Y")
+            end_at = datetime.strptime(request.json['end_at'], "%d/%m/%Y")
             description = request.json['description']
             event_picture = request.json['event_picture']
-            location = request.json['location']
-            is_valid = request.json['is_valid']
+            location = request.json['location']            
             reward = request.json['reward']
 
             user_id = request.headers.get('X-On-Behalf-Of')
             user = self.__user_controller.find_by_id(user_id)
 
-            return json.dumps(self.__controller.update(id, name, start_at, end_at, description, event_picture, location, is_valid, reward, user))
+            return json.dumps(self.__controller.update(id, name, start_at, end_at, description, event_picture, location, False, reward, user))
 
 
         @self.route('/<id>', methods=['DELETE'])        

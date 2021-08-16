@@ -14,10 +14,10 @@ class EventController(Controller):
     def __init__(self) -> None:
         self.__events = []
 
-    def create(self, name: str,start_at: str, end_at: str, description: str, event_picture: str, location: str, is_valid : bool, reward: int, user: User):
+    def create(self, name: str, start_at: str, end_at: str, description: str, event_picture: str, location: str, reward: int, user: User, is_valid: bool = False):
 
         id = str(uuid4())
-        event = Event(name, start_at, end_at, description, event_picture, location, is_valid, reward, user)
+        event = Event(id, name, start_at, end_at, description, event_picture, location, is_valid, reward, user)
         self.__events.append(event)
         return id
 
