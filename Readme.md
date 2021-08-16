@@ -61,3 +61,19 @@ Aqui estarão os arquivos que gerarão e conectarão com os bancos de dados, mas
 #### Repositórios
 
 Os repositórios serão os manipuladores dos clientes de bancos de dados. Serão eles que vão realizar as operações no banco de dados e retornar os dados propriamente ditos.
+
+---
+#### Como iniciar o projeto :star:
+
+recomendo a criação de um [ambiente virtual python](https://docs.python.org/3/tutorial/venv.html)
+```$ python3 -m venv venv```
+```$ source venv/bin/activate```
+
+instalando as dependências
+```$ pip install -r requeriments.txt```
+
+iniciando o aplicativo
+```$ python app.py```
+
+acesse a rota
+[localhost:5000/](http://localhost:5000/)
