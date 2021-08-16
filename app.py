@@ -36,7 +36,7 @@ course_routes = CourseRoutes(course_controlller, university_controlller, user_co
 university_routes = UniversityRoutes(university_controlller, user_controlller)
 user_routes = UserRoutes(user_controlller)
 profile_routes = ProfileRoutes(profile_controller, university_controlller, course_controlller, user_controlller)
-event_routes = EventRoutes(event_controller,user_controlller)
+event_routes = EventRoutes(event_controller, user_controlller)
 auth_routes = AuthRoutes()
 
 app.register_blueprint(university_routes, url_prefix='/university')
@@ -72,43 +72,6 @@ def ping():
     return "pong"
 
 
-# def seed():
-#     from src.models.university import University
-#     from src.models.user import User
-
-#     university_seed = [
-#         {
-#             "id": "6897958e-a97a-4b07-94aa-e62d56d9d26f",
-#             "name": "UFSC",
-#             "uf": "SC",
-#         },
-#         {
-#             "id": "5855a4cb-bcb3-4946-9976-0e041b0690fd",
-#             "name": "USP",
-#             "uf": "SP"
-#         }
-#     ]
-#     for university in university_seed:
-#         university_routes._UniversityRoutes__controller._UniversityController__universities.append(University(
-#             university['id'], university['name'], university['uf'], '05f92ee5-7bd5-449f-b07d-15705064e08f'))
-
-#     user_seed = [
-#         {
-#             "id": "05f92ee5-7bd5-449f-b07d-15705064e08f",
-#             "login": "Israel",
-#             "password": "12345",
-#         },
-#         {
-#             "id": "f3737123-bf6c-4952-996b-8ef4a52ca9d3",
-#             "login": "Lissandro",
-#             "password": "12345",
-#         }
-#     ]
-#     for user in user_seed:
-#         user_routes._UserRoutes__controller._UserController__users.append(User(
-#             user['id'], user['login'], user['password']))
-
 if __name__ == '__main__':
     app.debug = True
-    # seed()
     app.run()

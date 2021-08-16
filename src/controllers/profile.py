@@ -40,7 +40,7 @@ class ProfileController(Controller):
         profile.university_register = university_register
         profile.course = course
         profile.ranking = ranking
-        user = user
+        profile.user = user
         profile.updated_at = datetime.now()
         return profile.as_dict()
 
