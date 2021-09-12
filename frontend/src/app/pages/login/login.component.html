@@ -1,0 +1,21 @@
+<div class="container d-flex justify-content-center">
+  <div class="col-md-6 border mt-5 bg-light shadow">
+    <h1>Login</h1>
+    <hr />
+    <br />
+    <form  [formGroup]="loginForm"
+    (ngSubmit)="onSubmit()" ngNativeValidate>
+        <label for="login">Login</label>
+
+        <mat-form-field appearance="fill">
+          <mat-label>digite seu Login</mat-label>
+          <input matInput placeholder="login" formControlName="login" required>
+          <mat-error *ngIf="loginForm.invalid">{{getErrorMessage()}}</mat-error>
+        </mat-form-field>
+
+      <div class="d-flex justify-content-around pb-3">
+        <button type="submit" class="btn btn-success">Entrar</button>
+      </div>
+    </form>
+  </div>
+</div>
