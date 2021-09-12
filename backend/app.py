@@ -1,6 +1,7 @@
 from flask import Flask, make_response, render_template
 from flask_cors import CORS
 from jsonschema import ValidationError
+import config
 
 '''controladores'''
 from src.controllers.course import CourseController
@@ -37,7 +38,7 @@ university_routes = UniversityRoutes(university_controlller, user_controlller)
 user_routes = UserRoutes(user_controlller)
 profile_routes = ProfileRoutes(profile_controller, university_controlller, course_controlller, user_controlller)
 event_routes = EventRoutes(event_controller, user_controlller)
-auth_routes = AuthRoutes()
+auth_routes = AuthRoutes(user_controlller, config)
 
 app.register_blueprint(university_routes, url_prefix='/university')
 app.register_blueprint(course_routes, url_prefix='/course')
