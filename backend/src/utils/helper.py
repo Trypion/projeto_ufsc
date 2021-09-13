@@ -1,5 +1,5 @@
 from functools import wraps
-from src.presentation import app
+from app import app
 from flask import request, jsonify
 import jwt
 

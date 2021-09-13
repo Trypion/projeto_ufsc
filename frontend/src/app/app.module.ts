@@ -15,6 +15,9 @@ import { HomeComponent } from './pages/home/home.component';
 import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { AuthInterceptor } from './services/auth.interceptor';
+import { AuthService } from './services/auth.service';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -31,9 +34,13 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     FormsModule,
     ReactiveFormsModule,
     MaterialModule,
+    HttpClientModule,
     NgbModule,
   ],
-  providers: [],
+  providers: [
+    AuthService,
+    AuthInterceptor
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

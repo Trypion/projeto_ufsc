@@ -31,27 +31,27 @@ class UserRoutes():
         self.__controller = controller
 
     def find_all(self):
-        return json.dumps(self.__controller.find_all())
+        return self.__controller.find_all()
 
     @expects_json(schema)
     def create(self, request):
         login = request.json['login']
         password = request.json['password']
-        return json.dumps({'id': self.__controller.create(login, password)})
+        return {'id': self.__controller.create(login, password)}
 
     def find(self, id: str):
-        return json.dumps(self.__controller.find(id))
+        return self.__controller.find(id)
 
     @expects_json(schema_update)
     def change_password(self, request, id, user):   
         password = request.json['password']
         new_password = request.json['new_password']        
         user = self.__controller.find_by_id(user)
-        return json.dumps(self.__controller.change_password(id, password, new_password, user))
+        return self.__controller.change_password(id, password, new_password, user)
 
     def delete(self, id: str, user: str):        
         req_user = self.__controller.find_by_id(user)
-        return json.dumps(self.__controller.delete(id, req_user))
+        return self.__controller.delete(id, req_user)
 
     @expects_json(schema)
     def login(self, request):
