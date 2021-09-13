@@ -1,6 +1,7 @@
 import logging
 from datetime import datetime
 from uuid import uuid4
+import bcrypt
 
 from src.controllers.controller import Controller
 from src.controllers.errors.login_failure import LoginFailure
@@ -10,8 +11,9 @@ from src.models.user import User
 
 class UserController(Controller):
     def __init__(self) -> None:
-        self.__users = []
-        logging.basicConfig(filename='app.log', filemode='w', format='%(name)s - %(levelname)s - %(message)s')
+        self.__users: list[User] = []
+        logging.basicConfig(filename='app.log', filemode='w',
+                            format='%(name)s - %(levelname)s - %(message)s')
 
     def create(self, login: str, password: str) -> str:
         # Verificando se o login ja e utilizado
@@ -19,8 +21,10 @@ class UserController(Controller):
             if(user.login == login and user.deleted_at == None):
                 raise LoginFailure("Este login ja esta em uso")
 
+        hashed = bcrypt.hashpw(bytes(password, 'utf-8-sig'), bcrypt.gensalt())
+
         id = str(uuid4())
-        user = User(id, login, password)
+        user = User(id, login, hashed)
         self.__users.append(user)
         logging.warning(f'Usuario {login} criado')
         return id
@@ -40,16 +44,16 @@ class UserController(Controller):
         logging.warning('Lista de usuarios apresentada')
         return [user.as_dict() for user in self.__users if user.deleted_at == None]
 
-    def update(self, login: str, password: str, new_password: str, user) -> str:
+    def change_password(self, id: str, password: str, new_password: str, user) -> str:
         for item in self.__users:
-            if (item.login == login and item.password == password):
-                item.password = new_password
+            if (item.id == id and self.__check_password(password, item.password)):
+                item.password = bcrypt.hashpw(bytes(new_password, 'utf-8-sig'), bcrypt.gensalt())
                 item.updated_at = datetime.now()
                 item.updated_by = user
                 logging.warning(f'Password do {item.login} alterado')
-                return str('Password alterado com sucesso')
+                return {'msg': 'Password alterado com sucesso'}
 
-        return str('Login ou Password incorretos')
+        return {'msg': 'Login ou Password incorretos'}
 
     def delete(self, id: str, user: str) -> str:
         for item in self.__users:
@@ -63,7 +67,7 @@ class UserController(Controller):
 
     def login(self, login: str, password: str):
         for user in self.__users:
-            if user.login == login and user.password == password and user.deleted_at == None:
+            if user.deleted_at == None and user.login == login and self.__check_password(password, user.password):
                 logging.warning(f'Login {user.login}')
                 return user.id
         raise LoginFailure(f"failed to login {login}")
@@ -74,3 +78,10 @@ class UserController(Controller):
                 logging.warning(f'User by id {user} procurado')
                 return user
         raise UserNotFound(f"user {id} not found")
+
+    def __check_password(self, password: str, against_passwotd):
+        return bcrypt.checkpw(bytes(password, 'utf-8-sig'), against_passwotd)
+
+
+    def update(self):
+        ...
