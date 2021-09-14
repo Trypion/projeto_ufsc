@@ -18,8 +18,7 @@ export class AuthService {
   url = environment.apiUrl;
 
   httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
-    withCredentials: true,
+    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
 
   //registra um usuario
@@ -32,7 +31,7 @@ export class AuthService {
   //login um usuario
   login(user: User): Observable<{ token: string }> {
     return this.httpClient
-      .post<{ token: string }>(`${this.url}/v1/login`, JSON.stringify(user))
+      .post<{ token: string }>(`${this.url}/v1/login`, JSON.stringify(user), this.httpOptions)
       .pipe(
         retry(2),
         tap((val) => {

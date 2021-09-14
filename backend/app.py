@@ -7,7 +7,9 @@ app = Flask(__name__)
 app.config.from_object('config')
 
 
-cors = CORS(app)
+cors = CORS(app, expose_headers=[
+            "Content-Disposition", "Access-Control-Allow-Origin"])
+
 
 @app.route('/api/ping')
 def ping():
