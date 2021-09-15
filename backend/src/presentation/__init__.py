@@ -7,6 +7,12 @@ from app import app
 
 from src.utils import helper
 
+
+from src.DAO.connection import Connection
+from src.DAO.user import UserDAO
+
+
+
 '''
 ==//CONTROLLERS//==
 '''
@@ -26,9 +32,16 @@ from src.presentation.routes.profile import ProfileRoutes
 from src.presentation.routes.event import EventRoutes
 
 '''
+==//DAO//==
+'''
+dbConnection = Connection().create_connection(app.config['CONNECTION_URI'], app.config['DATABASE'])
+userDao = UserDAO(dbConnection)
+
+
+'''
 ==//CONTROLLERS//==
 '''
-user_controlller = UserController()
+user_controlller = UserController(userDao)
 university_controlller = UniversityController()
 course_controlller = CourseController()
 profile_controller = ProfileController()
@@ -84,7 +97,7 @@ def user(id, user):
   if request.method == 'GET':
     return jsonify(user_routes.find(id))
   if request.method == 'DELETE':
-    return jsonify(user_routes.delete(id, user))
+    return user_routes.delete(id, user), 204
   if request.method == 'PUT':
     return jsonify(user_routes.change_password(request, id, user))
     

@@ -3,6 +3,8 @@ from app import app
 from flask import request, jsonify
 import jwt
 
+from bson import ObjectId
+
 
 def token_required(f):
     @wraps(f)
@@ -12,7 +14,7 @@ def token_required(f):
             return jsonify({'message': 'token is missing', 'data': []}), 401
         try:
             data = jwt.decode(token, app.config['SECRET_KEY'], ["HS256"])
-            user = data['user_id']
+            user = ObjectId(data['user_id'])
         except:
             return jsonify({'message': 'token is invalid or expired', 'data': []}), 401
         return f(user = user, *args, **kwargs)

@@ -24,12 +24,10 @@ export class LoginComponent implements OnInit {
   onSubmit(): void {
     if(this.loginForm.valid){
       const user: User = this.loginForm.value
-      console.log(user)
       this.authService.login(user).subscribe(()=>{
         this.router.navigateByUrl('/home')
       })
     }
   }
 
-  login() {}
 }

@@ -3,31 +3,36 @@ from datetime import datetime
 
 
 class User(Timestamp):
-    def __init__(self, id: str, login: str, password: str) -> None:
+    def __init__(self, id: str, login: str, password: str, created_at, updated_by=None, updated_at=None, deleted_at=None, deleted_by=None) -> None:
         super().__init__()
         self.__id = id
         self.__login = login
         self.__password = password
-        self.__profile_id = None
-        self.created_at = datetime.now()
+        self.created_at = created_at
+        self.updated_by = updated_by
+        self.updated_at = updated_at
+        self.deleted_at = deleted_at
+        self.deleted_by = deleted_by
 
     def as_dict(self):
         return {
-            'id': self.__id,
+            '_id': self.__id,
             'login': self.__login,
-            'created_at': datetime.strftime(self.created_at, "%d/%m/%Y"),
+            'password': self.password,
+            'created_at': self.created_at,
             'updated_by': self.updated_by.as_dict() if self.updated_by else None,
-            'updated_at': datetime.strftime(self.updated_at, "%d/%m/%Y") if self.updated_at else None,
+            'updated_at': self.updated_at,
             'deleted_by': self.deleted_by.as_dict() if self.deleted_by else None,
-            'deleted_at': datetime.strftime(self.deleted_at, "%d/%m/%Y") if self.deleted_at else None,
+            'deleted_at': self.deleted_at
         }
-    @property
-    def profile_id(self):
-        return self.__profile_id
-    
-    @profile_id.setter
-    def profile_id(self, profile_id):
-        self.__profile_id = profile_id
+
+    # @property
+    # def profile_id(self):
+    #     return self.__profile_id
+
+    # @profile_id.setter
+    # def profile_id(self, profile_id):
+    #     self.__profile_id = profile_id
 
     @property
     def id(self) -> str:
@@ -44,4 +49,3 @@ class User(Timestamp):
     @password.setter
     def password(self, password):
         self.__password = password
-    

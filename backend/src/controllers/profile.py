@@ -1,4 +1,3 @@
-import logging
 from datetime import datetime
 from src.models.user import User
 from src.models.course import Course
@@ -19,8 +18,7 @@ class ProfileController(Controller):
         id = str(uuid4())
         profile = Profile(id, name, email, sex, age, university,
                           profile_picture, university_register, course, ranking, user)
-        self.__profiles.append(profile)
-        logging.warning(f'Perfil {name} criado')
+        self.__profiles.append(profile)        
         return id
 
     def find(self, id) -> Profile:
