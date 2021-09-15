@@ -1,17 +1,20 @@
 import logging
 from datetime import datetime
-from uuid import uuid4
+# from uuid import uuid4
+from bson import ObjectId
 import bcrypt
 
+from src.models.user import User
+from src.DAO.user import UserDAO
 from src.controllers.controller import Controller
 from src.controllers.errors.login_failure import LoginFailure
 from src.controllers.errors.user_not_found import UserNotFound
-from src.models.user import User
 
 
 class UserController(Controller):
-    def __init__(self) -> None:
+    def __init__(self, userDAO: UserDAO) -> None:
         self.__users: list[User] = []
+        self.__userDAO = userDAO
         logging.basicConfig(filename='app.log', filemode='w',
                             format='%(name)s - %(levelname)s - %(message)s')
 
@@ -23,11 +26,11 @@ class UserController(Controller):
 
         hashed = bcrypt.hashpw(bytes(password, 'utf-8-sig'), bcrypt.gensalt())
 
-        id = str(uuid4())
+        id = ObjectId()
         user = User(id, login, hashed)
-        self.__users.append(user)
+        self.__userDAO.save(user)
         logging.warning(f'Usuario {login} criado')
-        return id
+        return str(id)
 
     def find(self, id) -> User:
         user = self.find_by_id(id)

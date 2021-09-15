@@ -13,8 +13,9 @@ class User(Timestamp):
 
     def as_dict(self):
         return {
-            'id': self.__id,
+            '_id': self.__id,
             'login': self.__login,
+            'password': self.password.decode(),         
             'created_at': datetime.strftime(self.created_at, "%d/%m/%Y"),
             'updated_by': self.updated_by.as_dict() if self.updated_by else None,
             'updated_at': datetime.strftime(self.updated_at, "%d/%m/%Y") if self.updated_at else None,

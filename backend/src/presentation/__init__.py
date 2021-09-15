@@ -7,6 +7,12 @@ from app import app
 
 from src.utils import helper
 
+
+from src.DAO.connection import Connection
+from src.DAO.user import UserDAO
+
+
+
 '''
 ==//CONTROLLERS//==
 '''
@@ -26,9 +32,16 @@ from src.presentation.routes.profile import ProfileRoutes
 from src.presentation.routes.event import EventRoutes
 
 '''
+==//DAO//==
+'''
+dbConnection = Connection().create_connection(app.config['CONNECTION_URI'], app.config['DATABASE'])
+userDao = UserDAO(dbConnection)
+
+
+'''
 ==//CONTROLLERS//==
 '''
-user_controlller = UserController()
+user_controlller = UserController(userDao)
 university_controlller = UniversityController()
 course_controlller = CourseController()
 profile_controller = ProfileController()

@@ -9,7 +9,7 @@ class Timestamp(ABC):
         self.__updated_at = None
         self.__updated_by = None
         self.__deleted_at = None
-        self.__deleted_by = None
+        self.__deleted_by= None
 
     @property
     def created_at(self) -> Date:
