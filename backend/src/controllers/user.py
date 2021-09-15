@@ -20,14 +20,15 @@ class UserController(Controller):
 
     def create(self, login: str, password: str) -> str:
         # Verificando se o login ja e utilizado
-        for user in self.__users:
-            if(user.login == login and user.deleted_at == None):
-                raise LoginFailure("Este login ja esta em uso")
+        persisted_user = self.__userDAO.findByLogin(login)
+        if persisted_user:
+            raise LoginFailure("Este login ja esta em uso")
 
-        hashed = bcrypt.hashpw(bytes(password, 'utf-8-sig'), bcrypt.gensalt())
+        hashed = bcrypt.hashpw(
+            bytes(password, 'utf-8-sig'), bcrypt.gensalt()).decode()
 
         id = ObjectId()
-        user = User(id, login, hashed)
+        user = User(id, login, hashed, datetime.now())
         self.__userDAO.save(user)
         logging.warning(f'Usuario {login} criado')
         return str(id)
@@ -50,7 +51,8 @@ class UserController(Controller):
     def change_password(self, id: str, password: str, new_password: str, user) -> str:
         for item in self.__users:
             if (item.id == id and self.__check_password(password, item.password)):
-                item.password = bcrypt.hashpw(bytes(new_password, 'utf-8-sig'), bcrypt.gensalt())
+                item.password = bcrypt.hashpw(
+                    bytes(new_password, 'utf-8-sig'), bcrypt.gensalt())
                 item.updated_at = datetime.now()
                 item.updated_by = user
                 logging.warning(f'Password do {item.login} alterado')
@@ -83,8 +85,7 @@ class UserController(Controller):
         raise UserNotFound(f"user {id} not found")
 
     def __check_password(self, password: str, against_passwotd):
-        return bcrypt.checkpw(bytes(password, 'utf-8-sig'), against_passwotd)
-
+        return bcrypt.checkpw(password.encode(), against_passwotd)
 
     def update(self):
         ...
