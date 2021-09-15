@@ -1,4 +1,3 @@
-import logging
 from datetime import datetime
 from uuid import uuid4
 
@@ -15,14 +14,12 @@ class UniversityController(Controller):
     def create(self, name: str, uf: str, user: User):        
         id = str(uuid4())
         university = University(id, name, uf, user)
-        self.__universities.append(university)
-        logging.warning(f'Universidade {name} criada')
+        self.__universities.append(university)   
         return id
 
     def find(self, id: str) -> dict:
         university = self.find_by_id(id)
-        if (university):
-            logging.warning(f'Universidade {university.name} procurada')
+        if (university):            
             return university.as_dict()
 
     def find_all(self) -> list:

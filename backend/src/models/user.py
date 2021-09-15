@@ -26,13 +26,13 @@ class User(Timestamp):
             'deleted_at': self.deleted_at
         }
 
-    @property
-    def profile_id(self):
-        return self.__profile_id
+    # @property
+    # def profile_id(self):
+    #     return self.__profile_id
 
-    @profile_id.setter
-    def profile_id(self, profile_id):
-        self.__profile_id = profile_id
+    # @profile_id.setter
+    # def profile_id(self, profile_id):
+    #     self.__profile_id = profile_id
 
     @property
     def id(self) -> str:

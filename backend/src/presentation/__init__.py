@@ -97,7 +97,7 @@ def user(id, user):
   if request.method == 'GET':
     return jsonify(user_routes.find(id))
   if request.method == 'DELETE':
-    return jsonify(user_routes.delete(id, user))
+    return user_routes.delete(id, user), 204
   if request.method == 'PUT':
     return jsonify(user_routes.change_password(request, id, user))
     
