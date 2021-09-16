@@ -105,3 +105,86 @@ def user(id, user):
 
     
     
+
+'''
+===//PROFILE//==
+'''
+@app.route('/api/v1/profile', methods=['POST'])
+@helper.token_required
+def create_profile(user):
+  return jsonify(profile_routes.create(request, user))
+
+@app.route('/api/v1/profile/<id>', methods=['GET', 'PUT', 'DELETE'])
+@helper.token_required
+def profile(id, user):
+  if request.method == 'GET':
+    return jsonify(profile_routes.find(id))
+  
+  if request.method == 'PUT':
+    return jsonify(profile_routes.update(request, id, user)) 
+
+  if request.method == 'DELETE':
+    return jsonify(profile_routes.delete(id, user))
+
+'''
+===//UNIVERSITY//==
+'''
+
+@app.route('/api/v1/university', methods=['POST'])
+@helper.token_required
+def create_university(request, user):
+  return jsonify(university_routes.create())
+
+@app.route('/api/v1/profile/<id>', methods=['GET', 'PUT', 'DELETE'])
+@helper.token_required
+def university(id, user):
+  if request.method == 'GET':
+    return jsonify(university_routes.find(id))
+  
+  if request.method == 'PUT':
+    return jsonify(university_routes.update(request, id, user)) 
+
+  if request.method == 'DELETE':
+    return jsonify(university_routes.delete(id, user))
+
+'''
+===//COURSE//==
+'''
+
+@app.route('/api/v1/course', methods=['POST'])
+@helper.token_required
+def create_course(request, user):
+  return jsonify(course_routes.create())
+
+@app.route('/api/v1/profile/<id>', methods=['GET', 'PUT', 'DELETE'])
+@helper.token_required
+def course(id, user):
+  if request.method == 'GET':
+    return jsonify(course_routes.find(id))
+  
+  if request.method == 'PUT':
+    return jsonify(course_routes.update(request, id, user)) 
+
+  if request.method == 'DELETE':
+    return jsonify(course_routes.delete(id, user))
+
+'''
+===//event//==
+'''
+
+@app.route('/api/v1/event', methods=['POST'])
+@helper.token_required
+def create_event(user):
+  return jsonify(event_routes.create(request, user))
+
+@app.route('/api/v1/profile/<id>', methods=['GET', 'PUT', 'DELETE'])
+@helper.token_required
+def event(id, user):
+  if request.method == 'GET':
+    return jsonify(event_routes.find(id))
+  
+  if request.method == 'PUT':
+    return jsonify(event_routes.update(request, id, user)) 
+
+  if request.method == 'DELETE':
+    return jsonify(event_routes.delete(id, user))
