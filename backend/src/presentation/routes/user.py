@@ -63,7 +63,7 @@ class UserRoutes():
             payload = {
                 'exp': datetime.utcnow() + timedelta(days=0, hours=8),
                 'iat': datetime.utcnow(),
-                'user_id': user_id
+                'user_id': str(user_id)
             }
             return {'token': jwt.encode(
                 payload,
