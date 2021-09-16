@@ -20,7 +20,7 @@ class UserDAO():
             '$set': {
                 'password': user.password,
                 'updated_by': user.updated_by,
-                'updated_bt': datetime.now(),
+                'updated_at': datetime.now(),
                 'deleted_at': user.deleted_at,
                 'deleted_by': user.deleted_by
             }

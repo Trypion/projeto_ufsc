@@ -88,16 +88,20 @@ def login():
 def create_user():
   return jsonify(user_routes.create(request))
 
+@app.route('/api/v1/change-password', methods=['POST'])
+def change_password():
+  return user_routes.change_password(request), 204
+
 '''
 ==//USER//==
 '''
-@app.route('/api/v1/user/<id>', methods=['GET', 'PUT', 'DELETE'])
+@app.route('/api/v1/user/<id>', methods=['GET', 'DELETE'])
 @helper.token_required
 def user(id, user):
   if request.method == 'GET':
     return jsonify(user_routes.find(id))
   if request.method == 'DELETE':
     return user_routes.delete(id, user), 204
-  if request.method == 'PUT':
-    return jsonify(user_routes.change_password(request, id, user))
+
+    
     

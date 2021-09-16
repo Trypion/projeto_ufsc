@@ -20,6 +20,7 @@ class UserRoutes():
     schema_update = {
         'type': 'object',
         'properties': {
+            'login': {'type': 'string'},
             'password': {'type': 'string'},
             'new_password': {'type': 'string'},
         },
@@ -43,11 +44,11 @@ class UserRoutes():
         return self.__controller.find(id)
 
     @expects_json(schema_update)
-    def change_password(self, request, id, user):   
+    def change_password(self, request):   
+        login = request.json['login']
         password = request.json['password']
-        new_password = request.json['new_password']        
-        user = self.__controller.find_by_id(user)
-        return self.__controller.change_password(id, password, new_password, user)
+        new_password = request.json['new_password']
+        return self.__controller.change_password(login, password, new_password)
 
     def delete(self, id: str, user: str):        
         req_user = self.__controller.find_by_id(user)

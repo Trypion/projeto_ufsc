@@ -11,10 +11,6 @@ class Controller(ABC):
         '''encontra um objeto e devolve ele em formato de dicionario'''
     
     @abstractclassmethod
-    def find_by_id(self):
-        '''encontra um objeto pelo id'''
-
-    @abstractclassmethod
     def find_all(self):
         ...
 
