@@ -23,7 +23,7 @@ class CourseRoutes():
         self.__controller = controller
         self.__university_controller = university_controller
         self.__user_controller = user_controller
-        super().__init__('course_bp', __name__)
+ 
 
         
    # @self.route('/')

@@ -10,6 +10,7 @@ from src.utils import helper
 
 from src.DAO.connection import Connection
 from src.DAO.user import UserDAO
+from src.DAO.university import UniversityDAO
 
 
 
@@ -34,15 +35,17 @@ from src.presentation.routes.event import EventRoutes
 '''
 ==//DAO//==
 '''
-dbConnection = Connection().create_connection(app.config['CONNECTION_URI'], app.config['DATABASE'])
-userDao = UserDAO(dbConnection)
+db_conection = Connection().create_connection(app.config['CONNECTION_URI'], app.config['DATABASE'])
+user_dao = UserDAO(db_conection)
+university_dao = UniversityDAO(db_conection)
+
 
 
 '''
 ==//CONTROLLERS//==
 '''
-user_controlller = UserController(userDao)
-university_controlller = UniversityController()
+user_controlller = UserController(user_dao)
+university_controlller = UniversityController(university_dao)
 course_controlller = CourseController()
 profile_controller = ProfileController()
 event_controller = EventController()

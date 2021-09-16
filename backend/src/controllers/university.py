@@ -1,3 +1,5 @@
+from datetime import datetime
+from src.DAO.university import UniversityDAO
 from bson import ObjectId
 
 from src.controllers.controller import Controller
@@ -7,14 +9,17 @@ from src.models.user import User
 
 
 class UniversityController(Controller):
-    def __init__(self) -> None:        
-        ...
+    def __init__(self, university_dao : UniversityDAO) -> None:        
+        self.__university_dao = university_dao
+
+
 
     def create(self, name: str, uf: str, user: User):        
         id = ObjectId()
-        university = University(id, name, uf, user)
-        self.__universities.append(university)   
-        return id
+        created_at = datetime.now()
+        university = University(id, name, uf, user, created_at)
+        self.__university_dao.save(university)   
+        return str(id)
 
     def find(self, id: str) -> dict:
         university = self.find_by_id(id)

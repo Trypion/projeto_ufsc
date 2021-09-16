@@ -6,8 +6,8 @@ from src.models.user import User
 
 
 class UserDAO():
-    def __init__(self, dbConnection: Database) -> None:
-        self.__collection = dbConnection.users
+    def __init__(self, db_conection: Database) -> None:
+        self.__collection = db_conection.users
 
     def save(self, user: User) -> User:
         persisted_user = self.find_by_id(user.id)
