@@ -133,7 +133,7 @@ def profile(id, user):
 @app.route('/api/v1/university', methods=['POST'])
 @helper.token_required
 def create_university(request, user):
-  return jsonify(university_routes.create())
+  return jsonify(university_routes.create(request, user))
 
 @app.route('/api/v1/profile/<id>', methods=['GET', 'PUT', 'DELETE'])
 @helper.token_required

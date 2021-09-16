@@ -1,5 +1,4 @@
-from datetime import datetime
-from uuid import uuid4
+from bson import ObjectId
 
 from src.controllers.controller import Controller
 from src.controllers.errors.university_not_found import UniversityNotFound
@@ -9,10 +8,10 @@ from src.models.user import User
 
 class UniversityController(Controller):
     def __init__(self) -> None:        
-        self.__universities = []
+        ...
 
     def create(self, name: str, uf: str, user: User):        
-        id = str(uuid4())
+        id = ObjectId()
         university = University(id, name, uf, user)
         self.__universities.append(university)   
         return id

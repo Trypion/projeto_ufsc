@@ -71,11 +71,14 @@ class UserController(Controller):
             return user.id
         raise LoginFailure(f"failed to login {login}")
 
-    def __check_password(self, password: str, against_passwotd: str):
+    def __check_password(self, password: str, against_passwotd: str) -> bool:
         return bcrypt.checkpw(bytes(password, 'utf-8'), bytes(against_passwotd, 'utf-8'))
 
-    def find_by_login(self, login):
+    def find_by_login(self, login: str) -> User:
         return self.__userDAO.find_by_login(login)
+
+    def find_by_id(self, id: str) -> User:
+        return self.__userDAO.find_by_id(id)
 
     def update(self):
         ...
