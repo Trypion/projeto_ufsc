@@ -1,0 +1,12 @@
+.header {
+  background-color: black;
+  color: white;
+  border-radius: 5px;
+  padding: 8px;
+  display:inline
+}
+
+.header span {
+  color: greenyellow;
+}
+

@@ -19,6 +19,7 @@ class User(Timestamp):
         return {
             '_id': self.__id,
             'login': self.__login,
+            'password': self.__password,
             'created_at': self.created_at,
             'updated_by': self.updated_by,
             'updated_at': self.updated_at,
