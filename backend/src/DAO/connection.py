@@ -6,6 +6,7 @@ class Connection():
     def __init__(self) -> None:
         ...
 
-    def create_connection(self, url, database) -> Database:
+    @staticmethod
+    def create_connection(url, database) -> Database:
         client = MongoClient(url)
         return client[database]

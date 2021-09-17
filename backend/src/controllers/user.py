@@ -11,6 +11,8 @@ from src.controllers.controller import Controller
 from src.controllers.errors.login_failure import LoginFailure
 from src.controllers.errors.user_not_found import UserNotFound
 
+from bson.json_util import dumps
+
 
 class UserController(Controller):
     def __init__(self, userDAO: UserDAO) -> None:
@@ -33,7 +35,7 @@ class UserController(Controller):
     def find(self, id) -> User:
         user = self.__userDAO.find_by_id(id)
         if (user):
-            return user.as_dict()
+            return dumps(user.serialize())
 
         raise UserNotFound(f"user {id} not found")
 

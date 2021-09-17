@@ -9,7 +9,7 @@ from bson import ObjectId
 def token_required(f):
     @wraps(f)
     def decorated(*args, **kwargs):
-        token = request.headers.get('Authorization')
+        token = request.headers.get('Authorization').split(" ")[1]
         if not token:
             return jsonify({'message': 'token is missing', 'data': []}), 401
         try:
