@@ -8,4 +8,8 @@ body {
   margin: 0;
   font-family: Inconsolata, Roboto, "Helvetica Neue", sans-serif;
   background-color: rgb(233, 233, 233);
+  background-image: url('./assets/body_background.jpg');
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: 100% 100%;
 }

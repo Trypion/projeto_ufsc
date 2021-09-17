@@ -1,0 +1,14 @@
+.home:hover {
+  color: greenyellow;
+}
+
+.home {
+  background-color: black;
+  color: white;
+  padding: 8px;
+  border-radius: 5px;
+}
+
+.home span {
+  color: greenyellow;
+}
