@@ -30,7 +30,7 @@ class UniversityRoutes():
     def create(self, request, user_id):
         name = request.json['name']
         uf = request.json['uf']
-        user = self.__user_controller.find_by_id(user_id)
+        user = self.__user_controller.find_by_id(user_id).id
         return self.__controller.create(name, uf, user)
 
     def find(self, id):
@@ -40,9 +40,9 @@ class UniversityRoutes():
     def update(self, request, id, user_id):
         name = request.json['name']
         uf = request.json['uf']
-        user = self.__user_controller.find_by_id(user_id)
+        user = self.__user_controller.find_by_id(user_id).id
         return self.__controller.update(id, name, uf, user)
 
     def delete(self, id, user_id):
-        user = self.__user_controller.find_by_id(user_id)
+        user = self.__user_controller.find_by_id(user_id).id
         return self.__controller.delete(id, user)

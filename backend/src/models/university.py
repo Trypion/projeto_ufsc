@@ -28,6 +28,19 @@ class University(Timestamp):
             'deleted_by': self.deleted_by,
             'deleted_at': self.deleted_at
         }
+    
+    def as_dict(self):
+        return {
+            '_id': str(self.__id),
+            'name': self.__name,
+            'uf': self.__uf,
+            'created_by': str(self.created_by),
+            'created_at': self.created_at,
+            'updated_by': str(self.updated_by),
+            'updated_at': self.updated_at,
+            'deleted_by': str(self.deleted_by),
+            'deleted_at': self.deleted_at
+        }
 
     @property
     def id(self) -> str:

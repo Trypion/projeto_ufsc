@@ -7,8 +7,6 @@ from src.controllers.errors.university_not_found import UniversityNotFound
 from src.models.university import University
 from src.models.user import User
 
-from bson.json_util import dumps
-
 
 class UniversityController(Controller):
     def __init__(self, university_dao: UniversityDAO) -> None:
@@ -24,10 +22,10 @@ class UniversityController(Controller):
     def find(self, id: str) -> dict:
         university = self.find_by_id(id)
         if (university):
-            return dumps(university.serialize())
+            return university.as_dict()
 
     def find_all(self) -> list:
-        return [dumps(university.serialize()) for university in self.__university_dao.find_all()]
+        return [university.as_dict() for university in self.__university_dao.find_all()]
 
     def update(self, id: str, name: str, uf: str, user: str) -> dict:
         university = self.find_by_id(id)
@@ -39,7 +37,7 @@ class UniversityController(Controller):
 
         self.__university_dao.save(university)
 
-        return dumps(university.serialize())
+        return university.as_dict()
 
     def delete(self, id: str, user: User) -> str:
         university = self.find_by_id(id)
