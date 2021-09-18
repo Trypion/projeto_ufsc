@@ -1,13 +1,11 @@
 from datetime import datetime
-
-from src.models.course import Course
+from bson import ObjectId
 from src.models.timestamp import Timestamp
-from src.models.university import University
-from src.models.user import User
 
 
 class Profile(Timestamp):
-    def __init__(self, id: str, name: str, email: str, sex: str, age: int, university: University, profile_picture: str, university_register: str, course: Course, ranking: int, user: User) -> None:
+    def __init__(self, id: str, name: str, email: str, sex: str, age: int, university: ObjectId, profile_picture: str, university_register: str, course: ObjectId, 
+    ranking: int, user: ObjectId, created_by: ObjectId, created_at: datetime, updated_by: ObjectId = None, updated_at: datetime = None, deleted_by: ObjectId = None, deleted_at: datetime = None) -> None:
         super().__init__()
         self.__id = id
         self.__name = name
@@ -20,8 +18,33 @@ class Profile(Timestamp):
         self.__course = course
         self.__ranking = ranking
         self.__user = user
-        self.created_by = user
-        self.created_at = datetime.now()
+        self.created_at = created_at
+        self.created_by = created_by
+        self.updated_by = updated_by
+        self.updated_at = updated_at
+        self.deleted_by = deleted_by
+        self.deleted_at = deleted_at
+    
+    def serialize(self):
+        return {
+            'id': self.__id,
+            'name': self.__name,
+            'email': self.__email,
+            'sex': self.__sex,
+            'age': self.__age,
+            'university': self.__university,
+            'profile_picture': self.__profile_picture,
+            'university_register': self.__university_register,
+            'course': self.__course,
+            'ranking': self.__ranking,
+            'user': self.__user,
+            'created_by': self.created_by,
+            'created_at': self.created_at,
+            'updated_by': self.updated_by,
+            'updated_at': self.updated_at,
+            'deleted_by': self.deleted_by,
+            'deleted_at': self.deleted_at
+        }
 
 
     def as_dict(self):
@@ -31,18 +54,18 @@ class Profile(Timestamp):
             'email': self.__email,
             'sex': self.__sex,
             'age': self.__age,
-            'university': self.__university.as_dict(),
+            'university': self.__university,
             'profile_picture': self.__profile_picture,
             'university_register': self.__university_register,
-            'course': self.__course.as_dict(),
+            'course': self.__course,
             'ranking': self.__ranking,
-            'user': self.__user.as_dict(),
-            'created_by': self.created_by.as_dict(),
-            'created_at': datetime.strftime(self.created_at, "%d/%m/%Y"),
-            'updated_by': self.updated_by.as_dict() if self.updated_by else None,
-            'updated_at': datetime.strftime(self.updated_at, "%d/%m/%Y") if self.updated_at else None,
-            'deleted_by': self.deleted_by.as_dict() if self.deleted_by else None,
-            'deleted_at': datetime.strftime(self.deleted_at, "%d/%m/%Y") if self.deleted_at else None,
+            'user': self.__user,
+            'created_by': str(self.created_by),
+            'created_at': self.created_at,
+            'updated_by': str(self.updated_by),
+            'updated_at': self.updated_at,
+            'deleted_by': str(self.deleted_by),
+            'deleted_at': self.deleted_at
         }
 
     @property

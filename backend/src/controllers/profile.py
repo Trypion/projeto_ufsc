@@ -4,22 +4,26 @@ from src.models.course import Course
 from src.models.university import University
 from uuid import uuid4
 
+from src.DAO.profile import ProfileDAO
+from bson import ObjectId
+
 from src.controllers.controller import Controller
 from src.models.profile import Profile
 from src.controllers.errors.profile_not_found import ProfileNotFound
 
 
 class ProfileController(Controller):
-    def __init__(self) -> None:
-        self.__profiles = []
+    def __init__(self, profile_dao: ProfileDAO) -> None:
+        self.__profile_dao = profile_dao
 
-    def create(self, name: str, email: str, sex: str, age: int, university: University, profile_picture: str, university_register: str, course: Course, ranking: int, user: User):
+    def create(self, name: str, email: str, sex: str, age: int, university: ObjectId, profile_picture: str, university_register: str, course: ObjectId, ranking: int, user: ObjectId):
 
-        id = str(uuid4())
+        id = ObjectId()
+        created_at = datetime.now()
         profile = Profile(id, name, email, sex, age, university,
-                          profile_picture, university_register, course, ranking, user)
-        self.__profiles.append(profile)        
-        return id
+                          profile_picture, university_register, course, ranking, user, user, created_at)
+        self.__profile_dao.save(profile)        
+        return {'id': str(id)}
 
     def find(self, id) -> Profile:
         profile = self.find_by_id(id)
@@ -34,7 +38,7 @@ class ProfileController(Controller):
             return
         profile.name = name
         profile.email = email
-        profile.sex = sex
+        profile.sex = sex #aqui é o sexo do profile
         profile.university = university
         profile.profile_picture = profile_picture
         profile.university_register = university_register
@@ -42,7 +46,9 @@ class ProfileController(Controller):
         profile.ranking = ranking
         profile.user = user
         profile.updated_at = datetime.now()
+        self.__profile_dao.save(university)
         return profile.as_dict()
+        
 
     def delete(self, id: str, user: User) -> str:
         profile = self.find_by_id(id)
@@ -53,10 +59,10 @@ class ProfileController(Controller):
         return profile.id
 
     def find_all(self):
-        return [profile.as_dict() for profile in self.__profiles if profile.deleted_at == None]
+        return [profile.as_dict() for profile in self.__profile_dao.find_all()]
 
     def find_by_id(self, id: str) -> Profile:
-        for profile in self.__profiles:
-            if profile.id == id and profile.deleted_at == None:
-                return profile
-        raise ProfileNotFound(f"Profile {id} not found")
+        profile = self.__profile_dao.find_by_id(id)
+        if not profile:
+                    raise ProfileNotFound(f"university {id} not found")
+        return profile
