@@ -2,18 +2,18 @@ from datetime import datetime
 from src.DAO.course import CourseDAO
 from src.models.university import University
 from uuid import uuid4
-
 from src.controllers.controller import Controller
 from src.controllers.errors.course_not_found import CourseNotFound
 from src.models.course import Course
 from src.models.user import User
+from bson.objectid import ObjectId
 
 
 class CourseController(Controller):
     def __init__(self, course_dao: CourseDAO) -> None:
         self.__course_dao = course_dao
 
-    def create(self, name: str, university: University, user: User, ranking: int = 0):
+    def create(self, name: str, university: University, user: User, created_by: ObjectId, created_at: datetime, updated_by: ObjectId = None, updated_at: datetime = None, deleted_by: ObjectId = None, deleted_at: datetime = None, ranking: int = 0):        
         id = str(uuid4())
         course = Course(id, name, university, user, ranking)
         self.__courses.append(course)

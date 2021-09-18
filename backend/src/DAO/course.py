@@ -1,5 +1,4 @@
 from datetime import datetime
-
 from bson import ObjectId
 from pymongo.database import Database
 from src.models.course import Course

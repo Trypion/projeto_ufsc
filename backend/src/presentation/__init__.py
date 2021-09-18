@@ -15,7 +15,7 @@ from src.DAO.course import CourseDAO
 from src.DAO.profile import ProfileDAO
 from src.DAO.connection import Connection
 from src.DAO.university import UniversityDAO
-
+from src.DAO.event import EventDAO
 
 '''
 ==//CONTROLLERS//==
@@ -41,6 +41,7 @@ user_dao = UserDAO(db_conection)
 course_dao = CourseDAO(db_conection)
 profile_dao = ProfileDAO(db_conection)
 university_dao = UniversityDAO(db_conection)
+event_dao = EventDAO(db_conection)
 
 
 '''

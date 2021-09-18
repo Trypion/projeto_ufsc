@@ -1,20 +1,22 @@
 from bson.objectid import ObjectId
 from src.models.university import University
 from src.models.timestamp import Timestamp
-from src.models.user import User
-
 from datetime import datetime
 
 
 class Course(Timestamp):
-    def __init__(self, id: str, name: str, university: ObjectId, user: User, ranking: int = 0) -> None:
+    def __init__(self, id: ObjectId, name: str, university: ObjectId, user: ObjectId, created_by: ObjectId, created_at: datetime, updated_by: ObjectId = None, updated_at: datetime = None, deleted_by: ObjectId = None, deleted_at: datetime = None, ranking: int = 0) -> None:
         super().__init__()
         self.__id = id
         self.__name = name
         self.__university = university
         self.__ranking = ranking
-        self.created_at = datetime.now()
-        self.created_by = user
+        self.created_at = created_at
+        self.created_by = created_by
+        self.updated_by = updated_by
+        self.updated_at = updated_at
+        self.deleted_by = deleted_by
+        self.deleted_at = deleted_at
 
     def serialize(self):
         return {
