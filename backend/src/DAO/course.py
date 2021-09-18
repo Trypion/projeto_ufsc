@@ -20,7 +20,7 @@ class CourseDAO():
             {
                 'id': course.id,
                 'name': course.name,
-                'university': course.university.as_dict(),
+                'university': course.university,
                 'ranking': course.ranking,
                 'updated_by': course.updated_by,
                 'updated_at': datetime.now(),

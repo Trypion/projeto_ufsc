@@ -14,17 +14,17 @@ class CourseController(Controller):
         self.__course_dao = course_dao               
 
     def create(self, name: str, university: University, user: User, created_by: ObjectId, created_at: datetime, updated_by: ObjectId = None, updated_at: datetime = None, deleted_by: ObjectId = None, deleted_at: datetime = None, ranking: int = 0):        
-        id = str(uuid4())
-        course = Course(id, name, university, user, ranking)
-        self.__courses.append(course)
-        return id
+        id = ObjectId()
+        course = Course(id, name, university, user, ranking, created_by, updated_by,updated_at,deleted_by,deleted_at, ranking)
+        self.__course_dao.save(course)
+        return {'id': str(id)}
 
     def find(self, id: str) -> dict:
         course = self.find_by_id(id)
         return course.as_dict()
 
     def find_all(self) -> list:
-        return [course.as_dict() for course in self.__courses if course.deleted_at == None]
+        return [course.as_dict() for course in self.__course_dao.find_all()]
 
     def update(self, id: str, name: str, university: University, user: User, ranking: int) -> dict:
         course = self.find_by_id(id)
