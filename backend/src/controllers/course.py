@@ -11,9 +11,9 @@ from src.models.user import User
 
 class CourseController(Controller):
     def __init__(self, course_dao: CourseDAO) -> None:
-        self.__course_dao = course_dao               
+        self.__course_dao = course_dao
 
-    def create(self, name: str, university: University, user: User, ranking: int = 0):        
+    def create(self, name: str, university: University, user: User, ranking: int = 0):
         id = str(uuid4())
         course = Course(id, name, university, user, ranking)
         self.__courses.append(course)
@@ -23,8 +23,11 @@ class CourseController(Controller):
         course = self.find_by_id(id)
         return course.as_dict()
 
+    def find_by_university_id(self, id) -> list:
+        return [course.as_dict() for course in self.__course_dao.find_by_university_id(id)]
+
     def find_all(self) -> list:
-        return [course.as_dict() for course in self.__courses if course.deleted_at == None]
+        return [course.as_dict() for course in self.__course_dao.find_all()]
 
     def update(self, id: str, name: str, university: University, user: User, ranking: int) -> dict:
         course = self.find_by_id(id)

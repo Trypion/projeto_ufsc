@@ -11,6 +11,7 @@ from src.utils import helper
 ==//DAO//==
 '''
 from src.DAO.user import UserDAO
+from src.DAO.course import CourseDAO
 from src.DAO.profile import ProfileDAO
 from src.DAO.connection import Connection
 from src.DAO.university import UniversityDAO
@@ -37,6 +38,7 @@ from src.presentation.routes.university import UniversityRoutes
 '''
 db_conection = Connection().create_connection(app.config['CONNECTION_URI'], app.config['DATABASE'])
 user_dao = UserDAO(db_conection)
+course_dao = CourseDAO(db_conection)
 profile_dao = ProfileDAO(db_conection)
 university_dao = UniversityDAO(db_conection)
 
@@ -45,7 +47,7 @@ university_dao = UniversityDAO(db_conection)
 ==//CONTROLLERS//==
 '''
 event_controller = EventController()
-course_controlller = CourseController()
+course_controlller = CourseController(course_dao)
 user_controlller = UserController(user_dao)
 profile_controller = ProfileController(profile_dao)
 university_controlller = UniversityController(university_dao)
@@ -173,6 +175,14 @@ def university(id, user):
 '''
 ===//COURSE//==
 '''
+
+@app.route('/api/v1/course', methods=['GET'])
+def get_courses():
+    return jsonify(course_routes.find_all())
+
+@app.route('/api/v1/course/<id>/university', methods=['GET'])
+def get_courses_by_university(id):
+    return jsonify(course_routes.find_by_university_id(id))
 
 
 @app.route('/api/v1/course', methods=['POST'])

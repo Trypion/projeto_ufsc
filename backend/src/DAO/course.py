@@ -40,9 +40,13 @@ class CourseDAO():
 
         return None
 
+    def find_by_university_id(self, id: str):
+        documents = self.__collection.find({"university": ObjectId(id)})
+        return [self.__deserialize(*document.values()) for document in documents]
+
     def find_all(self):
         documents = self.__collection.find({'deleted_at': None})
         return [self.__deserialize(*document.values()) for document in documents]
 
-    def __deserialize(self, id, name, uf, created_by, created_at, updated_by, updated_at, deleted_by, deleted_at) -> Course:
-        return Course(id, name, uf, created_by, created_at, updated_by, updated_at, deleted_by, deleted_at)
+    def __deserialize(self, id, name, university, created_by, created_at, updated_by, updated_at, deleted_by, deleted_at) -> Course:
+        return Course(id, name, university, created_by, created_at, updated_by, updated_at, deleted_by, deleted_at)

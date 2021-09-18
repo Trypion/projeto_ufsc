@@ -18,7 +18,7 @@ class Course(Timestamp):
 
     def serialize(self):
         return {
-            'id': self.__id,
+            '_id': self.__id,
             'name': self.__name,
             'university': self.__university,
             'ranking': self.__ranking,
