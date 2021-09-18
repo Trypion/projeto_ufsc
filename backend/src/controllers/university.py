@@ -12,7 +12,7 @@ class UniversityController(Controller):
     def __init__(self, university_dao: UniversityDAO) -> None:
         self.__university_dao = university_dao
 
-    def create(self, name: str, uf: str, user: User):
+    def create(self, name: str, uf: str, user: ObjectId):
         id = ObjectId()
         created_at = datetime.now()
         university = University(id, name, uf, user, created_at)
