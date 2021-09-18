@@ -1,1 +1,58 @@
-<p>profile works!</p>
+<div class="container">
+  <mat-card class="profile">
+    <div class="header">
+      <h1 class="pr-2">Profi<span> -le</span></h1>
+      <div class="outer p-1">
+        <img
+          src="https://avatars.githubusercontent.com/u/54910374?v=4"
+          alt="Avatar"
+          class="avatar"
+        />
+        <div class="inner">
+          <button
+            class="photoIcon"
+            type="button"
+            (click)="pickPhoto.click()"
+            mat-icon-button
+            color="primary"
+          >
+            <mat-icon>add_a_photo</mat-icon>
+          </button>
+        </div>
+        <input #pickPhoto type="file" accept="image/png, image/jpeg" />
+      </div>
+    </div>
+    <form class="col row">
+      <mat-form-field class="col-6" appearance="outline">
+        <mat-label>Nome</mat-label>
+        <input matInput />
+      </mat-form-field>
+      <mat-form-field class="col-6" appearance="outline">
+        <mat-label>Email</mat-label>
+        <input matInput />
+      </mat-form-field>
+      <mat-form-field class="col" appearance="outline">
+        <mat-label>Sexo</mat-label>
+        <input matInput />
+      </mat-form-field>
+      <mat-form-field class="col" appearance="outline">
+        <mat-label>Idade</mat-label>
+        <input matInput />
+      </mat-form-field>
+      <mat-form-field class="col" appearance="outline">
+        <mat-label>Universidade</mat-label>
+        <input matInput />
+      </mat-form-field>
+      <mat-form-field class="col" appearance="outline">
+        <mat-label>Matricula</mat-label>
+        <input matInput />
+      </mat-form-field>
+      <mat-form-field class="col" appearance="outline">
+        <mat-label>Curso</mat-label>
+        <input matInput />
+      </mat-form-field>
+
+      <button mat-raised-button class="btn-salvar col-12">Salvar</button>
+    </form>
+  </mat-card>
+</div>
