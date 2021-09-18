@@ -8,3 +8,22 @@
   color: black;
   background-color: rgba(255, 255, 255, 0.8);
 }
+
+.search-btn{
+  color: greenyellow;
+  background-color: black;
+}
+
+
+.header {
+  background-color: black;
+  color: white;
+  border-radius: 5px;
+  padding: 8px;
+  display:inline;
+  margin-bottom: 50px !important;
+}
+
+.header span {
+  color: greenyellow;
+}

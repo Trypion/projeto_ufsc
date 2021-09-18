@@ -1,8 +1,3 @@
-from src.presentation.routes.event import EventRoutes
-from src.presentation.routes.profile import ProfileRoutes
-from src.presentation.routes.user import UserRoutes
-from src.presentation.routes.course import CourseRoutes
-from src.presentation.routes.university import UniversityRoutes
 from flask import request
 from flask.helpers import make_response
 from flask.json import jsonify
@@ -12,53 +7,57 @@ from app import app
 
 from src.utils import helper
 
-
-from src.DAO.connection import Connection
+'''
+==//DAO//==
+'''
 from src.DAO.user import UserDAO
+from src.DAO.profile import ProfileDAO
+from src.DAO.connection import Connection
 from src.DAO.university import UniversityDAO
 
 
 '''
 ==//CONTROLLERS//==
 '''
-from src.controllers.course import CourseController
-from src.controllers.university import UniversityController
 from src.controllers.user import UserController
-from src.controllers.profile import ProfileController
 from src.controllers.event import EventController
-
+from src.controllers.course import CourseController
+from src.controllers.profile import ProfileController
+from src.controllers.university import UniversityController
 '''
 ==//ROUTES//==
 '''
-
+from src.presentation.routes.user import UserRoutes
+from src.presentation.routes.event import EventRoutes
+from src.presentation.routes.course import CourseRoutes
+from src.presentation.routes.profile import ProfileRoutes
+from src.presentation.routes.university import UniversityRoutes
 '''
 ==//DAO//==
 '''
-db_conection = Connection().create_connection(
-    app.config['CONNECTION_URI'], app.config['DATABASE'])
+db_conection = Connection().create_connection(app.config['CONNECTION_URI'], app.config['DATABASE'])
 user_dao = UserDAO(db_conection)
+profile_dao = ProfileDAO(db_conection)
 university_dao = UniversityDAO(db_conection)
 
 
 '''
 ==//CONTROLLERS//==
 '''
-user_controlller = UserController(user_dao)
-university_controlller = UniversityController(university_dao)
-course_controlller = CourseController()
-profile_controller = ProfileController()
 event_controller = EventController()
+course_controlller = CourseController()
+user_controlller = UserController(user_dao)
+profile_controller = ProfileController(profile_dao)
+university_controlller = UniversityController(university_dao)
 
 '''
 ==//ROUTES//==
 '''
-course_routes = CourseRoutes(
-    course_controlller, university_controlller, user_controlller)
-university_routes = UniversityRoutes(university_controlller, user_controlller)
-user_routes = UserRoutes(user_controlller, app.config['SECRET_KEY'])
-profile_routes = ProfileRoutes(
-    profile_controller, university_controlller, course_controlller, user_controlller)
 event_routes = EventRoutes(event_controller, user_controlller)
+user_routes = UserRoutes(user_controlller, app.config['SECRET_KEY'])
+university_routes = UniversityRoutes(university_controlller, user_controlller)
+course_routes = CourseRoutes(course_controlller, university_controlller, user_controlller)
+profile_routes = ProfileRoutes(profile_controller, university_controlller, course_controlller, user_controlller)
 
 '''
 ==//ERROS//==
@@ -147,10 +146,14 @@ def profile(id, user):
 ===//UNIVERSITY//==
 '''
 
+@app.route('/api/v1/university', methods=['GET'])
+def get_university():
+    return jsonify(university_routes.find_all())
+
 
 @app.route('/api/v1/university', methods=['POST'])
 @helper.token_required
-def create_university(user):
+def create_university(user): 
     return jsonify(university_routes.create(request, user))
 
 
@@ -192,7 +195,7 @@ def course(id, user):
 
 
 '''
-===//event//==
+===//EVENT//==
 '''
 
 

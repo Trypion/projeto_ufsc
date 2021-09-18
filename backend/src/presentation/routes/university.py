@@ -22,7 +22,6 @@ class UniversityRoutes():
         self.__controller = controller
         self.__user_controller = user_controller
 
-    # legacy code
     def find_all(self):
        return self.__controller.find_all()
 

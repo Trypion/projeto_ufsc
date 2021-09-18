@@ -1,9 +1,24 @@
 <div class="container">
   <mat-card class="filter">
-    <h2 class="mb-0">Filtros</h2>
+    <h2 class="mb-0 header">Filtro <span>-s</span> </h2>
 
-    <form class="d-flex justify-content-around">
-      <mat-form-field appearance="standard">
+
+    <form class="mt-2 row">
+      <mat-form-field class="col-2" appearance="outline">
+        <mat-label>de</mat-label>
+        <input matInput [matDatepicker]="de" />
+        <mat-datepicker-toggle matSuffix [for]="de"></mat-datepicker-toggle>
+        <mat-datepicker #de></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field class="col-2" appearance="outline">
+        <mat-label>ate</mat-label>
+        <input matInput [matDatepicker]="ate" />
+        <mat-datepicker-toggle matSuffix [for]="ate"></mat-datepicker-toggle>
+        <mat-datepicker #ate></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field class="col-3" appearance="outline">
         <mat-label>universidades</mat-label>
         <mat-select>
           <mat-option>UFSC</mat-option>
@@ -12,32 +27,20 @@
         </mat-select>
       </mat-form-field>
 
-      <mat-form-field appearance="standard">
-        <mat-label>de</mat-label>
-        <input matInput [matDatepicker]="de" />
-        <mat-datepicker-toggle matSuffix [for]="de"></mat-datepicker-toggle>
-        <mat-datepicker #de></mat-datepicker>
-      </mat-form-field>
-
-      <mat-form-field appearance="standard">
-        <mat-label>ate</mat-label>
-        <input matInput [matDatepicker]="ate" />
-        <mat-datepicker-toggle matSuffix [for]="ate"></mat-datepicker-toggle>
-        <mat-datepicker #ate></mat-datepicker>
-      </mat-form-field>
-
-      <mat-form-field appearance="standard">
+      <mat-form-field class="col-4" appearance="outline">
         <mat-label>nome</mat-label>
         <input matInput placeholder="Ex. Pizza" />
       </mat-form-field>
 
-      <button
-        mat-fab
-        color="warn"
-        aria-label="Example icon button with a home icon"
-      >
-        <mat-icon>search</mat-icon>
-      </button>
+      <div class="col-1 s">
+        <button
+          mat-fab
+          class="search-btn"
+          aria-label="Example icon button with a home icon"
+        >
+          <mat-icon>search</mat-icon>
+        </button>
+      </div>
     </form>
   </mat-card>
 

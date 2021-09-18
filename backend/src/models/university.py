@@ -31,7 +31,7 @@ class University(Timestamp):
     
     def as_dict(self):
         return {
-            '_id': str(self.__id),
+            'id': str(self.__id),
             'name': self.__name,
             'uf': self.__uf,
             'created_by': str(self.created_by),

@@ -22,34 +22,44 @@
         <input #pickPhoto type="file" accept="image/png, image/jpeg" />
       </div>
     </div>
-    <form class="col row">
+    <form class="col row" [formGroup]="profileForm"
+    (ngSubmit)="onSubmit()"
+    ngNativeValidate>
       <mat-form-field class="col-6" appearance="outline">
         <mat-label>Nome</mat-label>
-        <input matInput />
+        <input formControlName="name" matInput />
       </mat-form-field>
       <mat-form-field class="col-6" appearance="outline">
         <mat-label>Email</mat-label>
-        <input matInput />
+        <input type="email" formControlName="email" matInput />
       </mat-form-field>
       <mat-form-field class="col" appearance="outline">
         <mat-label>Sexo</mat-label>
-        <input matInput />
+        <input formControlName="sex" matInput />
       </mat-form-field>
       <mat-form-field class="col" appearance="outline">
         <mat-label>Idade</mat-label>
-        <input matInput />
+        <input formControlName="age" type="number" matInput />
       </mat-form-field>
       <mat-form-field class="col" appearance="outline">
         <mat-label>Universidade</mat-label>
-        <input matInput />
+        <mat-select formControlName="university">
+          <mat-option>UFSC</mat-option>
+          <mat-option>USP</mat-option>
+          <mat-option>UDESC</mat-option>
+        </mat-select>
       </mat-form-field>
       <mat-form-field class="col" appearance="outline">
         <mat-label>Matricula</mat-label>
-        <input matInput />
+        <input formControlName="university_register" matInput />
       </mat-form-field>
       <mat-form-field class="col" appearance="outline">
         <mat-label>Curso</mat-label>
-        <input matInput />
+        <mat-select formControlName="course">
+          <mat-option>Sistemas de informação</mat-option>
+          <mat-option>Enegenharia mecânica</mat-option>
+          <mat-option>Biologia</mat-option>
+        </mat-select>
       </mat-form-field>
 
       <button mat-raised-button class="btn-salvar col-12">Salvar</button>

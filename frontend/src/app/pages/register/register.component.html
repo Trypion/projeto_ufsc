@@ -1,68 +1,123 @@
 <div class="container d-flex justify-content-center">
   <div class="col-md-6 border p-3 bg-light shadow">
     <h1 class="mb-0 header">Registra <span>-r</span></h1>
-    <hr />
+    <hr>
     <form
       [formGroup]="registerForm"
       (ngSubmit)="onSubmit()"
       ngNativeValidate
       class="d-flex flex-column"
     >
-      <mat-form-field appearance="standard">
-        <mat-label>Digite seu login</mat-label>
-        <input matInput placeholder="login" formControlName="login" required />
-      </mat-form-field>
+      <div class="d-flex flex-column" formGroupName="userForm">
+        <mat-form-field appearance="outline">
+          <mat-label>Digite seu login</mat-label>
+          <input matInput placeholder="login" formControlName="login" required />
+        </mat-form-field>
 
-      <mat-form-field appearance="standard">
-        <mat-label>Digite sua senha</mat-label>
-        <input
+        <mat-form-field appearance="outline">
+          <mat-label>Digite sua senha</mat-label>
+          <input
           formControlName="password"
           matInput
           [type]="hide ? 'password' : 'text'"
           required
-        />
-        <button
+          />
+          <button
           type="button"
           mat-icon-button
           matSuffix
           (click)="hide = !hide"
           [attr.aria-label]="'Hide password'"
           [attr.aria-pressed]="hide"
-        >
+          >
           <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
         </button>
       </mat-form-field>
 
-      <mat-form-field appearance="standard">
+      <mat-form-field appearance="outline">
         <mat-label>Confirme sua senha</mat-label>
         <input
-          formControlName="confirmPass"
-          [errorStateMatcher]="matcher"
-          matInput
-          [type]="hide ? 'password' : 'text'"
-          required
+        formControlName="confirmPass"
+        [errorStateMatcher]="matcher"
+        matInput
+        [type]="hide ? 'password' : 'text'"
+        required
         />
         <button
-          type="button"
-          mat-icon-button
-          matSuffix
-          (click)="hide = !hide"
-          [attr.aria-label]="'Hide password'"
-          [attr.aria-pressed]="hide"
+        type="button"
+        mat-icon-button
+        matSuffix
+        (click)="hide = !hide"
+        [attr.aria-label]="'Hide password'"
+        [attr.aria-pressed]="hide"
         >
-          <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
-        </button>
-        <mat-error *ngIf="registerForm.hasError('notSame')">
-          Senhas não são iguais
-        </mat-error>
-      </mat-form-field>
+        <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
+      </button>
+      <mat-error *ngIf="registerForm.get('userForm')?.hasError('notSame')">
+        Senhas não são iguais
+      </mat-error>
+    </mat-form-field>
+  </div>
 
+      <div class="d-flex flex-column" formGroupName="profileForm">
+        <mat-form-field appearance="outline">
+          <mat-label>Nome</mat-label>
+          <input
+            matInput
+            placeholder="Ex.: João"
+            formControlName="name"
+            required
+          />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Email</mat-label>
+          <input
+            matInput
+            placeholder="email@email.com"
+            type="email"
+            formControlName="email"
+            required
+          />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Sexo</mat-label>
+          <mat-select required formControlName="sex">
+            <mat-option value="Masculino">Masculino</mat-option>
+            <mat-option value="Feminino">Feminino</mat-option>
+            <mat-option value="null">Prefiro não informar</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>idade</mat-label>
+          <input matInput formControlName="age" type="number" required />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Universidade</mat-label>
+          <mat-select required formControlName="university">
+            <mat-option *ngFor="let university of universities" [value]="university.id">{{university.name}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Matricula</mat-label>
+          <input required formControlName="university_register" matInput />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Curso</mat-label>
+          <mat-select required formControlName="course">
+            <mat-option value="sis">Sistemas de informação</mat-option>
+            <mat-option value="eng">Enegenharia mecânica</mat-option>
+            <mat-option value="bio">Biologia</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
       <div class="d-flex justify-content-around pb-3">
-        <button
-          mat-raised-button
-          type="submit"
-          class="register-btn"
-        >
+        <button mat-raised-button type="submit" class="register-btn">
           Registrar
         </button>
       </div>
