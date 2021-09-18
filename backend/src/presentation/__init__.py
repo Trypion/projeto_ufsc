@@ -16,7 +16,7 @@ from src.utils import helper
 from src.DAO.connection import Connection
 from src.DAO.user import UserDAO
 from src.DAO.university import UniversityDAO
-
+from src.DAO.event import EventDAO
 
 '''
 ==//CONTROLLERS//==
@@ -38,6 +38,7 @@ db_conection = Connection().create_connection(
     app.config['CONNECTION_URI'], app.config['DATABASE'])
 user_dao = UserDAO(db_conection)
 university_dao = UniversityDAO(db_conection)
+event_dao = EventDAO(db_conection)
 
 
 '''
