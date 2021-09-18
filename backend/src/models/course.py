@@ -5,12 +5,11 @@ from datetime import datetime
 
 
 class Course(Timestamp):
-    def __init__(self, id: ObjectId, name: str, university: ObjectId, user: ObjectId, created_by: ObjectId, created_at: datetime, updated_by: ObjectId = None, updated_at: datetime = None, deleted_by: ObjectId = None, deleted_at: datetime = None, ranking: int = 0) -> None:
+    def __init__(self, id: ObjectId, name: str, university: ObjectId, created_by: ObjectId, created_at: datetime, updated_by: ObjectId = None, updated_at: datetime = None, deleted_by: ObjectId = None, deleted_at: datetime = None) -> None:
         super().__init__()
         self.__id = id
         self.__name = name
         self.__university = university
-        self.__ranking = ranking
         self.created_at = created_at
         self.created_by = created_by
         self.updated_by = updated_by
@@ -23,7 +22,6 @@ class Course(Timestamp):
             '_id': self.__id,
             'name': self.__name,
             'university': self.__university,
-            'ranking': self.__ranking,
             'created_by': self.created_by,
             'created_at': self.created_at,
             'updated_by': self.updated_by,
@@ -36,10 +34,9 @@ class Course(Timestamp):
 
     def as_dict(self):
         return {
-            'id': self.__id,
+            'id': str(self.__id),
             'name': self.__name,
-            'university': self.__university.as_dict(),
-            'ranking': self.__ranking,
+            'university': str(self.__university),
             'created_by': str(self.created_by),
             'created_at': self.created_at,
             'updated_by': str(self.updated_by),

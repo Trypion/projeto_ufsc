@@ -1,5 +1,4 @@
 from datetime import datetime
-from src.presentation import event
 
 from bson.objectid import ObjectId
 from src.models.event import Event
@@ -21,7 +20,8 @@ class EventController(Controller):
 
         id = ObjectId()
         created_at = datetime.now()
-        event = Event(id, name, start_at, end_at, description, event_picture, location, is_valid, reward, user, user, created_at)
+        event = Event(id, name, start_at, end_at, description, event_picture,
+                      location, is_valid, reward, user, user, created_at)
         self.__event_dao.save(event)
         return {'id': str(id)}
 
@@ -32,7 +32,7 @@ class EventController(Controller):
 
         raise EventNotFound(f"Event {id} not found")
 
-    def update(self, id: str, name: str,start_at: str, end_at: str, description: str, event_picture: str, location: str, is_valid : bool, reward: int, user: User):
+    def update(self, id: str, name: str, start_at: str, end_at: str, description: str, event_picture: str, location: str, is_valid: bool, reward: int, user: User):
         event = self.find_by_id(id)
         if not event:
             return
@@ -65,4 +65,3 @@ class EventController(Controller):
         if not event:
             raise EventNotFound(f"Event {id} not found")
         return event
-        

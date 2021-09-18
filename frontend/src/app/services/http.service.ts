@@ -7,6 +7,7 @@ import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
+import { Course } from '../models/course.model';
 import { Profile } from '../models/profile.model';
 import { University } from '../models/university.model';
 
@@ -25,6 +26,19 @@ export class HttpService {
   getAllUniversities(): Observable<Array<University>> {
     return this.httpClient
       .get<Array<University>>(`${this.url}/v1/university`, this.httpOptions)
+      .pipe(
+        retry(2),
+        tap((val) => {}),
+        catchError(this.handleError)
+      );
+  }
+
+  getCourseByUniversity(id: string): Observable<Array<Course>> {
+    return this.httpClient
+      .get<Array<Course>>(
+        `${this.url}/v1/course/${id}/university`,
+        this.httpOptions
+      )
       .pipe(
         retry(2),
         tap((val) => {}),

@@ -97,7 +97,7 @@
 
         <mat-form-field appearance="outline">
           <mat-label>Universidade</mat-label>
-          <mat-select required formControlName="university">
+          <mat-select (selectionChange)="getCoursesByUniversity($event.value)" required formControlName="university">
             <mat-option *ngFor="let university of universities" [value]="university.id">{{university.name}}</mat-option>
           </mat-select>
         </mat-form-field>
@@ -110,9 +110,8 @@
         <mat-form-field appearance="outline">
           <mat-label>Curso</mat-label>
           <mat-select required formControlName="course">
-            <mat-option value="sis">Sistemas de informação</mat-option>
-            <mat-option value="eng">Enegenharia mecânica</mat-option>
-            <mat-option value="bio">Biologia</mat-option>
+            <mat-option *ngFor="let course of courses" [value]="course.id">{{course.name}}</mat-option>
+            <mat-option value="null">Outro</mat-option>
           </mat-select>
         </mat-form-field>
       </div>

@@ -24,10 +24,10 @@ class CourseRoutes():
         self.__user_controller = user_controller
 
     def find_by_university_id(self, id):
-        return json.dumps(self.__controller.find_by_university_id(id))
+        return self.__controller.find_by_university_id(id)
 
     def find_all(self):
-        return json.dumps(self.__controller.find_all())
+        return self.__controller.find_all()
 
     @expects_json(schema)
     def create(self, user_id):

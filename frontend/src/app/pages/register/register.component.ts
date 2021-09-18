@@ -12,6 +12,7 @@ import {
 } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { Router } from '@angular/router';
+import { Course } from 'src/app/models/course.model';
 import { University } from 'src/app/models/university.model';
 import { User } from 'src/app/models/user.model';
 import { AuthService } from 'src/app/services/auth.service';
@@ -23,13 +24,18 @@ import { HttpService } from 'src/app/services/http.service';
   styleUrls: ['./register.component.css'],
 })
 export class RegisterComponent implements OnInit {
-  constructor(private authService: AuthService, private httpService: HttpService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private httpService: HttpService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
-    this.getUniversities()
+    this.getUniversities();
   }
   hide = true;
-  universities: Array<University> = []
+  universities: Array<University> = [];
+  courses: Array<Course> = [];
 
   checkPasswords: ValidatorFn = (
     group: AbstractControl
@@ -41,47 +47,47 @@ export class RegisterComponent implements OnInit {
       : { notSame: true };
   };
 
-
   getUniversities(): void {
-    this.httpService.getAllUniversities().subscribe((universities)=>{ this.universities = universities})
+    this.httpService.getAllUniversities().subscribe((universities) => {
+      this.universities = universities;
+    });
   }
 
+  getCoursesByUniversity(id: string): void {
+    this.httpService
+      .getCourseByUniversity(id)
+      .subscribe((courses) => (this.courses = courses));
+  }
 
-
-  registerForm = new FormGroup(
-    {
-      userForm: new FormGroup({
+  registerForm = new FormGroup({
+    userForm: new FormGroup(
+      {
         login: new FormControl('', Validators.required),
         password: new FormControl('', Validators.required),
         confirmPass: new FormControl('', Validators.required),
-      }, { validators: this.checkPasswords }),
-      profileForm: new FormGroup({
-        sex: new FormControl('', Validators.required),
-        age: new FormControl('', Validators.required),
-        name: new FormControl('', Validators.required),
-        email: new FormControl('', Validators.required),
-        course: new FormControl('', Validators.required),
-        university: new FormControl('', Validators.required),
-        university_register: new FormControl('', Validators.required),
-      }),
-    },
-
-  );
+      },
+      { validators: this.checkPasswords }
+    ),
+    profileForm: new FormGroup({
+      sex: new FormControl('', Validators.required),
+      age: new FormControl('', Validators.required),
+      name: new FormControl('', Validators.required),
+      email: new FormControl('', Validators.required),
+      course: new FormControl('', Validators.required),
+      university: new FormControl('', Validators.required),
+      university_register: new FormControl('', Validators.required),
+    }),
+  });
 
   matcher = new MyErrorStateMatcher();
 
   onSubmit(): void {
-    console.log(this.registerForm.value);
-    const user = this.registerForm.get('userForm')?.value;
+    const user: User = this.registerForm.get('userForm')?.value;
     const profile = this.registerForm.get('profileForm')?.value;
-    console.log(user);
-    console.log(profile);
     if (this.registerForm.valid) {
-      console.log('valid')
-      // const user: User = this.registerForm.value;
-      // this.authService.registerUser(user).subscribe(() => {
-      //   this.router.navigateByUrl('/login');
-      // });
+      this.authService.registerUser(user).subscribe(() => {
+
+      });
     }
   }
 }

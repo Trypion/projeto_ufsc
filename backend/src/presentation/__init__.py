@@ -47,7 +47,7 @@ event_dao = EventDAO(db_conection)
 '''
 ==//CONTROLLERS//==
 '''
-event_controller = EventController()
+event_controller = EventController(event_dao)
 course_controlller = CourseController(course_dao)
 user_controlller = UserController(user_dao)
 profile_controller = ProfileController(profile_dao)
