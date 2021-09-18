@@ -1,4 +1,5 @@
 from datetime import datetime
+from src.DAO.course import CourseDAO
 from src.models.university import University
 from uuid import uuid4
 
@@ -9,8 +10,8 @@ from src.models.user import User
 
 
 class CourseController(Controller):
-    def __init__(self) -> None:
-        self.__courses = []        
+    def __init__(self, course_dao: CourseDAO) -> None:
+        self.__course_dao = course_dao               
 
     def create(self, name: str, university: University, user: User, ranking: int = 0):        
         id = str(uuid4())
@@ -41,7 +42,8 @@ class CourseController(Controller):
         return course.id
 
     def find_by_id(self, id: str) -> Course:
-        for course in self.__courses:
-            if course.id == id and course.deleted_at == None:
-                return course
-        raise CourseNotFound(f"course {id} not found")
+        course = self.__course_dao.find_by_id(id)
+        if not course:
+            raise CourseNotFound(f"course {id} not found")
+
+        return course
