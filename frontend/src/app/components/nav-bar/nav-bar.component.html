@@ -1,6 +1,6 @@
 <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light">
   <div class="container-fluid">
-    <a class="navbar-brand home" href="/home" >PING <span>-A</span> </a>
+    <a class="navbar-brand home" [routerLink]="['/home']">PING <span>-A</span> </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -21,8 +21,8 @@
             <path fill-rule="evenodd" d="M13 7.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0v-2z" />
           </svg></a></li>
 
-      <li *ngIf="isLoggedIn()" class="nav-item"><a href="/profile" class="btn nav-link font-weight-bold">{{name}}</a></li>
-      <li *ngIf="isLoggedIn()" class="nav-item"><a class="btn nav-link" (click)='logout()' >Logout</a></li>
+      <li *ngIf="isLoggedIn()" class="nav-item"><a [routerLink]="['/profile']" class="btn nav-link font-weight-bold">{{name}}</a></li>
+      <li *ngIf="isLoggedIn()" class="nav-item"><a class="btn nav-link" (click)='logout()'>Logout</a></li>
 
     </ul>
   </div>
