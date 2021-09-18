@@ -1,5 +1,4 @@
 from datetime import datetime
-
 from bson import ObjectId
 from pymongo.database import Database
 from src.models.event import Event
@@ -49,5 +48,5 @@ class EventDAO():
         documents = self.__collection.find({'deleted_at': None})
         return [self.__deserialize(*document.values()) for document in documents]
 
-    def __deserialize(self, id, name, uf, created_by, created_at, updated_by, updated_at, deleted_by, deleted_at) -> Event:
-        return Event(id, name, uf, created_by, created_at, updated_by, updated_at, deleted_by, deleted_at)
+    def __deserialize(self, id, name, start_at,end_at,description,event_picture, location,is_valid,reward, created_by, created_at, updated_by, updated_at, deleted_by, deleted_at) -> Event:
+        return Event(self, id, name, start_at,end_at,description,event_picture, location,is_valid,reward, created_by, created_at, updated_by, updated_at, deleted_by, deleted_at)
