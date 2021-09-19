@@ -20,8 +20,9 @@ class EventController(Controller):
 
         id = ObjectId()
         created_at = datetime.now()
+        created_by = user
         event = Event(id, name, start_at, end_at, description, event_picture,
-                      location, is_valid, reward, user, user, created_at)
+                      location, is_valid, reward, created_by, created_at)
         self.__event_dao.save(event)
         return {'id': str(id)}
 

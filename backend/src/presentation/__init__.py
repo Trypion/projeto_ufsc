@@ -215,12 +215,14 @@ def create_event(user):
     return jsonify(event_routes.create(request, user))
 
 
-@app.route('/api/v1/profile/<id>', methods=['GET', 'PUT', 'DELETE'])
-@helper.token_required
-def event(id, user):
+@app.route('/api/v1/event/<id>', methods=['GET'])
+def get_event(id):
     if request.method == 'GET':
         return jsonify(event_routes.find(id))
 
+@app.route('/api/v1/event/<id>', methods=['PUT', 'DELETE'])
+@helper.token_required
+def event(id, user):
     if request.method == 'PUT':
         return jsonify(event_routes.update(request, id, user))
 

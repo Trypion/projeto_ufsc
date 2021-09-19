@@ -78,6 +78,10 @@ export class HttpService {
       );
   }
 
+  getEventById(id: string): Observable<Event> {
+    return this.httpClient.get<Event>(`${this.url}/v1/event/${id}`, this.httpOptions)
+  }
+
   handleError(error: HttpErrorResponse) {
     let errorMessage = '';
     if (error.error instanceof ErrorEvent) {

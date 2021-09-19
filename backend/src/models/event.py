@@ -4,7 +4,7 @@ from bson.objectid import ObjectId
 
 
 class Event(Timestamp):
-    def __init__(self, id: str, name: str, start_at: str, end_at: str, description: str, event_picture: str, location: str, is_valid: bool, reward: int, user: ObjectId, created_by: ObjectId, created_at: datetime, updated_by: ObjectId = None, updated_at: datetime = None, deleted_by: ObjectId = None, deleted_at: datetime = None) -> None:
+    def __init__(self, id: str, name: str, start_at: str, end_at: str, description: str, event_picture: str, location: str, is_valid: bool, reward: int, created_by: ObjectId, created_at: datetime, updated_by: ObjectId = None, updated_at: datetime = None, deleted_by: ObjectId = None, deleted_at: datetime = None) -> None:
         super().__init__()
         self.__id = id
         self.__name = name
@@ -43,7 +43,7 @@ class Event(Timestamp):
 
     def as_dict(self):
         return {
-            'id': str(self.__i),
+            'id': str(self.__id),
             'name': self.__name,
             'start_at': self.__start_at,
             'end_at': self.__end_at,
@@ -127,11 +127,3 @@ class Event(Timestamp):
     @reward.setter
     def reward(self, reward):
         self.__reward = reward
-
-    @property
-    def ranking(self):
-        return self.__ranking
-
-    @ranking.setter
-    def ranking(self, ranking):
-        self.__ranking = ranking

@@ -57,7 +57,7 @@ class EventRoutes():
 
     # Procurando Usuario pela ID
     def find(self, id):
-        return json.dumps(self.__controller.find(id))
+        return self.__controller.find(id)
 
     @expects_json(schema)
     def update(self,request, id, user_id):

@@ -17,7 +17,7 @@ class EventDAO():
 
         update = {
             '$set':
-            {   
+            {
                 'id': event.id,
                 'name': event.name,
                 'start_at': event.start_at,
@@ -48,5 +48,5 @@ class EventDAO():
         documents = self.__collection.find({'deleted_at': None})
         return [self.__deserialize(*document.values()) for document in documents]
 
-    def __deserialize(self, id, name, start_at,end_at,description,event_picture, location,is_valid,reward, created_by, created_at, updated_by, updated_at, deleted_by, deleted_at) -> Event:
-        return Event(self, id, name, start_at,end_at,description,event_picture, location,is_valid,reward, created_by, created_at, updated_by, updated_at, deleted_by, deleted_at)
+    def __deserialize(self, id, name, start_at, end_at, description, event_picture, location, is_valid, reward, created_by, created_at, updated_by, updated_at, deleted_by, deleted_at) -> Event:
+        return Event(id, name, start_at, end_at, description, event_picture, location, is_valid, reward, created_by, created_at, updated_by, updated_at, deleted_by, deleted_at)
