@@ -32,20 +32,20 @@ class ProfileController(Controller):
 
         raise ProfileNotFound(f"Profile {id} not found")
 
-    def update(self, id: str, name: str, email: str, sex: str, university: University, profile_picture: str, university_register: str, course: Course, user: User):
+    def update(self, id: str, name: str, email: str, sex: str, age: int, university: University, profile_picture: str, university_register: str, course: Course, user):
         profile = self.find_by_id(id)
         if not profile:
             return
         profile.name = name
         profile.email = email
-        profile.sex = sex  # aqui é o sexo do profile
+        profile.sex = sex
         profile.university = university
         profile.profile_picture = profile_picture
         profile.university_register = university_register
         profile.course = course
-        profile.user = user
-        profile.updated_at = datetime.now()
-        self.__profile_dao.save(university)
+        profile.updated_by = user
+        profile.age = age
+        self.__profile_dao.save(profile)
         return profile.as_dict()
 
     def delete(self, id: str, user: User) -> str:
@@ -58,6 +58,9 @@ class ProfileController(Controller):
 
     def find_all(self):
         return [profile.as_dict() for profile in self.__profile_dao.find_all()]
+
+    def find_by_user_id(self, id: str) -> Profile:
+        return self.__profile_dao.find_by_user_id(id).as_dict()
 
     def find_by_id(self, id: str) -> Profile:
         profile = self.__profile_dao.find_by_id(id)

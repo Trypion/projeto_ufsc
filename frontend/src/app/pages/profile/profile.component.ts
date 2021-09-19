@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Course } from 'src/app/models/course.model';
 import { Profile } from 'src/app/models/profile.model';
+import { University } from 'src/app/models/university.model';
 import { HttpService } from 'src/app/services/http.service';
 
 @Component({
@@ -22,14 +24,70 @@ export class ProfileComponent implements OnInit {
 
   constructor(private httpService: HttpService, private router: Router) {}
 
-  ngOnInit(): void {}
+  universities: Array<University> = [];
+  courses: Array<Course> = [];
+  profile_id = ""
+
+  ngOnInit(): void {
+    this.profile_id = localStorage.getItem('profile_id') || "";
+
+    this.getProfileById(this.profile_id);
+    this.getUniversities();
+  }
 
   onSubmit(): void {
     if (this.profileForm.valid) {
       const profile: Profile = this.profileForm.value;
-      this.httpService.createProfile(profile).subscribe(() => {
-        this.router.navigateByUrl('/home');
+      profile.id = this.profile_id
+      profile.profile_picture = ""
+      this.httpService.updateProfile(profile).subscribe((profile) => {
+        const {
+          name,
+          email,
+          sex,
+          age,
+          course,
+          university,
+          university_register,
+        } = profile;
+        this.profileForm.setValue({
+          name,
+          email,
+          sex,
+          age,
+          course,
+          university,
+          university_register,
+        });
       });
     }
+  }
+
+  getProfileById(id: string) {
+    this.httpService.getProfileById(id).subscribe((profile) => {
+      const { name, email, sex, age, course, university, university_register } =
+        profile;
+      this.getCoursesByUniversity(university);
+      this.profileForm.setValue({
+        name,
+        email,
+        sex,
+        age,
+        course,
+        university,
+        university_register,
+      });
+    });
+  }
+
+  getUniversities(): void {
+    this.httpService.getAllUniversities().subscribe((universities) => {
+      this.universities = universities;
+    });
+  }
+  getCoursesByUniversity(id: string): void {
+    this.httpService
+      .getCourseByUniversity(id)
+      .subscribe((courses) => (this.courses = courses));
   }
 }

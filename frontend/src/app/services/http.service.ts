@@ -23,7 +23,7 @@ export class HttpService {
   httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
-      'Authorization': localStorage.getItem('token') || ''
+      Authorization: localStorage.getItem('token') || '',
     }),
   };
 
@@ -50,6 +50,16 @@ export class HttpService {
       );
   }
 
+  getProfileById(id: string): Observable<Profile> {
+    return this.httpClient
+      .get<Profile>(`${this.url}/v1/profile/${id}`, this.httpOptions)
+      .pipe(
+        retry(2),
+        tap((val) => {}),
+        catchError(this.handleError)
+      );
+  }
+
   createProfile(profile: Profile): Observable<Profile> {
     return this.httpClient
       .post<Profile>(
@@ -60,6 +70,22 @@ export class HttpService {
       .pipe(
         retry(2),
         tap((val) => {}),
+        catchError(this.handleError)
+      );
+  }
+
+  updateProfile(profile: Profile): Observable<Profile> {
+    return this.httpClient
+      .put<Profile>(
+        `${this.url}/v1/profile/${profile.id}`,
+        profile,
+        this.httpOptions
+      )
+      .pipe(
+        retry(2),
+        tap((val) => {
+          localStorage.setItem('profile_name', val.name)
+        }),
         catchError(this.handleError)
       );
   }
@@ -79,7 +105,13 @@ export class HttpService {
   }
 
   getEventById(id: string): Observable<Event> {
-    return this.httpClient.get<Event>(`${this.url}/v1/event/${id}`, this.httpOptions)
+    return this.httpClient
+      .get<Event>(`${this.url}/v1/event/${id}`, this.httpOptions)
+      .pipe(
+        retry(2),
+        tap((val) => {}),
+        catchError(this.handleError)
+      );
   }
 
   handleError(error: HttpErrorResponse) {

@@ -18,7 +18,7 @@ class ProfileDAO():
 
         update = {
             '$set':
-            {        
+            {
                 'name': profile.name,
                 'email': profile.email,
                 'sex': profile.sex,
@@ -44,11 +44,18 @@ class ProfileDAO():
 
         return None
 
+    def find_by_user_id(self, id: str) -> Profile:
+        profile: dict = self.__collection.find_one({'user': ObjectId(id)})
+        if profile:
+            return self.__deserialize(*profile.values())
+
+        return None
+
     def find_all(self):
         documents = self.__collection.find({'deleted_at': None})
         return [self.__deserialize(*document.values()) for document in documents]
 
-    def __deserialize(self, id, name, email, sex, age, university, profile_picture, university_register, course,
-                      user, created_by, created_at, updated_by, updated_at, deleted_by, deleted_at) -> Profile:
-        return Profile(self, id, name, email, sex, age, university, profile_picture, university_register, course,
-                       user, created_by, created_at, updated_by, updated_at, deleted_by, deleted_at)
+    def __deserialize(self, id, name, email, sex, age, university, university_register, course,
+                      user, created_by, created_at, updated_by, updated_at, deleted_by, deleted_at, profile_picture) -> Profile:
+        return Profile(id, name, email, sex, age, university, university_register, course,
+                       user, created_by, created_at, updated_by, updated_at, deleted_by, deleted_at, profile_picture)

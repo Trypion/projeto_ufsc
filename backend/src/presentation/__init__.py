@@ -57,7 +57,7 @@ university_controlller = UniversityController(university_dao)
 ==//ROUTES//==
 '''
 event_routes = EventRoutes(event_controller, user_controlller)
-user_routes = UserRoutes(user_controlller, app.config['SECRET_KEY'])
+user_routes = UserRoutes(user_controlller, profile_controller, app.config['SECRET_KEY'])
 university_routes = UniversityRoutes(university_controlller, user_controlller)
 course_routes = CourseRoutes(course_controlller, university_controlller, user_controlller)
 profile_routes = ProfileRoutes(profile_controller, university_controlller, course_controlller, user_controlller)

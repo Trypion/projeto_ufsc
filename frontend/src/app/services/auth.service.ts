@@ -8,6 +8,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, retry, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { User } from '../models/user.model';
+import jwt_decode from 'jwt-decode';
 
 @Injectable({
   providedIn: 'root',
@@ -43,6 +44,9 @@ export class AuthService {
       .pipe(
         retry(2),
         tap((val) => {
+          const decoded: any = jwt_decode(val.token);
+          localStorage.setItem('profile_id', decoded.profile.id);
+          localStorage.setItem('profile_name', decoded.profile.name);
           localStorage.setItem('token', val.token);
         }),
         catchError(this.handleError)
@@ -51,6 +55,8 @@ export class AuthService {
 
   logout() {
     localStorage.removeItem('token');
+    localStorage.removeItem('profile_id');
+    localStorage.removeItem('profile_name');
   }
 
   handleError(error: HttpErrorResponse) {

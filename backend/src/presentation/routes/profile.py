@@ -57,19 +57,21 @@ class ProfileRoutes():
     def find(self, id):
         return self.__controller.find(id)
 
+    @expects_json(schema)
     def update(self, request, id, user_id):
         name = request.json['name']
         email = request.json['email']
         sex = request.json['sex']
-        university_id = request.json['university_id']
+        age = request.json['age']
+        university_id = request.json['university']
         profile_picture = request.json['profile_picture']
-        university_register = request.json['university_register']
-        course_id = request.json['course_id']
-        user = self.__user_controller.find_by_id(user_id)
-        university = self.__university_controller.find_by_id(university_id)
-        course = self.__course_controller.find_by_id(course_id)
+        university_register = request.json['university_register']     
+        course_id = request.json['course']
+        user = self.__user_controller.find_by_id(user_id).id
+        university = self.__university_controller.find_by_id(university_id).id
+        course = self.__course_controller.find_by_id(course_id).id
 
-        return self.__controller.update(id, name, email, sex, university, profile_picture, university_register, course, user)
+        return self.__controller.update(id, name, email, sex, age, university, profile_picture, university_register, course, user)
 
     def delete(self, id, user_id):
         user = self.__user_controller.find_by_id(user_id)

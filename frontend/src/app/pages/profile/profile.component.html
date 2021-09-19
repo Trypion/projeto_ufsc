@@ -22,9 +22,12 @@
         <input #pickPhoto type="file" accept="image/png, image/jpeg" />
       </div>
     </div>
-    <form class="col row" [formGroup]="profileForm"
-    (ngSubmit)="onSubmit()"
-    ngNativeValidate>
+    <form
+      class="col row"
+      [formGroup]="profileForm"
+      (ngSubmit)="onSubmit()"
+      ngNativeValidate
+    >
       <mat-form-field class="col-6" appearance="outline">
         <mat-label>Nome</mat-label>
         <input formControlName="name" matInput />
@@ -43,10 +46,16 @@
       </mat-form-field>
       <mat-form-field class="col" appearance="outline">
         <mat-label>Universidade</mat-label>
-        <mat-select formControlName="university">
-          <mat-option>UFSC</mat-option>
-          <mat-option>USP</mat-option>
-          <mat-option>UDESC</mat-option>
+        <mat-select
+          (selectionChange)="getCoursesByUniversity($event.value)"
+          required
+          formControlName="university"
+        >
+          <mat-option
+            *ngFor="let university of universities"
+            [value]="university.id"
+            >{{ university.name }}</mat-option
+          >
         </mat-select>
       </mat-form-field>
       <mat-form-field class="col" appearance="outline">
@@ -55,11 +64,10 @@
       </mat-form-field>
       <mat-form-field class="col" appearance="outline">
         <mat-label>Curso</mat-label>
-        <mat-select formControlName="course">
-          <mat-option>Sistemas de informação</mat-option>
-          <mat-option>Enegenharia mecânica</mat-option>
-          <mat-option>Biologia</mat-option>
-        </mat-select>
+          <mat-select required formControlName="course">
+            <mat-option *ngFor="let course of courses" [value]="course.id">{{course.name}}</mat-option>
+            <mat-option value="null">Outro</mat-option>
+          </mat-select>
       </mat-form-field>
 
       <button mat-raised-button class="btn-salvar col-12">Salvar</button>

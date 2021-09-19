@@ -8,22 +8,19 @@ import { AuthService } from 'src/app/services/auth.service';
   styleUrls: ['./nav-bar.component.css'],
 })
 export class NavBarComponent implements OnInit {
-  name: string = 'Israel';
+  name: string = '';
 
   constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {}
 
   isLoggedIn(): boolean {
+    this.name = localStorage.getItem('profile_name') || "";
     return Boolean(localStorage.getItem('token'))
   }
 
   logout() {
     this.authService.logout();
     this.router.navigateByUrl('/home');
-  }
-
-  getProfileName() {
-    const login = localStorage.getItem('login');
   }
 }

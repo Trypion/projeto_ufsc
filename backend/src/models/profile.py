@@ -4,7 +4,7 @@ from src.models.timestamp import Timestamp
 
 
 class Profile(Timestamp):
-    def __init__(self, id: str, name: str, email: str, sex: str, age: int, university: ObjectId, university_register: str, course: ObjectId, user: ObjectId, created_by: ObjectId, created_at: datetime, updated_by: ObjectId = None, updated_at: datetime = None, deleted_by: ObjectId = None, deleted_at: datetime = None, profile_picture: str = None) -> None:
+    def __init__(self, id: str, name: str, email: str, sex: str, age: int, university: ObjectId, profile_picture: str, university_register: str, course: ObjectId, user: ObjectId, created_by: ObjectId, created_at: datetime, updated_by: ObjectId = None, updated_at: datetime = None, deleted_by: ObjectId = None, deleted_at: datetime = None) -> None:
         super().__init__()
         self.__id = id
         self.__name = name
@@ -46,16 +46,16 @@ class Profile(Timestamp):
 
     def as_dict(self):
         return {
-            'id': self.__id,
+            'id': str(self.__id),
             'name': self.__name,
             'email': self.__email,
             'sex': self.__sex,
             'age': self.__age,
-            'university': self.__university,
+            'university': str(self.__university),
             'profile_picture': self.__profile_picture,
             'university_register': self.__university_register,
-            'course': self.__course,
-            'user': self.__user,
+            'course': str(self.__course),
+            'user': str(self.__user),
             'created_by': str(self.created_by),
             'created_at': self.created_at,
             'updated_by': str(self.updated_by),
