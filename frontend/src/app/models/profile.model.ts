@@ -8,6 +8,5 @@ export interface Profile {
   profile_picture: string
   university_register: string
   course: string
-  ranking: number
   user: string
 }

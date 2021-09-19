@@ -18,8 +18,7 @@ class ProfileDAO():
 
         update = {
             '$set':
-            {
-                'id': profile.id,
+            {        
                 'name': profile.name,
                 'email': profile.email,
                 'sex': profile.sex,
@@ -28,8 +27,6 @@ class ProfileDAO():
                 'profile_picture': profile.profile_picture,
                 'university_register': profile.university_register,
                 'course': profile.course,
-                'ranking': profile.ranking,
-                'user': profile.user,
                 'updated_by': profile.updated_by,
                 'updated_at': datetime.now(),
                 'deleted_by': profile.deleted_by,
@@ -41,7 +38,7 @@ class ProfileDAO():
         return profile
 
     def find_by_id(self, id: str) -> Profile:
-        profile : dict = self.__collection.find_one({'_id': ObjectId(id)})
+        profile: dict = self.__collection.find_one({'_id': ObjectId(id)})
         if profile:
             return self.__deserialize(*profile.values())
 
@@ -51,7 +48,7 @@ class ProfileDAO():
         documents = self.__collection.find({'deleted_at': None})
         return [self.__deserialize(*document.values()) for document in documents]
 
-    def __deserialize(self, id, name, email, sex, age, university, profile_picture, university_register, course, 
-    ranking, user, created_by, created_at, updated_by, updated_at, deleted_by, deleted_at) -> Profile:
-        return Profile(self, id, name, email, sex, age, university, profile_picture, university_register, course, 
-    ranking, user, created_by, created_at, updated_by, updated_at, deleted_by, deleted_at)
+    def __deserialize(self, id, name, email, sex, age, university, profile_picture, university_register, course,
+                      user, created_by, created_at, updated_by, updated_at, deleted_by, deleted_at) -> Profile:
+        return Profile(self, id, name, email, sex, age, university, profile_picture, university_register, course,
+                       user, created_by, created_at, updated_by, updated_at, deleted_by, deleted_at)

@@ -16,13 +16,13 @@ class ProfileController(Controller):
     def __init__(self, profile_dao: ProfileDAO) -> None:
         self.__profile_dao = profile_dao
 
-    def create(self, name: str, email: str, sex: str, age: int, university: ObjectId, profile_picture: str, university_register: str, course: ObjectId, ranking: int, user: ObjectId):
+    def create(self, name: str, email: str, sex: str, age: int, university: ObjectId, profile_picture: str, university_register: str, course: ObjectId, user: ObjectId):
 
         id = ObjectId()
         created_at = datetime.now()
         profile = Profile(id, name, email, sex, age, university,
-                          profile_picture, university_register, course, ranking, user, user, created_at)
-        self.__profile_dao.save(profile)        
+                          university_register, course, user, user, created_at, profile_picture)
+        self.__profile_dao.save(profile)
         return {'id': str(id)}
 
     def find(self, id) -> Profile:
@@ -32,23 +32,21 @@ class ProfileController(Controller):
 
         raise ProfileNotFound(f"Profile {id} not found")
 
-    def update(self, id: str, name: str, email: str, sex: str, university: University, profile_picture: str, university_register: str, course: Course, ranking: int, user: User):
+    def update(self, id: str, name: str, email: str, sex: str, university: University, profile_picture: str, university_register: str, course: Course, user: User):
         profile = self.find_by_id(id)
         if not profile:
             return
         profile.name = name
         profile.email = email
-        profile.sex = sex #aqui é o sexo do profile
+        profile.sex = sex  # aqui é o sexo do profile
         profile.university = university
         profile.profile_picture = profile_picture
         profile.university_register = university_register
         profile.course = course
-        profile.ranking = ranking
         profile.user = user
         profile.updated_at = datetime.now()
         self.__profile_dao.save(university)
         return profile.as_dict()
-        
 
     def delete(self, id: str, user: User) -> str:
         profile = self.find_by_id(id)
@@ -64,5 +62,5 @@ class ProfileController(Controller):
     def find_by_id(self, id: str) -> Profile:
         profile = self.__profile_dao.find_by_id(id)
         if not profile:
-                    raise ProfileNotFound(f"university {id} not found")
+            raise ProfileNotFound(f"university {id} not found")
         return profile

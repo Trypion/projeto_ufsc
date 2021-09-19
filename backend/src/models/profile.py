@@ -4,8 +4,7 @@ from src.models.timestamp import Timestamp
 
 
 class Profile(Timestamp):
-    def __init__(self, id: str, name: str, email: str, sex: str, age: int, university: ObjectId, profile_picture: str, university_register: str, course: ObjectId, 
-    ranking: int, user: ObjectId, created_by: ObjectId, created_at: datetime, updated_by: ObjectId = None, updated_at: datetime = None, deleted_by: ObjectId = None, deleted_at: datetime = None) -> None:
+    def __init__(self, id: str, name: str, email: str, sex: str, age: int, university: ObjectId, university_register: str, course: ObjectId, user: ObjectId, created_by: ObjectId, created_at: datetime, updated_by: ObjectId = None, updated_at: datetime = None, deleted_by: ObjectId = None, deleted_at: datetime = None, profile_picture: str = None) -> None:
         super().__init__()
         self.__id = id
         self.__name = name
@@ -16,7 +15,6 @@ class Profile(Timestamp):
         self.__profile_picture = profile_picture
         self.__university_register = university_register
         self.__course = course
-        self.__ranking = ranking
         self.__user = user
         self.created_at = created_at
         self.created_by = created_by
@@ -27,7 +25,7 @@ class Profile(Timestamp):
     
     def serialize(self):
         return {
-            'id': self.__id,
+            '_id': self.__id,
             'name': self.__name,
             'email': self.__email,
             'sex': self.__sex,
@@ -36,7 +34,6 @@ class Profile(Timestamp):
             'profile_picture': self.__profile_picture,
             'university_register': self.__university_register,
             'course': self.__course,
-            'ranking': self.__ranking,
             'user': self.__user,
             'created_by': self.created_by,
             'created_at': self.created_at,
@@ -58,7 +55,6 @@ class Profile(Timestamp):
             'profile_picture': self.__profile_picture,
             'university_register': self.__university_register,
             'course': self.__course,
-            'ranking': self.__ranking,
             'user': self.__user,
             'created_by': str(self.created_by),
             'created_at': self.created_at,
@@ -135,15 +131,7 @@ class Profile(Timestamp):
     @course.setter
     def course(self, course):
         self.__course = course
-
-    @property
-    def ranking(self):
-        return self.__ranking
-
-    @ranking.setter
-    def ranking(self, ranking):
-        self.__ranking = ranking
-
+        
     @property
     def user(self):
         return self.__user

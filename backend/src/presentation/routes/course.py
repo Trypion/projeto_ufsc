@@ -12,10 +12,9 @@ class CourseRoutes():
         'type': 'object',
         'properties': {
                 'name': {'type': 'string'},
-                'university_id': {'type': 'string'},
-                'ranking': {'type': 'number'}
+                'university_id': {'type': 'string'},          
         },
-        'required': ['name', 'university_id', 'ranking']
+        'required': ['name', 'university_id']
     }
 
     def __init__(self, controller: CourseController, university_controller: UniversityController, user_controller: UserController):
@@ -33,10 +32,9 @@ class CourseRoutes():
     def create(self, user_id):
         name = request.json['name']
         university_id = request.json['university_id']
-        ranking = request.json['ranking']
         user = self.__user_controller.find_by_id(user_id)
         university = self.__university_controller.find_by_id(university_id)
-        return json.dumps(self.__controller.create(name, university, user, ranking))
+        return json.dumps(self.__controller.create(name, university, user))
 
     @expects_json(schema)
     def find(self, id):
@@ -46,10 +44,9 @@ class CourseRoutes():
     def update(self, request, id, user_id):
         name = request.json['name']
         university_id = request.json['university_id']
-        ranking = request.json['ranking']
         user = self.__user_controller.find_by_id(user_id)
         university = self.__university_controller.find_by_id(university_id)
-        return json.dumps(self.__controller.update(id, name, university, user, ranking))
+        return json.dumps(self.__controller.update(id, name, university, user))
 
     def delete(self, id, user_id):
         user = self.__user_controller.find_by_id(user_id)

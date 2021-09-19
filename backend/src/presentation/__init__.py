@@ -127,9 +127,8 @@ def user(id, user):
 
 
 @app.route('/api/v1/profile', methods=['POST'])
-@helper.token_required
-def create_profile(user):
-    return jsonify(profile_routes.create(request, user))
+def create_profile():
+    return jsonify(profile_routes.create(request))
 
 
 @app.route('/api/v1/profile/<id>', methods=['GET', 'PUT', 'DELETE'])

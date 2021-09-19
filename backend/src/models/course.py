@@ -65,10 +65,4 @@ class Course(Timestamp):
     def university(self, university: University):
         self.__university = university
 
-    @property
-    def ranking(self) -> int:
-        return self.__ranking
-
-    @ranking.setter
-    def ranking(self, ranking: int) -> None:
-        self.__ranking = ranking
+    

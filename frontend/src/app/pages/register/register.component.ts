@@ -13,6 +13,7 @@ import {
 import { ErrorStateMatcher } from '@angular/material/core';
 import { Router } from '@angular/router';
 import { Course } from 'src/app/models/course.model';
+import { Profile } from 'src/app/models/profile.model';
 import { University } from 'src/app/models/university.model';
 import { User } from 'src/app/models/user.model';
 import { AuthService } from 'src/app/services/auth.service';
@@ -83,10 +84,14 @@ export class RegisterComponent implements OnInit {
 
   onSubmit(): void {
     const user: User = this.registerForm.get('userForm')?.value;
-    const profile = this.registerForm.get('profileForm')?.value;
+    let profile: Profile = this.registerForm.get('profileForm')?.value;
     if (this.registerForm.valid) {
-      this.authService.registerUser(user).subscribe(() => {
-
+      this.authService.registerUser(user).subscribe((data) => {
+        profile.user = data.id
+        profile.profile_picture = ''
+        this.httpService.createProfile(profile).subscribe(data =>{
+          this.router.navigateByUrl('/login');
+        })
       });
     }
   }
