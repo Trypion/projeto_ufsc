@@ -18,20 +18,28 @@ export class AuthService {
   url = environment.apiUrl;
 
   httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+    headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
   };
 
   //registra um usuario
   registerUser(user: User): Observable<{ id: string }> {
     return this.httpClient
-      .post<{ id: string }>(`${this.url}/v1/user`, JSON.stringify(user), this.httpOptions)
+      .post<{ id: string }>(
+        `${this.url}/v1/user`,
+        JSON.stringify(user),
+        this.httpOptions
+      )
       .pipe(retry(2), catchError(this.handleError));
   }
 
   //login um usuario
   login(user: User): Observable<{ token: string }> {
     return this.httpClient
-      .post<{ token: string }>(`${this.url}/v1/login`, JSON.stringify(user), this.httpOptions)
+      .post<{ token: string }>(
+        `${this.url}/v1/login`,
+        JSON.stringify(user),
+        this.httpOptions
+      )
       .pipe(
         retry(2),
         tap((val) => {
@@ -51,11 +59,12 @@ export class AuthService {
       // Erro ocorreu no lado do client
       errorMessage = error.error.message;
     } else {
+      const { error: errMsg } = error.error;
       // Erro ocorreu no lado do servidor
       errorMessage =
-        `Código do erro: ${error.status}, ` + `menssagem: ${error.message}`;
+        `Código do erro: ${error.status}, ` + `menssagem: ${errMsg}`;
     }
     console.log(errorMessage);
-    return throwError(error);
+    return throwError(errorMessage);
   }
 }

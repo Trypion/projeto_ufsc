@@ -66,11 +66,12 @@ export class HttpService {
       // Erro ocorreu no lado do client
       errorMessage = error.error.message;
     } else {
+      const { error: errMsg } = error.error
       // Erro ocorreu no lado do servidor
       errorMessage =
-        `Código do erro: ${error.status}, ` + `menssagem: ${error.message}`;
+        `Código do erro: ${error.status}, ` + `menssagem: ${errMsg}`;
     }
     console.log(errorMessage);
-    return throwError(error);
+    return throwError(errorMessage);
   }
 }

@@ -1,4 +1,3 @@
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { Component, OnInit } from '@angular/core';
 import {
   AbstractControl,
@@ -18,6 +17,7 @@ import { University } from 'src/app/models/university.model';
 import { User } from 'src/app/models/user.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { HttpService } from 'src/app/services/http.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-register',
@@ -28,7 +28,8 @@ export class RegisterComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private httpService: HttpService,
-    private router: Router
+    private router: Router,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -52,6 +53,10 @@ export class RegisterComponent implements OnInit {
     this.httpService.getAllUniversities().subscribe((universities) => {
       this.universities = universities;
     });
+  }
+
+  openSnackBar(message: string, action: string) {
+    this.snackBar.open(message, action);
   }
 
   getCoursesByUniversity(id: string): void {
@@ -86,13 +91,19 @@ export class RegisterComponent implements OnInit {
     const user: User = this.registerForm.get('userForm')?.value;
     let profile: Profile = this.registerForm.get('profileForm')?.value;
     if (this.registerForm.valid) {
-      this.authService.registerUser(user).subscribe((data) => {
-        profile.user = data.id
-        profile.profile_picture = ''
-        this.httpService.createProfile(profile).subscribe(data =>{
-          this.router.navigateByUrl('/login');
-        })
-      });
+      this.authService.registerUser(user).subscribe(
+        (data) => {
+          profile.user = data.id;
+          profile.profile_picture = '';
+          this.httpService.createProfile(profile).subscribe(
+            (data) => {
+              this.router.navigateByUrl('/login');
+            },
+            (err) => this.openSnackBar(err, 'ok')
+          );
+        },
+        (err) => this.openSnackBar(err, 'ok')
+      );
     }
   }
 }
