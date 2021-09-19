@@ -1,7 +1,6 @@
 <div class="container">
   <mat-card class="filter">
-    <h2 class="mb-0 header">Filtro <span>-s</span> </h2>
-
+    <h2 class="mb-0 header">Filtro <span>-s</span></h2>
 
     <form class="mt-2 row">
       <mat-form-field class="col-2" appearance="outline">
@@ -45,8 +44,6 @@
   </mat-card>
 
   <div class="timeline">
-
-    <app-event-card></app-event-card>
-
+    <app-event-card *ngFor="let event of events" [event]="event"></app-event-card>
   </div>
 </div>

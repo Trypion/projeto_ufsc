@@ -55,4 +55,5 @@ input[type="file"]{
 .button {
   background-color: black;
   color: greenyellow;
+  visibility: hidden;
 }

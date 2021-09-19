@@ -214,6 +214,10 @@ def course(id, user):
 def create_event(user):
     return jsonify(event_routes.create(request, user))
 
+@app.route('/api/v1/event', methods=['GET'])
+def get_all_events():
+    if request.method == 'GET':
+        return jsonify(event_routes.find_all())
 
 @app.route('/api/v1/event/<id>', methods=['GET'])
 def get_event(id):

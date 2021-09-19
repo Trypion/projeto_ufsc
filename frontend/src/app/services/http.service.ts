@@ -114,6 +114,10 @@ export class HttpService {
       );
   }
 
+  getAllEvents(): Observable<Array<Event>> {
+    return this.httpClient.get<Array<Event>>(`${this.url}/v1/event`)
+  }
+
   handleError(error: HttpErrorResponse) {
     let errorMessage = '';
     if (error.error instanceof ErrorEvent) {
