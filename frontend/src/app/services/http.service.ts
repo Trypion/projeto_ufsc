@@ -8,6 +8,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, retry, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Course } from '../models/course.model';
+import { Event } from '../models/event.model';
 import { Profile } from '../models/profile.model';
 import { University } from '../models/university.model';
 
@@ -20,7 +21,10 @@ export class HttpService {
   url = environment.apiUrl;
 
   httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': localStorage.getItem('token') || ''
+    }),
   };
 
   getAllUniversities(): Observable<Array<University>> {
@@ -60,13 +64,27 @@ export class HttpService {
       );
   }
 
+  createEvent(event: Event): Observable<Event> {
+    return this.httpClient
+      .post<Event>(
+        `${this.url}/v1/event`,
+        JSON.stringify(event),
+        this.httpOptions
+      )
+      .pipe(
+        retry(2),
+        tap((val) => {}),
+        catchError(this.handleError)
+      );
+  }
+
   handleError(error: HttpErrorResponse) {
     let errorMessage = '';
     if (error.error instanceof ErrorEvent) {
       // Erro ocorreu no lado do client
       errorMessage = error.error.message;
     } else {
-      const { error: errMsg } = error.error
+      const { error: errMsg } = error.error;
       // Erro ocorreu no lado do servidor
       errorMessage =
         `Código do erro: ${error.status}, ` + `menssagem: ${errMsg}`;

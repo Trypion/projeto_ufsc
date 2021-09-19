@@ -1,15 +1,10 @@
 from datetime import datetime
-
-#from src.models.course import Course
 from src.models.timestamp import Timestamp
-#from src.models.university import University
-from src.models.user import User
 from bson.objectid import ObjectId
 
 
 class Event(Timestamp):
-    # def __init__(self, id: str, name: str,start_at: str, end_at: str, description: str, event_picture: str, location: str, staff : list, result : list, is_valid : bool, votes : list, subscription : list, reward: int, user: User) -> None:
-    def __init__(self, id: str, name: str,start_at: str, end_at: str, description: str, event_picture: str, location: str, is_valid : bool, reward: int, user: ObjectId, created_by: ObjectId, created_at: datetime, updated_by: ObjectId = None, updated_at: datetime = None, deleted_by: ObjectId = None, deleted_at: datetime = None) -> None:
+    def __init__(self, id: str, name: str, start_at: str, end_at: str, description: str, event_picture: str, location: str, is_valid: bool, reward: int, user: ObjectId, created_by: ObjectId, created_at: datetime, updated_by: ObjectId = None, updated_at: datetime = None, deleted_by: ObjectId = None, deleted_at: datetime = None) -> None:
         super().__init__()
         self.__id = id
         self.__name = name
@@ -26,37 +21,32 @@ class Event(Timestamp):
         self.updated_at = updated_at
         self.deleted_by = deleted_by
         self.deleted_at = deleted_at
-        #self.__staff = staff
-        #self.__result = result
-        #self.__votes = votes
-        #self.__subscription = subscription
-
 
     def serialize(self):
-     return {
-        'id': self.__id,
-        'name': self.__name,
-        'start_at':self.__start_at,          
-        'end_at': self.__end_at,
-        'description': self.__description,
-        'event_picture': self.__event_picture,
-        'location': self.__location,
-        'is_valid': self.__is_valid,
-        'reward': self.__reward,
-        'created_by': self.created_by,
-        'created_at': self.created_at,
-        'updated_by': self.updated_by,
-        'updated_at': self.updated_at,
-        'deleted_by': self.deleted_by,
-        'deleted_at': self.deleted_at
-    }
+        return {
+            '_id': self.__id,
+            'name': self.__name,
+            'start_at': self.__start_at,
+            'end_at': self.__end_at,
+            'description': self.__description,
+            'event_picture': self.__event_picture,
+            'location': self.__location,
+            'is_valid': self.__is_valid,
+            'reward': self.__reward,
+            'created_by': self.created_by,
+            'created_at': self.created_at,
+            'updated_by': self.updated_by,
+            'updated_at': self.updated_at,
+            'deleted_by': self.deleted_by,
+            'deleted_at': self.deleted_at
+        }
 
     def as_dict(self):
         return {
-            'id': self.__id,
+            'id': str(self.__i),
             'name': self.__name,
-            'start_at': datetime.strftime(self.__start_at, "%d/%m/%Y"),          
-            'end_at': datetime.strftime(self.__end_at, "%d/%m/%Y"),
+            'start_at': self.__start_at,
+            'end_at': self.__end_at,
             'description': self.__description,
             'event_picture': self.__event_picture,
             'location': self.__location,

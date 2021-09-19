@@ -36,24 +36,24 @@ class EventRoutes():
         return render_template("event/index.html", events=self.__controller.find_all())
 
     
-    def find_all():
+    def find_all(self):
         return json.dumps(self.__controller.find_all())
 
     # Criando Event
     @expects_json(schema)
     def create(self, request,user_id):
         name = request.json['name']
-        start_at = datetime.strptime(request.json['start_at'], "%Y-%m-%d")
-        end_at = datetime.strptime(request.json['end_at'], "%Y-%m-%d")
+        start_at = request.json['start_at']
+        end_at =request.json['end_at']
         description = request.json['description']
         event_picture = request.json['event_picture']
         location = request.json['location']
         reward = request.json['reward']
 
 
-        user = self.__user_controller.find_by_id(user_id)
+        user = self.__user_controller.find_by_id(user_id).id
         
-        return json.dumps(self.__controller.create(name, start_at, end_at, description, event_picture, location, reward, user))
+        return self.__controller.create(name, start_at, end_at, description, event_picture, location, reward, user)
 
     # Procurando Usuario pela ID
     def find(self, id):

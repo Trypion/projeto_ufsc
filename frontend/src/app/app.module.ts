@@ -19,6 +19,8 @@ import { AuthInterceptor } from './services/auth.interceptor';
 import { AuthService } from './services/auth.service';
 import { HttpClientModule } from '@angular/common/http';
 import { ProfileComponent } from './pages/profile/profile.component';
+import { EventCreateComponent } from './pages/event-create/event-create.component';
+import { EventComponent } from './pages/event/event.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +30,8 @@ import { ProfileComponent } from './pages/profile/profile.component';
     LoginComponent,
     RegisterComponent,
     ProfileComponent,
+    EventCreateComponent,
+    EventComponent,
   ],
   imports: [
     BrowserModule,
