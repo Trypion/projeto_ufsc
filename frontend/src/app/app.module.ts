@@ -21,6 +21,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { EventCreateComponent } from './pages/event-create/event-create.component';
 import { EventComponent } from './pages/event/event.component';
+import { EventCardComponent } from './components/event-card/event-card.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { EventComponent } from './pages/event/event.component';
     ProfileComponent,
     EventCreateComponent,
     EventComponent,
+    EventCardComponent,
   ],
   imports: [
     BrowserModule,

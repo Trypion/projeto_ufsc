@@ -1,0 +1,11 @@
+.header {
+  background-color: black;
+  color: greenyellow;
+  padding-left: 8px;
+  border-radius: 5px;
+}
+
+.schedule{
+  padding: 8px;
+  font-size: 16px;
+}
