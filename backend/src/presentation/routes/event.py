@@ -3,7 +3,6 @@ from src.controllers.user import UserController
 from src.controllers.event import EventController
 from src.controllers.university import UniversityController
 from flask import Blueprint, json, request
-from flask.templating import render_template
 from flask_expects_json import expects_json
 
 from src.controllers.profile import ProfileController

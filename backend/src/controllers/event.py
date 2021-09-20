@@ -3,12 +3,10 @@ from datetime import datetime
 from bson.objectid import ObjectId
 from src.models.event import Event
 from src.models.user import User
-#from src.models.course import Course
-#from src.models.university import University
-from uuid import uuid4
+
 from src.DAO.event import EventDAO
 from src.controllers.controller import Controller
-#from src.models.profile import Profile
+
 from src.controllers.errors.event_not_found import EventNotFound
 
 
@@ -21,7 +19,9 @@ class EventController(Controller):
         id = ObjectId()
         created_at = datetime.now()
         created_by = user
-        event = Event(id, name, start_at, end_at, description, event_picture,
+        start = datetime.strptime(start_at, "%Y-%m-%dT%H:%M")
+        end = datetime.strptime(end_at, "%Y-%m-%dT%H:%M")
+        event = Event(id, name, start, end, description, event_picture,
                       location, is_valid, reward, created_by, created_at)
         self.__event_dao.save(event)
         return {'id': str(id)}

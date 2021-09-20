@@ -14,9 +14,9 @@ export class HomeComponent implements OnInit {
   events: Array<Event> = [];
 
   searchForm = new FormGroup({
-    from: new FormControl(''),
-    to: new FormControl(''),
-    name: new FormControl(''),
+    from: new FormControl(null),
+    to: new FormControl(null),
+    name: new FormControl(null),
   });
 
   ngOnInit(): void {

@@ -132,7 +132,11 @@ export class HttpService {
   }
 
   searchEvents(search: Search): Observable<Array<Event>> {
-    const params = new HttpParams().set('name', search.name).set('from', search.from.toISOString()).set('to', search.to.toISOString())
+    let params = new HttpParams()
+    if (search.from) {params = params.set("from", search.from.toISOString())}
+    if (search.to) {params = params.set("to", search.to.toISOString())}
+    if (search.name) {params = params.set("name", search.name)}
+
     return this.httpClient.get<Array<Event>>(`${this.url}/v1/event/search`, {
       headers: this.httpOptions.headers,
       params: params,
