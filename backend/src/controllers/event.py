@@ -3,12 +3,11 @@ from datetime import datetime
 from bson.objectid import ObjectId
 from src.models.event import Event
 from src.models.user import User
-#from src.models.course import Course
-#from src.models.university import University
+
 from uuid import uuid4
 from src.DAO.event import EventDAO
 from src.controllers.controller import Controller
-#from src.models.profile import Profile
+
 from src.controllers.errors.event_not_found import EventNotFound
 
 
