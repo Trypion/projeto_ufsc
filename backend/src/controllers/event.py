@@ -26,6 +26,9 @@ class EventController(Controller):
         self.__event_dao.save(event)
         return {'id': str(id)}
 
+    def search(self, start_at, end_at, name):
+        return [event.as_dict() for event in self.__event_dao.search(start_at, end_at, name)]
+
     def find(self, id) -> Event:
         event = self.find_by_id(id)
         if event:

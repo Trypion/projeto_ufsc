@@ -2,33 +2,24 @@
   <mat-card class="filter">
     <h2 class="mb-0 header">Filtro <span>-s</span></h2>
 
-    <form class="mt-2 row">
-      <mat-form-field class="col-2" appearance="outline">
+    <form class="mt-2 row" (ngSubmit)="onSubmit()" [formGroup]="searchForm">
+      <mat-form-field class="col-3" appearance="outline">
         <mat-label>de</mat-label>
-        <input matInput [matDatepicker]="de" />
+        <input matInput [matDatepicker]="de" formControlName="from" />
         <mat-datepicker-toggle matSuffix [for]="de"></mat-datepicker-toggle>
         <mat-datepicker #de></mat-datepicker>
       </mat-form-field>
 
-      <mat-form-field class="col-2" appearance="outline">
+      <mat-form-field class="col-3" appearance="outline">
         <mat-label>ate</mat-label>
-        <input matInput [matDatepicker]="ate" />
+        <input matInput [matDatepicker]="ate" formControlName="to" />
         <mat-datepicker-toggle matSuffix [for]="ate"></mat-datepicker-toggle>
         <mat-datepicker #ate></mat-datepicker>
       </mat-form-field>
 
-      <mat-form-field class="col-3" appearance="outline">
-        <mat-label>universidades</mat-label>
-        <mat-select>
-          <mat-option>UFSC</mat-option>
-          <mat-option>USP</mat-option>
-          <mat-option>UDESC</mat-option>
-        </mat-select>
-      </mat-form-field>
-
-      <mat-form-field class="col-4" appearance="outline">
-        <mat-label>nome</mat-label>
-        <input matInput placeholder="Ex. Pizza" />
+      <mat-form-field class="col-5" appearance="outline">
+        <mat-label>Nome</mat-label>
+        <input formControlName="name" matInput placeholder="Ex. Pizza" />
       </mat-form-field>
 
       <div class="col-1 s">
@@ -36,6 +27,7 @@
           mat-fab
           class="search-btn"
           aria-label="Example icon button with a home icon"
+          type="submit"
         >
           <mat-icon>search</mat-icon>
         </button>
@@ -44,6 +36,9 @@
   </mat-card>
 
   <div class="timeline">
-    <app-event-card *ngFor="let event of events" [event]="event"></app-event-card>
+    <app-event-card
+      *ngFor="let event of events"
+      [event]="event"
+    ></app-event-card>
   </div>
 </div>

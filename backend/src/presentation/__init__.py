@@ -188,7 +188,7 @@ def get_courses_by_university(id):
 @app.route('/api/v1/course', methods=['POST'])
 @helper.token_required
 def create_course(request, user):
-    return jsonify(course_routes.create())
+    return jsonify(course_routes.create(request, user))
 
 
 @app.route('/api/v1/profile/<id>', methods=['GET', 'PUT', 'DELETE'])
@@ -215,9 +215,12 @@ def create_event(user):
     return jsonify(event_routes.create(request, user))
 
 @app.route('/api/v1/event', methods=['GET'])
-def get_all_events():
-    if request.method == 'GET':
-        return jsonify(event_routes.find_all())
+def get_all_events():   
+    return jsonify(event_routes.find_all())
+
+@app.route('/api/v1/event/search', methods=['GET'])
+def search_events():
+    return jsonify(event_routes.search(request))
 
 @app.route('/api/v1/event/<id>', methods=['GET'])
 def get_event(id):

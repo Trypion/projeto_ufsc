@@ -1,7 +1,10 @@
 from datetime import datetime
 from bson import ObjectId
 from pymongo.database import Database
+from pymongo.message import query
 from src.models.event import Event
+
+import re
 
 
 class EventDAO():
@@ -47,6 +50,21 @@ class EventDAO():
     def find_all(self):
         documents = self.__collection.find({'deleted_at': None})
         return [self.__deserialize(*document.values()) for document in documents]
+
+    def search(self, start_at, end_at, name):
+        query = self.__query_builder(start_at, end_at, name)
+        documents = self.__collection.find(query)
+        return [self.__deserialize(*document.values()) for document in documents]
+
+    def __query_builder(self, start_at, end_at, name):
+        query = {"$and": [{'deleted_at': None}]}
+        if start_at:
+            query["$and"].append({"start_at": {'$gte': start_at}})
+        if end_at:
+            query["$and"].append({"end_at": {"lte": end_at}})
+        if name:
+            query["$and"].append({"name": {"$regex": name}})
+        return query
 
     def __deserialize(self, id, name, start_at, end_at, description, event_picture, location, is_valid, reward, created_by, created_at, updated_by, updated_at, deleted_by, deleted_at) -> Event:
         return Event(id, name, start_at, end_at, description, event_picture, location, is_valid, reward, created_by, created_at, updated_by, updated_at, deleted_by, deleted_at)

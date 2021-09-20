@@ -2,6 +2,7 @@ import {
   HttpClient,
   HttpErrorResponse,
   HttpHeaders,
+  HttpParams,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
@@ -11,6 +12,12 @@ import { Course } from '../models/course.model';
 import { Event } from '../models/event.model';
 import { Profile } from '../models/profile.model';
 import { University } from '../models/university.model';
+
+export interface Search {
+  from: Date;
+  to: Date;
+  name: string;
+}
 
 @Injectable({
   providedIn: 'root',
@@ -84,7 +91,7 @@ export class HttpService {
       .pipe(
         retry(2),
         tap((val) => {
-          localStorage.setItem('profile_name', val.name)
+          localStorage.setItem('profile_name', val.name);
         }),
         catchError(this.handleError)
       );
@@ -115,7 +122,21 @@ export class HttpService {
   }
 
   getAllEvents(): Observable<Array<Event>> {
-    return this.httpClient.get<Array<Event>>(`${this.url}/v1/event`)
+    return this.httpClient
+      .get<Array<Event>>(`${this.url}/v1/event`, this.httpOptions)
+      .pipe(
+        retry(2),
+        tap((val) => {}),
+        catchError(this.handleError)
+      );
+  }
+
+  searchEvents(search: Search): Observable<Array<Event>> {
+    const params = new HttpParams().set('name', search.name).set('from', search.from.toISOString()).set('to', search.to.toISOString())
+    return this.httpClient.get<Array<Event>>(`${this.url}/v1/event/search`, {
+      headers: this.httpOptions.headers,
+      params: params,
+    });
   }
 
   handleError(error: HttpErrorResponse) {

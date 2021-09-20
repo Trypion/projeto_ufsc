@@ -32,6 +32,13 @@ class EventRoutes():
     def find_all(self):
         return self.__controller.find_all()
 
+    def search(self, request: request):
+        start_at = datetime.strptime(request.args.get('from'), "%Y-%m-%dT%H:%M:%S.%fZ")  if request.args.get('from') else None
+        end_at = datetime.strptime(request.args.get('to'), "%Y-%m-%dT%H:%M:%S.%fZ") if request.args.get('to') else None
+        name = request.args.get('name') if request.args.get('name') else None
+        return self.__controller.search(start_at, end_at, name)
+
+
     # Criando Event
     @expects_json(schema)
     def create(self, request, user_id):

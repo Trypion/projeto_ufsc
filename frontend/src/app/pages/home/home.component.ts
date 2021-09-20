@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Event } from 'src/app/models/event.model';
-import { HttpService } from 'src/app/services/http.service';
+import { HttpService, Search } from 'src/app/services/http.service';
 
 @Component({
   selector: 'app-home',
@@ -12,6 +13,12 @@ export class HomeComponent implements OnInit {
 
   events: Array<Event> = [];
 
+  searchForm = new FormGroup({
+    from: new FormControl(''),
+    to: new FormControl(''),
+    name: new FormControl(''),
+  });
+
   ngOnInit(): void {
     this.getAllEvents();
   }
@@ -19,7 +26,15 @@ export class HomeComponent implements OnInit {
   getAllEvents() {
     this.httpService.getAllEvents().subscribe((events) => {
       this.events = events;
-      console.log(this.events)
     });
+  }
+
+  onSubmit(): void {
+    if(this.searchForm.valid){
+      const search: Search = this.searchForm.value
+      this.httpService.searchEvents(search).subscribe((events)=>{
+        this.events = events;
+      })
+    }
   }
 }
