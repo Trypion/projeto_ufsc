@@ -4,7 +4,10 @@ from bson.objectid import ObjectId
 from src.models.event import Event
 from src.models.user import User
 
+<<<<<<< HEAD
 from uuid import uuid4
+=======
+>>>>>>> 62a88ecc8b8b91f6430cdb182e8751805054fab8
 from src.DAO.event import EventDAO
 from src.controllers.controller import Controller
 
@@ -20,7 +23,9 @@ class EventController(Controller):
         id = ObjectId()
         created_at = datetime.now()
         created_by = user
-        event = Event(id, name, start_at, end_at, description, event_picture,
+        start = datetime.strptime(start_at, "%Y-%m-%dT%H:%M")
+        end = datetime.strptime(end_at, "%Y-%m-%dT%H:%M")
+        event = Event(id, name, start, end, description, event_picture,
                       location, is_valid, reward, created_by, created_at)
         self.__event_dao.save(event)
         return {'id': str(id)}

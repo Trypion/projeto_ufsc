@@ -36,6 +36,8 @@
   </mat-card>
 
   <div class="timeline">
+    <button mat-raised-button routerLink="/event-create" type="button" class="mb-0 header">Novo <span>--evento</span></button>
+
     <app-event-card
       *ngFor="let event of events"
       [event]="event"
